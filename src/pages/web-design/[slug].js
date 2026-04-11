@@ -3,7 +3,6 @@ import { getWebDesignPost } from '../../lib/api';
 import TOC from '../../components/TOC';
 import Head from 'next/head';
 
-
 export default function WebDesignDetail({ post }) {
   if (!post) return <p>Halaman tidak ditemukan...</p>;
 
