@@ -1,9 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  trailingSlash: true,
+  // Kita matikan fitur yang bikin bentrok dengan manifest di Cloudflare
+  output: 'standalone', 
   images: {
-    domains: ['pujashanti.web.id'], // Izinkan gambar dari domain utama
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**', // Mengizinkan semua gambar dari WordPress
+      },
+    ],
   },
 }
 
