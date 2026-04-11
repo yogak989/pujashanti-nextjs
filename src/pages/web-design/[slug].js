@@ -2,6 +2,9 @@ import { getWebDesignPost } from '../../lib/api';
 import TOC from '../../components/TOC';
 import Head from 'next/head';
 
+// WAJIB UNTUK CLOUDFLARE PAGES
+export const runtime = 'edge';
+
 export default function WebDesignDetail({ post }) {
   if (!post) return <p>Halaman tidak ditemukan...</p>;
 
