@@ -1,13 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Kita matikan fitur yang bikin bentrok dengan manifest di Cloudflare
-  output: 'standalone', 
+  // Memaksa seluruh aplikasi menggunakan runtime edge secara global
+  experimental: {
+    runtime: 'experimental-edge',
+  },
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**', // Mengizinkan semua gambar dari WordPress
+        hostname: '**', 
       },
     ],
   },
