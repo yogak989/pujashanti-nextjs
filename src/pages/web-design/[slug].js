@@ -1,4 +1,4 @@
-
+export const runtime = 'edge';
 import { getWebDesignPost } from '../../lib/api';
 import TOC from '../../components/TOC';
 import Head from 'next/head';
