@@ -1,0 +1,14 @@
+# Rahasia
+.env.local
+.env
+
+# Folder Sampah/Dependency
+node_modules/
+.next/
+out/
+build/
+
+# Log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
