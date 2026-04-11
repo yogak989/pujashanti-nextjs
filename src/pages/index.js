@@ -1,5 +1,3 @@
-// Tambahkan baris ini di paling atas
-export const runtime = 'edge';
 
 export default function Home() {
   return (
