@@ -1,4 +1,4 @@
-export const runtime = 'experimental-edge';
+export const runtime = 'edge';
 export default function Home() {
   return (
     <div style={{ textAlign: 'center', padding: '100px 20px', fontFamily: 'sans-serif' }}>
