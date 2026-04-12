@@ -10,7 +10,6 @@ export default function WebDesignPost({ post }) {
   const seoTitle = post.seo_data?.title || `${post.title} | PujaShanti`;
   const seoDesc = post.seo_data?.description || "";
   
-  // Format tanggal Indonesia
   const formattedDate = new Date(post.date).toLocaleDateString('id-ID', {
     day: 'numeric',
     month: 'long',
@@ -22,6 +21,12 @@ export default function WebDesignPost({ post }) {
       <Head>
         <title>{seoTitle}</title>
         <meta name="description" content={seoDesc} />
+        {/* Open Graph untuk Share ke WA/Sosmed */}
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDesc} />
+        {post.featured_image && <meta property="og:image" content={post.featured_image} />}
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
       <Header />
@@ -29,7 +34,7 @@ export default function WebDesignPost({ post }) {
       <main className="ps-main-container">
         <article className="ps-article-card">
           
-          {/* 1. FEATURED IMAGE (PALING ATAS) */}
+          {/* FEATURED IMAGE */}
           {post.featured_image && (
             <div className="ps-featured-image-wrapper">
               <img 
@@ -41,13 +46,17 @@ export default function WebDesignPost({ post }) {
           )}
 
           <div className="ps-content-padding">
-            {/* 2. JUDUL POST H1 */}
+            {/* JUDUL H1 */}
             <h1 className="ps-post-title">{post.title}</h1>
 
-            {/* 3. META PROFIL */}
+            {/* META PROFIL (Penulis & Tanggal) */}
             <div className="ps-post-meta">
               <div className="ps-author">
-                <img src="https://pujashanti.web.id/wp-content/uploads/2026/04/pujashanti-logo-100x100-1.webp" alt="Admin" className="ps-author-img" />
+                <img 
+                  src="https://pujashanti.web.id/wp-content/uploads/2026/04/pujashanti-logo-100x100-1.webp" 
+                  alt="Admin" 
+                  className="ps-author-img" 
+                />
                 <span>Penulis: <strong>Admin Pujashanti</strong></span>
               </div>
               <div className="ps-date">
@@ -57,7 +66,7 @@ export default function WebDesignPost({ post }) {
 
             <div className="ps-divider"></div>
 
-            {/* CONTENT ARTIKEL */}
+            {/* ISI KONTEN */}
             <div 
               className="ps-entry-content"
               dangerouslySetInnerHTML={{ __html: post.content }} 
@@ -70,7 +79,7 @@ export default function WebDesignPost({ post }) {
 
       <style jsx global>{`
         .ps-main-container {
-          padding-top: 100px; /* Ruang untuk Header fixed */
+          padding-top: 100px;
           padding-bottom: 60px;
           background-color: #f8fafc;
           min-height: 100vh;
@@ -87,6 +96,7 @@ export default function WebDesignPost({ post }) {
           width: 100%;
           max-height: 450px;
           overflow: hidden;
+          background: #eee;
         }
         .ps-featured-img {
           width: 100%;
@@ -107,7 +117,7 @@ export default function WebDesignPost({ post }) {
         .ps-post-meta {
           display: flex;
           align-items: center;
-          gap: 20px;
+          gap: 25px;
           margin-bottom: 30px;
           font-size: 0.95rem;
           color: #64748b;
@@ -119,9 +129,10 @@ export default function WebDesignPost({ post }) {
           gap: 10px;
         }
         .ps-author-img {
-          width: 30px;
-          height: 30px;
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
+          border: 1px solid #e2e8f0;
         }
         .ps-divider {
           height: 1px;
@@ -133,23 +144,14 @@ export default function WebDesignPost({ post }) {
           color: #334155;
           font-size: 1.2rem;
         }
-        .ps-entry-content p {
-          margin-bottom: 25px;
-        }
-        .ps-entry-content img {
-          max-width: 100%;
-          height: auto;
-          border-radius: 12px;
-          margin: 20px 0;
-        }
-        .ps-entry-content h2 {
-          margin-top: 40px;
-          color: #1a3a5a;
-        }
-
+        .ps-entry-content p { margin-bottom: 25px; }
+        .ps-entry-content h2 { margin-top: 40px; color: #1a3a5a; font-size: 1.8rem; }
+        .ps-entry-content img { max-width: 100%; height: auto; border-radius: 12px; margin: 25px 0; }
+        
         @media (max-width: 768px) {
           .ps-content-padding { padding: 25px; }
-          .ps-post-title { font-size: 1.8rem; }
+          .ps-post-title { font-size: 1.85rem; }
+          .ps-post-meta { gap: 15px; }
           .ps-main-container { padding-top: 85px; }
         }
       `}</style>
