@@ -1,38 +1,96 @@
-const BASE_URL = 'https://pujashanti.web.id/wp-json/wp/v2';
+const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
+
+async function fetchAPI(query, { variables } = {}) {
+  if (!API_URL) {
+    throw new Error('Environment variable NEXT_PUBLIC_WORDPRESS_API_URL is not defined');
+  }
+
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, variables }),
+  });
+
+  const json = await res.json();
+  if (json.errors) {
+    console.error('GraphQL Errors:', json.errors);
+    return null;
+  }
+  return json.data;
+}
 
 export async function getWebDesignLandingData() {
-  const res = await fetch(`${BASE_URL}/web_design?_embed&per_page=20`);
-  const posts = await res.json();
-  
-  return posts.map(post => ({
-    title: post.title.rendered,
-    slug: post.slug,
-    excerpt: post.excerpt.rendered,
-    featured_image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null
-  }));
+  const data = await fetchAPI(`
+    query WebDesignLanding {
+      posts(where: { postType: "web_design" }, first: 20) {
+        nodes {
+          title
+          slug
+          excerpt
+          date
+          featuredImage {
+            node {
+              sourceUrl
+            }
+          }
+        }
+      }
+    }
+  `);
+  return data?.posts?.nodes || [];
 }
 
 export async function getWebDesignPost(slug) {
-  // Kita tambahkan _embed agar URL gambar ikut terkirim
-  const res = await fetch(`${BASE_URL}/web_design?slug=${slug}&_embed`);
-  const posts = await res.json();
-
-  if (posts && posts.length > 0) {
-    const post = posts[0];
-    
+  const data = await fetchAPI(`
+    query GetWebDesignByUri($id: ID!) {
+      post(id: $id, idType: URI) {
+        title
+        content
+        date
+        slug
+        featuredImage {
+          node {
+            sourceUrl
+          }
+        }
+        seo {
+          title
+          metaDesc
+        }
+      }
+    }
+  `, { 
+    variables: { 
+      id: `/web-design/${slug}/` 
+    } 
+  });
+  
+  // Mapping agar variabelnya pas dengan [slug].js kita
+  if (data?.post) {
     return {
-      title: post.title.rendered,
-      content: post.content.rendered,
-      date: post.date,
-      slug: post.slug,
-      // Mengambil gambar dari hasil embed
-      featured_image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null,
-      // Mengambil data Rank Math (REST API biasanya pakai field ini)
+      title: data.post.title,
+      content: data.post.content,
+      date: data.post.date,
+      slug: data.post.slug,
+      featured_image: data.post.featuredImage?.node?.sourceUrl || null,
       seo_data: {
-        title: post.rank_math_title || post.title.rendered,
-        description: post.rank_math_description || post.rank_math_excerpt || "",
+        title: data.post.seo?.title || data.post.title,
+        description: data.post.seo?.metaDesc || "",
       }
     };
   }
   return null;
+}
+
+export async function getAllWebDesignSlugs() {
+  const data = await fetchAPI(`
+    query AllWebDesignSlugs {
+      posts(where: { postType: "web_design" }, first: 100) {
+        nodes {
+          slug
+        }
+      }
+    }
+  `);
+  return data?.posts?.nodes || [];
 }
