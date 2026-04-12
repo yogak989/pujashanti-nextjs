@@ -4,123 +4,100 @@ import Link from 'next/link';
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Mencegah scroll body saat menu mobile terbuka
+  // Mencegah scroll saat menu buka
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
   }, [isOpen]);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  // Style Objek agar kode bersih
+  const styles = {
+    header: {
+      position: 'fixed', top: 0, left: 0, width: '100%', height: '70px',
+      backgroundColor: '#ffffff', zIndex: 9999, display: 'flex',
+      alignItems: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+      fontFamily: 'sans-serif'
+    },
+    container: {
+      width: '100%', maxWidth: '1200px', margin: '0 auto',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      padding: '0 20px'
+    },
+    logo: {
+      display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none'
+    },
+    hamburger: {
+      display: 'flex', flexDirection: 'column', gap: '4px', cursor: 'pointer',
+      background: '#f0f4f8', border: '1px solid #ddd', padding: '8px', borderRadius: '6px'
+    },
+    line: { width: '22px', height: '2px', backgroundColor: '#1a3a5a' },
+    mobileMenu: {
+      position: 'fixed', top: 0, right: isOpen ? '0' : '-100%',
+      width: '80%', maxWidth: '300px', height: '100vh', backgroundColor: '#ffffff',
+      zIndex: 10001, transition: '0.3s ease-in-out', padding: '20px',
+      boxShadow: '-5px 0 15px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column'
+    },
+    overlay: {
+      position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+      backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 10000,
+      visibility: isOpen ? 'visible' : 'hidden', opacity: isOpen ? 1 : 0,
+      transition: '0.3s'
+    },
+    navLink: {
+      textDecoration: 'none', color: '#1a3a5a', fontWeight: 'bold',
+      padding: '15px 0', borderBottom: '1px solid #f0f0f0', display: 'block'
+    }
+  };
 
   return (
     <>
-      <header className="ps-custom-header">
-        <div className="ps-header-container">
-          <div className="ps-logo">
-            <Link href="https://pujashanti.web.id/web-design/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-                <img 
-                  src="https://pujashanti.web.id/wp-content/uploads/2026/04/pujashanti-logo-100x100-1.webp" 
-                  style={{ width: '45px', height: '45px', borderRadius: '50%', objectFit: 'cover' }}
-                  alt="Logo" 
-                />
-                <span style={{ fontWeight: '800', color: '#1a3a5a', fontSize: '1.1rem' }}>PUJASHANTI</span>
-            </Link>
+      {/* HEADER UTAMA */}
+      <header style={styles.header}>
+        <div style={styles.container}>
+          <Link href="https://pujashanti.web.id/web-design/" style={styles.logo}>
+            <img 
+              src="https://pujashanti.web.id/wp-content/uploads/2026/04/pujashanti-logo-100x100-1.webp" 
+              style={{ width: '40px', height: '40px', borderRadius: '50%' }} 
+              alt="Logo"
+            />
+            <span style={{ fontWeight: 'bold', color: '#1a3a5a' }}>PUJASHANTI</span>
+          </Link>
+
+          {/* Tombol Hamburger (Hanya muncul di mobile via CSS media query di bawah) */}
+          <div onClick={() => setIsOpen(true)} style={styles.hamburger} className="hamburger-trigger">
+            <div style={styles.line}></div>
+            <div style={styles.line}></div>
+            <div style={styles.line}></div>
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="ps-desktop-nav">
-            <ul>
-              <li><Link href="https://pujashanti.web.id/iptv-playlist/">IPTV</Link></li>
-              <li><Link href="https://pujashanti.web.id/live/">Live TV</Link></li>
-              <li><Link href="https://pujashanti.web.id/tentang-pujashanti/">Tentang Kami</Link></li>
-              <li><Link href="https://wa.me/6285737689037" className="ps-btn-wa">WhatsApp</Link></li>
-            </ul>
+          {/* Desktop Nav (Hidden di mobile) */}
+          <nav className="desktop-only">
+            <Link href="https://pujashanti.web.id/iptv-playlist/" style={{marginLeft: '20px', textDecoration: 'none', color: '#333', fontWeight: '600'}}>IPTV</Link>
+            <Link href="https://wa.me/6285737689037" style={{marginLeft: '20px', textDecoration: 'none', background: '#1a3a5a', color: '#fff', padding: '8px 15px', borderRadius: '5px'}}>WhatsApp</Link>
           </nav>
-
-          {/* Hamburger Button - Pastikan Z-index tinggi */}
-          <button className="ps-hamburger-btn" onClick={toggleMenu} type="button">
-            <div className="ps-hamburger-icon">
-              <span></span><span></span><span></span>
-            </div>
-            <small>MENU</small>
-          </button>
         </div>
       </header>
 
-      {/* Mobile Menu - Inline Dynamic Style untuk Posisi */}
-      <div 
-        className="ps-dropdown-mobile" 
-        style={{ right: isOpen ? '0' : '-100%' }}
-      >
-        <div className="ps-close-wrapper">
-          <button className="ps-close-btn" onClick={() => setIsOpen(false)}>&times;</button>
+      {/* MOBILE DRAWER */}
+      <div style={styles.mobileMenu}>
+        <div style={{ textAlign: 'right', marginBottom: '20px' }}>
+          <button onClick={() => setIsOpen(false)} style={{ fontSize: '30px', border: 'none', background: 'none', cursor: 'pointer' }}>&times;</button>
         </div>
-        <ul>
-          <li><Link href="https://pujashanti.web.id/iptv-playlist/" onClick={() => setIsOpen(false)}>IPTV</Link></li>
-          <li><Link href="https://pujashanti.web.id/live/" onClick={() => setIsOpen(false)}>Live TV</Link></li>
-          <li><Link href="https://pujashanti.web.id/tentang-pujashanti/" onClick={() => setIsOpen(false)}>Tentang Kami</Link></li>
-          <li style={{ marginTop: '20px' }}>
-            <Link href="https://wa.me/6285737689037" className="ps-mobile-wa-btn" onClick={() => setIsOpen(false)}>
-              Chat WhatsApp
-            </Link>
-          </li>
-        </ul>
+        <Link href="https://pujashanti.web.id/iptv-playlist/" style={styles.navLink} onClick={() => setIsOpen(false)}>IPTV List</Link>
+        <Link href="https://pujashanti.web.id/live/" style={styles.navLink} onClick={() => setIsOpen(false)}>Live Streaming</Link>
+        <Link href="https://pujashanti.web.id/tentang-pujashanti/" style={styles.navLink} onClick={() => setIsOpen(false)}>Tentang Kami</Link>
+        <Link href="https://wa.me/6285737689037" style={{...styles.navLink, color: '#25D366'}} onClick={() => setIsOpen(false)}>Chat WhatsApp</Link>
       </div>
 
-      {/* Overlay */}
-      <div 
-        className={`ps-menu-overlay ${isOpen ? 'active' : ''}`} 
-        onClick={() => setIsOpen(false)}
-      ></div>
+      {/* OVERLAY */}
+      <div style={styles.overlay} onClick={() => setIsOpen(false)}></div>
 
-      {/* CSS INTERNAL (Global) - Agar tidak bergantung pada file .css luar */}
-      <style jsx global>{`
-        .ps-custom-header {
-          position: fixed; top: 0; left: 0; width: 100%; height: 75px;
-          background: #ffffff !important; z-index: 9999;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-          display: flex; align-items: center;
+      {/* Sedikit CSS untuk menyembunyikan elemen sesuai layar */}
+      <style jsx>{`
+        @media (min-width: 992px) {
+          .hamburger-trigger { display: none !important; }
         }
-        .ps-header-container {
-          width: 100%; max-width: 1200px; margin: 0 auto;
-          display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
-        }
-        .ps-desktop-nav ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
-        .ps-desktop-nav :global(a) { text-decoration: none; color: #333; font-weight: 600; }
-        .ps-btn-wa { background: #1a3a5a; color: #fff !important; padding: 8px 15px; border-radius: 5px; }
-
-        /* Hamburger Styles */
-        .ps-hamburger-btn {
-          display: none; cursor: pointer; background: #f4f7f9; border: 1px solid #ddd;
-          padding: 8px 12px; border-radius: 5px; align-items: center; gap: 8px;
-        }
-        .ps-hamburger-icon span { display: block; width: 20px; height: 2px; background: #1a3a5a; margin: 4px 0; }
-
-        /* Mobile Menu Container */
-        .ps-dropdown-mobile {
-          position: fixed; top: 0; width: 280px; height: 100vh;
-          background: #ffffff; z-index: 10000; transition: 0.4s ease-in-out;
-          box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-        }
-        .ps-close-wrapper { padding: 20px; text-align: right; border-bottom: 1px solid #eee; }
-        .ps-close-btn { background: none; border: none; font-size: 30px; cursor: pointer; }
-        .ps-dropdown-mobile ul { list-style: none; padding: 20px; }
-        .ps-dropdown-mobile :global(a) { display: block; padding: 15px 0; text-decoration: none; color: #1a3a5a; font-weight: 700; }
-        .ps-mobile-wa-btn { background: #1a3a5a; color: #fff !important; text-align: center; border-radius: 5px; }
-
-        /* Overlay */
-        .ps-menu-overlay {
-          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-          background: rgba(0,0,0,0.5); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 9999;
-        }
-        .ps-menu-overlay.active { opacity: 1; visibility: visible; }
-
         @media (max-width: 991px) {
-          .ps-desktop-nav { display: none; }
-          .ps-hamburger-btn { display: flex; }
+          .desktop-only { display: none !important; }
         }
       `}</style>
     </>
