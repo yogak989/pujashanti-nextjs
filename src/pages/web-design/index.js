@@ -127,3 +127,14 @@ export default function WebDesignLanding() {
     </>
   );
 }
+import Footer from '../../components/Footer';
+
+export default function WebDesignLanding() {
+  return (
+    <>
+      {/* Konten landing page Om yang tadi ... */}
+      
+      <Footer />
+    </>
+  );
+}
