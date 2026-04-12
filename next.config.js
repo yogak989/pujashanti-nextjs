@@ -1,15 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Tambahkan ini untuk memastikan folder fisik tercipta (Mencegah 404 di server)
-  trailingSlash: true, 
+  trailingSlash: true,
+  // Memaksa Next.js menggunakan Build ID yang konsisten
+  generateBuildId: async () => 'build-pujashanti',
   images: {
-    // remotePatterns ini sudah oke untuk ambil gambar dari WP
     remotePatterns: [{ protocol: 'https', hostname: '**' }],
-    unoptimized: true, // Tambahkan ini jika deploy ke static hosting/Cloudflare
+    unoptimized: true,
   },
-  // Jika Om deploy di root domain, biarkan kosong. 
-  // Tapi jika file build ditaruh di folder /web-design, basePath WAJIB ada.
 }
-
 module.exports = nextConfig
