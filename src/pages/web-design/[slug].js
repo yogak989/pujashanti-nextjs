@@ -4,7 +4,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 // 1. WAJIB ADA untuk Cloudflare Pages
-export const runtime = 'edge'; 
+export const runtime = 'experimental-edge'; 
 
 export default function WebDesignDetail({ post }) {
   if (!post) {
