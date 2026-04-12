@@ -12,12 +12,10 @@ async function fetchAPI(query, { variables } = {}) {
   });
 
   const json = await res.json();
-
   if (json.errors) {
     console.error(json.errors);
     throw new Error('Failed to fetch API');
   }
-
   return json.data;
 }
 
@@ -47,6 +45,7 @@ export async function getWebDesignPost(slug) {
       webDesign(id: $id, idType: $idType) {
         title
         content
+        slug
         date
         featuredImage {
           node {
@@ -66,16 +65,17 @@ export async function getWebDesignPost(slug) {
     } 
   });
 
-  // Mapping agar sesuai dengan variabel di [slug].js
   if (data?.webDesign) {
+    const post = data.webDesign;
     return {
-      title: data.webDesign.title,
-      content: data.webDesign.content,
-      date: data.webDesign.date,
-      featured_image: data.webDesign.featuredImage?.node?.sourceUrl || null,
+      title: post.title,
+      content: post.content,
+      slug: post.slug,
+      date: post.date,
+      featured_image: post.featuredImage?.node?.sourceUrl || null,
       seo_data: {
-        title: data.webDesign.seo?.title || data.webDesign.title,
-        description: data.webDesign.seo?.metaDesc || "",
+        title: post.seo?.title || post.title,
+        description: post.seo?.metaDesc || "",
       }
     };
   }
