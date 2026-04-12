@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Footer from '../../components/Footer';
 
 export const runtime = 'experimental-edge';
 
@@ -72,7 +73,7 @@ export default function WebDesignLanding() {
               <h2 className="ps-mobile-text-center" style={{ color: '#2d3748', fontSize: '1.8em', lineHeight: '1.3', marginBottom: '20px', marginTop: '0', fontWeight: '800' }}>Mengapa Situs Web Anda Memerlukan Cloudflare?</h2>
               <p className="ps-mobile-text-center">Pernahkah Anda bertanya-tanya bagaimana situs bisa tetap stabil dan instan di seluruh dunia? Jawabannya ada pada integrasi <strong>Cloudflare</strong>.</p>
               <div className="ps-mobile-center" style={{ display: 'flex' }}>
-                <a className="ps-btn-main" href="https://wa.me/628123456789">Optimalkan Situs Saya →</a>
+                <a className="ps-btn-main" href="https://wa.me/6285737689037">Optimalkan Situs Saya →</a>
               </div>
             </div>
             <div className="ps-column-dark">
@@ -90,7 +91,7 @@ export default function WebDesignLanding() {
           </div>
         </section>
 
-        {/* --- SECTION 3: FAQ (React Logic) --- */}
+        {/* --- SECTION 3: FAQ --- */}
         <section className="ps-faq-section">
           <h2>Pertanyaan Seputar Optimasi Web</h2>
           <div className="ps-faq-item">
@@ -104,6 +105,8 @@ export default function WebDesignLanding() {
         </section>
       </div>
 
+      <Footer />
+
       <style jsx>{`
         .ps-next-wrapper { background: #f8fafc; padding-bottom: 50px; }
         .ps-card-stat { background: #fff; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
@@ -113,28 +116,14 @@ export default function WebDesignLanding() {
         .ps-column-dark { flex: 1; min-width: 320px; background: #2d3748; padding: 40px; }
         .ps-badge { background: #ebf8ff; color: #2b6cb0; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: bold; }
         .ps-btn-main { background: #2d3748; color: white; padding: 14px 30px; border-radius: 10px; text-decoration: none; font-weight: bold; }
-        
-        /* FAQ Style */
         .ps-faq-section { max-width: 800px; margin: 40px auto; padding: 0 20px; }
         .ps-faq-label { padding: 18px 25px; background: #fff; cursor: pointer; font-weight: 600; list-style: none; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px; }
         .ps-faq-content { padding: 20px; background: #fff; }
-        
         @media (max-width: 768px) {
           .ps-mobile-text-center { text-align: center; }
           .ps-mobile-center { justify-content: center; }
         }
       `}</style>
-    </>
-  );
-}
-import Footer from '../../components/Footer';
-
-export default function WebDesignLanding() {
-  return (
-    <>
-      {/* Konten landing page Om yang tadi ... */}
-      
-      <Footer />
     </>
   );
 }
