@@ -108,7 +108,7 @@ export default function WebDesignLanding() {
       <Footer />
 
       <style jsx>{`
-        .ps-next-wrapper { background: #f8fafc; padding-bottom: 50px; }
+        .ps-next-wrapper { background: #f8fafc; padding-top: 95px; padding-bottom: 50px; }
         .ps-card-stat { background: #fff; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .ps-dark-box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
         .ps-showcase-box { background: #ffffff; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; display: flex; flex-wrap: wrap; }
