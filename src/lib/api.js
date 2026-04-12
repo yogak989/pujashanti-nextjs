@@ -1,86 +1,38 @@
-const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
+const BASE_URL = 'https://pujashanti.web.id/wp-json/wp/v2';
 
-/**
- * Fungsi dasar untuk fetch ke WPGraphQL
- */
-async function fetchAPI(query, { variables } = {}) {
-  if (!API_URL) {
-    throw new Error('Environment variable NEXT_PUBLIC_WORDPRESS_API_URL is not defined di Dashboard Cloudflare');
-  }
-
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, variables }),
-  });
-
-  const json = await res.json();
-
-  if (json.errors) {
-    console.error('GraphQL Errors:', json.errors);
-    throw new Error('Gagal mengambil data dari API WordPress');
-  }
-
-  return json.data;
-}
-
-/**
- * Mengambil daftar semua post Web Design (untuk Landing Page)
- */
 export async function getWebDesignLandingData() {
-  const data = await fetchAPI(`
-    query WebDesignLanding {
-      posts(where: { postType: "web_design" }, first: 20) {
-        nodes {
-          title
-          slug
-          excerpt
-          date
-        }
-      }
-    }
-  `);
-  // WPGraphQL terkadang mengembalikan data dalam 'posts' jika CPT tidak terdaftar khusus
-  return data?.posts?.nodes || [];
-}
-
-/**
- * Mengambil detail satu post Web Design berdasarkan Slug
- * Menggunakan idType: URI agar lebih akurat dengan struktur /web-design/slug
- */
-export async function getWebDesignPost(slug) {
-  const data = await fetchAPI(`
-    query GetWebDesignByUri($id: ID!) {
-      post(id: $id, idType: URI) {
-        title
-        content
-        date
-        databaseId
-        slug
-      }
-    }
-  `, { 
-    variables: { 
-      // Kita pastikan format ID sesuai dengan URI di WordPress
-      id: `/web-design/${slug}/` 
-    } 
-  });
+  const res = await fetch(`${BASE_URL}/web_design?_embed&per_page=20`);
+  const posts = await res.json();
   
-  return data?.post;
+  return posts.map(post => ({
+    title: post.title.rendered,
+    slug: post.slug,
+    excerpt: post.excerpt.rendered,
+    featured_image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null
+  }));
 }
 
-/**
- * Fungsi tambahan jika Om ingin membuat daftar sitemap (Opsional)
- */
-export async function getAllWebDesignSlugs() {
-  const data = await fetchAPI(`
-    query AllWebDesignSlugs {
-      posts(where: { postType: "web_design" }, first: 100) {
-        nodes {
-          slug
-        }
+export async function getWebDesignPost(slug) {
+  // Kita tambahkan _embed agar URL gambar ikut terkirim
+  const res = await fetch(`${BASE_URL}/web_design?slug=${slug}&_embed`);
+  const posts = await res.json();
+
+  if (posts && posts.length > 0) {
+    const post = posts[0];
+    
+    return {
+      title: post.title.rendered,
+      content: post.content.rendered,
+      date: post.date,
+      slug: post.slug,
+      // Mengambil gambar dari hasil embed
+      featured_image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null,
+      // Mengambil data Rank Math (REST API biasanya pakai field ini)
+      seo_data: {
+        title: post.rank_math_title || post.title.rendered,
+        description: post.rank_math_description || post.rank_math_excerpt || "",
       }
-    }
-  `);
-  return data?.posts?.nodes || [];
+    };
+  }
+  return null;
 }
