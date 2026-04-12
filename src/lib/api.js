@@ -13,8 +13,8 @@ async function fetchAPI(query, { variables } = {}) {
 
   const json = await res.json();
   if (json.errors) {
-    console.error(json.errors);
-    throw new Error('Failed to fetch API');
+    console.error("GraphQL Error Details:", json.errors);
+    return null; // Kembalikan null agar tidak crash
   }
   return json.data;
 }
@@ -40,9 +40,10 @@ export async function getWebDesignLandingData() {
 }
 
 export async function getWebDesignPost(slug) {
+  // Gunakan URI jika SLUG tidak terdeteksi, ini lebih akurat di WPGraphQL
   const data = await fetchAPI(`
-    query WebDesignBySlug($id: ID!, $idType: WebDesignIdType!) {
-      webDesign(id: $id, idType: $idType) {
+    query WebDesignBySlug($id: ID!) {
+      webDesign(id: $id, idType: URI) {
         title
         content
         slug
@@ -60,13 +61,37 @@ export async function getWebDesignPost(slug) {
     }
   `, { 
     variables: { 
-      id: slug, 
-      idType: 'SLUG' 
+      id: `/web-design/${slug}/` // Menggunakan path lengkap sering lebih stabil
     } 
   });
 
-  if (data?.webDesign) {
-    const post = data.webDesign;
+  // Jika URI gagal, coba fallback ke SLUG murni
+  let post = data?.webDesign;
+  
+  if (!post) {
+    const dataSlug = await fetchAPI(`
+      query WebDesignBySlug($id: ID!) {
+        webDesign(id: $id, idType: SLUG) {
+          title
+          content
+          slug
+          date
+          featuredImage {
+            node {
+              sourceUrl
+            }
+          }
+          seo {
+            title
+            metaDesc
+          }
+        }
+      }
+    `, { variables: { id: slug } });
+    post = dataSlug?.webDesign;
+  }
+
+  if (post) {
     return {
       title: post.title,
       content: post.content,
