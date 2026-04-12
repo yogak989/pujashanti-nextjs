@@ -11,7 +11,7 @@ export default function Header() {
       <header className="ps-custom-header">
         <div className="ps-header-container">
           <div className="ps-logo">
-            <Link href="https://pujashanti.web.id/webseo/">
+            <Link href="https://pujashanti.web.id/web-design/">
                 <img 
                   src="https://pujashanti.web.id/wp-content/uploads/2026/04/pujashanti-logo-100x100-1.webp" 
                   className="is-round" 
