@@ -5,95 +5,82 @@ import Footer from '../../components/Footer';
 
 export default function WebDesignSingular() {
   const router = useRouter();
-  const { slug } = router.query;
 
-  // Data Dummy agar tidak kosong saat build
+  // 1. DATA FALLBACK (Mencegah Error jika API WordPress belum narik)
   const post = {
-    title: "Project: " + (slug || "Web Design"),
-    date: "12 April 2026",
-    content: "<p>Sedang memuat konten dari " + slug + "...</p>"
+    title: "Loading Project...",
+    seo_data: {
+      title: "Web Design PujaShanti",
+      description: "Layanan Web Design Profesional",
+      canonical: "https://pujashanti.web.id",
+      og_image: ""
+    },
+    content: "<p>Memuat konten...</p>"
   };
 
-  const latestPosts = [
-    { id: 1, title: "Optimasi SEO Next.js", slug: "seo-nextjs", date: "10 Apr" },
-    { id: 2, title: "Desain UI Modern", slug: "ui-modern", date: "08 Apr" }
-  ];
+  // 2. PROTEKSI SCRIPT 404: Jangan proses apapun sampai router siap
+  if (!router.isReady) return null;
 
   return (
     <>
       <Head>
-        <Head>
-  <title>{post.seo_data.title}</title>
-  <meta name="description" content={post.seo_data.description} />
-  <link rel="canonical" href={post.seo_data.canonical} />
-  <meta property="og:image" content={post.seo_data.og_image} />
-</Head>
+        {/* Gunakan Optional Chaining (?.) agar jika seo_data kosong tidak White Screen */}
+        <title>{post.seo_data?.title || post.title}</title>
+        <meta name="description" content={post.seo_data?.description || ""} />
+        {post.seo_data?.canonical && <link rel="canonical" href={post.seo_data.canonical} />}
+        <meta property="og:image" content={post.seo_data?.og_image || ""} />
       </Head>
 
       <Header />
 
-      {/* Gunakan ID unik agar tidak bentrok dengan CSS global */}
-      <div id="ps-singular-page" className="ps-page-wrapper">
-        <div className="ps-container">
-          
-          {/* KONTEN UTAMA */}
-          <main className="ps-main-content">
-            <article>
-              <h1 className="ps-entry-title">{post.title}</h1>
-              <div className="ps-entry-meta">📅 {post.date} | Admin</div>
-              <hr />
+      <div className="ps-content-wrapper">
+        <main className="ps-main-layout">
+          <div className="ps-flex-container">
+            
+            {/* KOLOM KONTEN */}
+            <article className="ps-article">
+              <h1>{post.title}</h1>
               <div 
-                className="ps-entry-body" 
+                className="ps-body" 
                 dangerouslySetInnerHTML={{ __html: post.content }} 
               />
             </article>
-          </main>
 
-          {/* SIDEBAR */}
-          <aside className="ps-sidebar">
-            <div className="ps-widget">
-              <h3 className="ps-widget-title">Daftar Isi</h3>
-              <ul className="ps-toc-list">
-                <li><a href="#">Pendahuluan</a></li>
-                <li><a href="#">Analisa Desain</a></li>
-              </ul>
-            </div>
-
-            <div className="ps-widget">
-              <h3 className="ps-widget-title">Terbaru</h3>
-              <div className="ps-latest-list">
-                {latestPosts.map(p => (
-                  <div key={p.id} className="ps-latest-item">
-                    <a href={`/web-design/${p.slug}`}>{p.title}</a>
-                  </div>
-                ))}
+            {/* SIDEBAR */}
+            <aside className="ps-sidebar">
+              <div className="ps-widget">
+                <h4>Artikel Terbaru</h4>
+                <p>Loop artikel di sini...</p>
               </div>
-            </div>
-          </aside>
+            </aside>
 
-        </div>
+          </div>
+        </main>
       </div>
 
+      {/* FOOTER SEKARANG PASTI TERLIHAT */}
       <Footer />
 
       <style jsx>{`
-        .ps-page-wrapper {
-          background: #f4f7f9;
-          padding-top: 100px;
-          min-height: 80vh;
+        .ps-content-wrapper {
+          padding-top: 90px;
+          background: #f8fafc;
+          min-height: 100vh;
         }
-        .ps-container {
+        .ps-main-layout {
           max-width: 1200px;
           margin: 0 auto;
+          padding: 20px;
+        }
+        .ps-flex-container {
           display: flex;
           gap: 30px;
-          padding: 0 20px;
         }
-        .ps-main-content {
+        .ps-article {
           flex: 0 0 70%;
           background: #fff;
           padding: 30px;
-          border-radius: 8px;
+          border-radius: 12px;
         }
         .ps-sidebar {
           flex: 0 0 30%;
@@ -101,21 +88,11 @@ export default function WebDesignSingular() {
         .ps-widget {
           background: #fff;
           padding: 20px;
-          margin-bottom: 20px;
-          border-radius: 8px;
+          border-radius: 12px;
         }
-        .ps-widget-title {
-          font-size: 1.1rem;
-          margin-bottom: 15px;
-          border-bottom: 2px solid #b8860b;
-          display: inline-block;
-        }
-        .ps-entry-title { font-size: 2rem; color: #1a3a5a; }
-        .ps-entry-meta { font-size: 0.8rem; color: #999; margin: 10px 0; }
-        
         @media (max-width: 991px) {
-          .ps-container { flex-direction: column; }
-          .ps-main-content, .ps-sidebar { flex: 0 0 100%; }
+          .ps-flex-container { flex-direction: column; }
+          .ps-article, .ps-sidebar { flex: 0 0 100%; }
         }
       `}</style>
     </>
