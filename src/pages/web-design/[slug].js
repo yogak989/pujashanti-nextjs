@@ -7,10 +7,8 @@ export const runtime = 'experimental-edge';
 
 export default function WebDesignSingular() {
   const router = useRouter();
-  const { slug } = router.query;
-
-  // DATA DUMMY (Ganti dengan fetch data dari WP-API Om nanti)
-  // Ini mencegah White Screen karena data langsung tersedia
+  
+  // Data dummy yang aman (Nanti bisa diganti fetch API)
   const post = {
     title: "Strategi Web Design High-Conversion 2026",
     date: "12 April 2026",
@@ -28,135 +26,136 @@ export default function WebDesignSingular() {
     { id: 2, title: "Cara Setting Cloudflare Pro", slug: "cloudflare-pro", date: "08 April", thumbnail: "https://pujashanti.web.id/wp-content/uploads/2026/03/Cloudflare_Logo.webp" }
   ];
 
-  // LOGIKA PENCEGAH WHITE SCREEN
-  // Jika router belum siap (loading slug), tampilkan loading sebentar
-  if (!router.isReady) return <div style={{textAlign:'center', padding:'100px'}}>Loading...</div>;
+  // Jika router belum siap, jangan tampilkan apa-apa dulu agar tidak white screen
+  if (!router.isReady) return null;
 
   return (
     <>
       <Head>
-        <title>{post.title} | PujaShanti</title>
-        <meta name="description" content={post.title} />
+        <title>{post?.title || 'Loading...'} | PujaShanti</title>
       </Head>
 
       <Header />
 
-      <main className="ps-singular-wrapper">
-        <div className="ps-container">
-          
-          {/* KOLOM KIRI: KONTEN UTAMA (70%) */}
-          <article className="ps-main-content">
-            <header className="ps-entry-header">
-              <h1 className="ps-post-title">{post.title}</h1>
-              <div className="ps-post-meta">
-                <span>📅 {post.date}</span> | <span>👤 Admin PujaShanti</span>
-              </div>
-            </header>
-
-            <div 
-              className="ps-entry-content"
-              dangerouslySetInnerHTML={{ __html: post.content }} 
-            />
-          </article>
-
-          {/* KOLOM KANAN: SIDEBAR (30%) */}
-          <aside className="ps-sidebar">
+      <div className="ps-page-container">
+        <main className="ps-main-layout">
+          <div className="ps-content-wrapper">
             
-            {/* Widget 1: Table of Contents */}
-            <div className="ps-widget">
-              <h3 className="ps-widget-title">Daftar Isi</h3>
-              <nav className="ps-toc-nav">
-                 <ul>
-                   <li><a href="#section1">Strategi 2026</a></li>
-                   <li><a href="#section2">Core Web Vitals</a></li>
-                   <li><a href="#section3">Kesimpulan</a></li>
-                 </ul>
-              </nav>
-            </div>
+            {/* --- KOLOM KIRI: KONTEN --- */}
+            <article className="ps-post-article">
+              <header className="ps-header-meta">
+                <h1 className="ps-title">{post?.title}</h1>
+                <p className="ps-date">📅 {post?.date} | Admin PujaShanti</p>
+              </header>
 
-            {/* Widget 2: Latest Artikel Loop */}
-            <div className="ps-widget">
-              <h3 className="ps-widget-title">Artikel Terbaru</h3>
-              <div className="ps-latest-loop">
-                {latestPosts.map((item) => (
-                  <div key={item.id} className="ps-loop-item">
-                    <img src={item.thumbnail} alt={item.title} />
-                    <div className="ps-loop-info">
-                      <a href={`/web-design/${item.slug}`}>{item.title}</a>
-                      <small>{item.date}</small>
-                    </div>
-                  </div>
-                ))}
+              <div 
+                className="ps-body-text"
+                dangerouslySetInnerHTML={{ __html: post?.content || '' }} 
+              />
+            </article>
+
+            {/* --- KOLOM KANAN: SIDEBAR --- */}
+            <aside className="ps-sidebar-layout">
+              
+              {/* Widget Daftar Isi */}
+              <div className="ps-sidebar-widget">
+                <h3 className="ps-widget-heading">Daftar Isi</h3>
+                <nav className="ps-toc-links">
+                   <ul>
+                     <li><a href="#section1">Strategi 2026</a></li>
+                     <li><a href="#section2">Core Web Vitals</a></li>
+                     <li><a href="#section3">Kesimpulan</a></li>
+                   </ul>
+                </nav>
               </div>
-            </div>
 
-          </aside>
-        </div>
-      </main>
+              {/* Widget Latest Artikel (Loop Aman) */}
+              <div className="ps-sidebar-widget">
+                <h3 className="ps-widget-heading">Terbaru di Web Design</h3>
+                <div className="ps-posts-list">
+                  {latestPosts && latestPosts.length > 0 ? (
+                    latestPosts.map((item) => (
+                      <div key={item.id} className="ps-item-card">
+                        <img src={item.thumbnail} alt={item.title} />
+                        <div className="ps-item-text">
+                          <a href={`/web-design/${item.slug}`}>{item.title}</a>
+                          <span>{item.date}</span>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>Tidak ada artikel terbaru.</p>
+                  )}
+                </div>
+              </div>
 
-      {/* FOOTER HOOK YANG KITA BUAT SEBELUMNYA */}
+            </aside>
+          </div>
+        </main>
+      </div>
+
       <Footer />
 
       <style jsx>{`
-        .ps-singular-wrapper {
-          background: #f4f7f9;
-          padding-top: 110px; /* Jarak agar tidak tertutup header fixed */
-          padding-bottom: 60px;
+        .ps-page-container {
+          background: #f7fafc;
+          padding-top: 100px; /* Padding agar tidak ketutup header fixed */
           min-height: 100vh;
         }
-        .ps-container {
+        .ps-main-layout {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 0 20px;
+          padding: 20px;
+        }
+        .ps-content-wrapper {
           display: flex;
           gap: 30px;
+          flex-wrap: wrap;
         }
 
-        /* --- CONTENT COLUMN --- */
-        .ps-main-content {
-          flex: 7;
+        /* Kolom Konten 70% */
+        .ps-post-article {
+          flex: 1 1 700px;
           background: #ffffff;
           padding: 40px;
+          border-radius: 15px;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .ps-title { font-size: 2.4rem; color: #1a3a5a; margin-bottom: 10px; line-height: 1.2; }
+        .ps-date { color: #a0aec0; font-size: 0.9rem; margin-bottom: 30px; border-bottom: 1px solid #edf2f7; padding-bottom: 15px; }
+        .ps-body-text { line-height: 1.8; font-size: 1.15rem; color: #2d3748; }
+
+        /* Kolom Sidebar 30% */
+        .ps-sidebar-layout {
+          flex: 1 1 300px;
+        }
+        .ps-sidebar-widget {
+          background: #ffffff;
+          padding: 25px;
           border-radius: 12px;
-          box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+          margin-bottom: 25px;
+          border: 1px solid #e2e8f0;
         }
-        .ps-post-title { font-size: 2.2rem; color: #1a3a5a; line-height: 1.2; margin-bottom: 10px; }
-        .ps-post-meta { font-size: 0.9rem; color: #718096; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .ps-entry-content { line-height: 1.8; color: #2d3748; font-size: 1.1rem; }
-
-        /* --- SIDEBAR COLUMN --- */
-        .ps-sidebar { flex: 3; }
-        .ps-widget { 
-          background: #fff; 
-          padding: 20px; 
-          border-radius: 12px; 
-          margin-bottom: 25px; 
-          box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-          border: 1px solid #eef2f7;
-        }
-        .ps-widget-title { 
-          font-size: 1.1rem; 
-          color: #1a3a5a; 
-          margin-bottom: 15px; 
-          border-left: 4px solid #b8860b; 
-          padding-left: 10px;
+        .ps-widget-heading {
+          font-size: 1.2rem;
+          color: #1a3a5a;
+          margin-bottom: 15px;
+          border-left: 5px solid #b8860b;
+          padding-left: 12px;
         }
 
-        /* TOC STYLE */
-        .ps-toc-nav ul { list-style: none; padding: 0; }
-        .ps-toc-nav li { margin-bottom: 8px; }
-        .ps-toc-nav a { text-decoration: none; color: #4a5568; font-size: 0.95rem; transition: 0.3s; }
-        .ps-toc-nav a:hover { color: #b8860b; padding-left: 5px; }
+        .ps-toc-links ul { list-style: none; padding: 0; }
+        .ps-toc-links li { margin-bottom: 10px; }
+        .ps-toc-links a { text-decoration: none; color: #4a5568; transition: 0.3s; }
+        .ps-toc-links a:hover { color: #b8860b; padding-left: 5px; }
 
-        /* LOOP STYLE */
-        .ps-loop-item { display: flex; gap: 12px; margin-bottom: 15px; align-items: center; }
-        .ps-loop-item img { width: 55px; height: 55px; border-radius: 6px; object-fit: cover; background: #eee; }
-        .ps-loop-info a { display: block; text-decoration: none; color: #2d3748; font-weight: 700; font-size: 0.85rem; line-height: 1.3; }
-        .ps-loop-info small { color: #a0aec0; font-size: 0.75rem; }
+        .ps-item-card { display: flex; gap: 12px; margin-bottom: 15px; align-items: center; }
+        .ps-item-card img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+        .ps-item-text a { display: block; text-decoration: none; color: #2d3748; font-weight: 700; font-size: 0.9rem; line-height: 1.3; }
+        .ps-item-text span { color: #a0aec0; font-size: 0.8rem; }
 
         @media (max-width: 991px) {
-          .ps-container { flex-direction: column; }
-          .ps-main-content { padding: 25px; }
+          .ps-post-article { padding: 25px; }
         }
       `}</style>
     </>
