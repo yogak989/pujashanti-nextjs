@@ -5,146 +5,117 @@ import Footer from '../../components/Footer';
 
 export default function WebDesignSingular() {
   const router = useRouter();
-  
-  // 1. DATA DUMMY AMAN (Ganti dengan fetch API nanti)
+  const { slug } = router.query;
+
+  // Data Dummy agar tidak kosong saat build
   const post = {
-    title: "Strategi Web Design High-Conversion 2026",
+    title: "Project: " + (slug || "Web Design"),
     date: "12 April 2026",
-    content: `
-      <p id="section1">Membangun website di tahun 2026 memerlukan pendekatan <strong>User Experience</strong> yang mendalam.</p>
-      <h2 id="section2">Kecepatan adalah Kunci</h2>
-      <p>Optimasi gambar dan penggunaan CDN sangat krusial untuk SEO.</p>
-    `
+    content: "<p>Sedang memuat konten dari " + slug + "...</p>"
   };
 
   const latestPosts = [
-    { id: 1, title: "Tips SEO Lokal Bali", slug: "seo-bali", date: "10 Apr", thumbnail: "" },
-    { id: 2, title: "Setting Cloudflare", slug: "cloudflare", date: "08 Apr", thumbnail: "" }
+    { id: 1, title: "Optimasi SEO Next.js", slug: "seo-nextjs", date: "10 Apr" },
+    { id: 2, title: "Desain UI Modern", slug: "ui-modern", date: "08 Apr" }
   ];
-
-  // 2. PROTEKSI AWAL: Jika router belum siap, jangan render konten dulu
-  if (!router.isReady) {
-    return <div style={{ background: '#f7fafc', minHeight: '100vh' }}><Header /></div>;
-  }
 
   return (
     <>
       <Head>
-        <title>{post?.title || 'Loading...'} | PujaShanti</title>
+        <Head>
+  <title>{post.seo_data.title}</title>
+  <meta name="description" content={post.seo_data.description} />
+  <link rel="canonical" href={post.seo_data.canonical} />
+  <meta property="og:image" content={post.seo_data.og_image} />
+</Head>
       </Head>
 
       <Header />
 
-      <div className="ps-page-container">
-        <main className="ps-main-layout">
-          <div className="ps-flex-wrapper">
-            
-            {/* --- KONTEN UTAMA (70%) --- */}
-            <article className="ps-article-content">
-              <header>
-                <h1 className="ps-post-title">{post?.title}</h1>
-                <p className="ps-meta">📅 {post?.date} | Admin PujaShanti</p>
-              </header>
-
+      {/* Gunakan ID unik agar tidak bentrok dengan CSS global */}
+      <div id="ps-singular-page" className="ps-page-wrapper">
+        <div className="ps-container">
+          
+          {/* KONTEN UTAMA */}
+          <main className="ps-main-content">
+            <article>
+              <h1 className="ps-entry-title">{post.title}</h1>
+              <div className="ps-entry-meta">📅 {post.date} | Admin</div>
+              <hr />
               <div 
-                className="ps-entry-body"
-                dangerouslySetInnerHTML={{ __html: post?.content || '' }} 
+                className="ps-entry-body" 
+                dangerouslySetInnerHTML={{ __html: post.content }} 
               />
             </article>
+          </main>
 
-            {/* --- SIDEBAR (30%) --- */}
-            <aside className="ps-sidebar-container">
-              
-              {/* Widget ToC */}
-              <div className="ps-widget-box">
-                <h3 className="ps-widget-title">Daftar Isi</h3>
-                <nav className="ps-toc-list">
-                   <ul>
-                     <li><a href="#section1">Strategi 2026</a></li>
-                     <li><a href="#section2">Kecepatan</a></li>
-                   </ul>
-                </nav>
+          {/* SIDEBAR */}
+          <aside className="ps-sidebar">
+            <div className="ps-widget">
+              <h3 className="ps-widget-title">Daftar Isi</h3>
+              <ul className="ps-toc-list">
+                <li><a href="#">Pendahuluan</a></li>
+                <li><a href="#">Analisa Desain</a></li>
+              </ul>
+            </div>
+
+            <div className="ps-widget">
+              <h3 className="ps-widget-title">Terbaru</h3>
+              <div className="ps-latest-list">
+                {latestPosts.map(p => (
+                  <div key={p.id} className="ps-latest-item">
+                    <a href={`/web-design/${p.slug}`}>{p.title}</a>
+                  </div>
+                ))}
               </div>
+            </div>
+          </aside>
 
-              {/* Widget Latest Artikel (Loop Aman) */}
-              <div className="ps-widget-box">
-                <h3 className="ps-widget-title">Artikel Terbaru</h3>
-                <div className="ps-loop-container">
-                  {latestPosts?.length > 0 ? (
-                    latestPosts.map((item) => (
-                      <div key={item.id} className="ps-loop-item">
-                        <div className="ps-item-info">
-                          <a href={`/web-design/${item.slug}`}>{item.title}</a>
-                          <small>{item.date}</small>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p>Memuat artikel...</p>
-                  )}
-                </div>
-              </div>
-
-            </aside>
-          </div>
-        </main>
+        </div>
       </div>
 
       <Footer />
 
       <style jsx>{`
-        .ps-page-container {
-          background: #f7fafc;
-          padding-top: 100px; /* Jarak aman header fixed */
-          min-height: 100vh;
+        .ps-page-wrapper {
+          background: #f4f7f9;
+          padding-top: 100px;
+          min-height: 80vh;
         }
-        .ps-main-layout {
+        .ps-container {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 20px;
-        }
-        .ps-flex-wrapper {
           display: flex;
           gap: 30px;
-          flex-wrap: wrap;
+          padding: 0 20px;
         }
-        .ps-article-content {
-          flex: 1 1 700px;
+        .ps-main-content {
+          flex: 0 0 70%;
           background: #fff;
-          padding: 40px;
-          border-radius: 12px;
-          box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+          padding: 30px;
+          border-radius: 8px;
         }
-        .ps-sidebar-container {
-          flex: 1 1 300px;
+        .ps-sidebar {
+          flex: 0 0 30%;
         }
-        .ps-widget-box {
+        .ps-widget {
           background: #fff;
           padding: 20px;
-          border-radius: 10px;
-          margin-bottom: 25px;
-          border: 1px solid #e2e8f0;
+          margin-bottom: 20px;
+          border-radius: 8px;
         }
         .ps-widget-title {
           font-size: 1.1rem;
-          color: #1a3a5a;
           margin-bottom: 15px;
-          border-left: 4px solid #b8860b;
-          padding-left: 10px;
+          border-bottom: 2px solid #b8860b;
+          display: inline-block;
         }
-        .ps-post-title { font-size: 2.2rem; margin-bottom: 10px; color: #1a3a5a; }
-        .ps-meta { color: #a0aec0; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .ps-entry-body { line-height: 1.8; font-size: 1.1rem; color: #2d3748; }
+        .ps-entry-title { font-size: 2rem; color: #1a3a5a; }
+        .ps-entry-meta { font-size: 0.8rem; color: #999; margin: 10px 0; }
         
-        /* Nav & Loop Style */
-        .ps-toc-list ul { list-style: none; padding: 0; }
-        .ps-toc-list a { text-decoration: none; color: #4a5568; }
-        .ps-loop-item { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed #eee; }
-        .ps-item-info a { display: block; font-weight: 700; color: #2d3748; text-decoration: none; font-size: 0.9rem; }
-        .ps-item-info small { color: #cbd5e0; }
-
         @media (max-width: 991px) {
-          .ps-article-content { padding: 25px; }
+          .ps-container { flex-direction: column; }
+          .ps-main-content, .ps-sidebar { flex: 0 0 100%; }
         }
       `}</style>
     </>
