@@ -25,8 +25,8 @@ export default function WebDesignPost({ post, latestPosts }) {
   });
 
   // Filter agar post yang sedang dibuka tidak muncul di loop bawah
-  const relatedPosts = latestPosts
-    .filter(item => item.slug !== post.slug)
+  const relatedPosts = (latestPosts || [])
+    .filter(item => item && item.slug !== post.slug)
     .slice(0, 3);
 
   return (
@@ -324,22 +324,31 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getWebDesignPost(params.slug);
-  const latestPostsData = await getWebDesignLandingData();
+  try {
+    const post = await getWebDesignPost(params.slug);
+    const latestPostsData = await getWebDesignLandingData();
 
-  if (!post) {
+    if (!post) {
+      return { notFound: true };
+    }
+
+    // Pastikan kita mengambil array nodes dengan benar
+    // Jika latestPostsData sudah berupa array, gunakan itu. 
+    // Jika masih objek GraphQL, ambil .webDesigns.nodes
+    const allNodes = latestPostsData?.webDesigns?.nodes || latestPostsData || [];
+    
+    // Pastikan allNodes adalah array sebelum di-shuffle
+    const shuffledNodes = Array.isArray(allNodes) ? shuffleArray(allNodes) : [];
+
+    return {
+      props: {
+        post,
+        latestPosts: shuffledNodes,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.error("Build Error di [slug]:", error);
     return { notFound: true };
   }
-
-  // Ambil data node dan acak urutannya
-  const allNodes = latestPostsData?.webDesigns?.nodes || [];
-  const shuffledNodes = shuffleArray(allNodes);
-
-  return {
-    props: {
-      post,
-      latestPosts: shuffledNodes,
-    },
-    revalidate: 60,
-  };
 }
