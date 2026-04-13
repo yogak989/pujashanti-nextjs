@@ -115,7 +115,11 @@ export default function Home({ posts }) {
         </section>
 
         {/* CLOUDFLARE SHOWCASE */}
-        <section style={{ margin: '40px 0', padding: '0 10px' }}>
+        <section style={{ 
+          margin: '40px auto', // Auto di kiri-kanan agar ke tengah
+          padding: '0 20px', 
+          maxWidth: '1050px', // Membatasi lebar maksimal di desktop
+        }}>
           <div className="showcase-container">
             <div className="showcase-content">
               <div className="partner-badge">
@@ -127,6 +131,7 @@ export default function Home({ posts }) {
               <p><strong>PUJASHANTI</strong> merekomendasikan solusi ini karena memberikan perlindungan DDoS hingga Global CDN yang memangkas waktu muat secara drastis.</p>
               <a href="/hubungi-kami/" className="btn-cta">Optimalkan Situs Saya →</a>
             </div>
+            
             <div className="showcase-dark">
               <h3 style={{ color: '#ed8936', marginBottom: '30px', borderLeft: '4px solid #ed8936', paddingLeft: '15px' }}>Benefit Utama:</h3>
               <div style={{ display: 'grid', gap: '25px' }}>
@@ -148,8 +153,7 @@ export default function Home({ posts }) {
             </div>
           </div>
         </section>
-
-        {/* SECTION ARTIKEL TERBARU (QUERY LOOP) */}
+       {/* SECTION ARTIKEL TERBARU (QUERY LOOP) */}
         <section style={{ padding: '60px 20px', maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <h2 style={{ color: '#003366', fontSize: '2.1rem', fontWeight: '800' }}>Inspirasi & Insights</h2>
@@ -159,18 +163,21 @@ export default function Home({ posts }) {
           <div className="post-grid">
             {posts && posts.length > 0 ? (
               posts.map((post) => (
-                <Link href={`/web-design/${post.slug}`} key={post.id} className="post-card">
-                  <div className="post-content">
-                    <span className="post-date">
-                      {new Date(post.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
-                    </span>
-                    <h3 dangerouslySetInnerHTML={{ __html: post.title }} />
-                    <div 
-                      className="post-excerpt" 
-                      dangerouslySetInnerHTML={{ __html: post.excerpt?.substring(0, 100).replace(/<[^>]*>?/gm, '') + '...' }} 
-                    />
-                    <span className="read-more">Baca Selengkapnya →</span>
-                  </div>
+                /* legacyBehavior diperlukan agar class bisa diletakkan di tag <a> */
+                <Link href={`/web-design/${post.slug}`} key={post.id} legacyBehavior>
+                  <a className="post-card">
+                    <div className="post-content">
+                      <span className="post-date">
+                        {new Date(post.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </span>
+                      <h3 dangerouslySetInnerHTML={{ __html: post.title }} />
+                      <div 
+                        className="post-excerpt" 
+                        dangerouslySetInnerHTML={{ __html: post.excerpt?.substring(0, 100).replace(/<[^>]*>?/gm, '') + '...' }} 
+                      />
+                      <span className="read-more">Baca Selengkapnya →</span>
+                    </div>
+                  </a>
                 </Link>
               ))
             ) : (
