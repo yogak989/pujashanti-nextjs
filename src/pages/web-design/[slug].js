@@ -58,7 +58,7 @@ export default function WebDesignPost({ post, latestPosts }) {
 
         {/* SIDEBAR (30%) */}
         <aside style={styles.sidebar}>
-          <h3 style={styles.sidebarTitle}>Latest Projects</h3>
+          <h3 style={styles.sidebarTitle}>Latest Posts</h3>
           <ul style={styles.list}>
             {latestPosts && latestPosts.map((item) => (
               <li key={item.slug} style={styles.listItem}>
