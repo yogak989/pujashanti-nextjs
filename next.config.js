@@ -10,3 +10,14 @@ const nextConfig = {
   },
 }
 module.exports = nextConfig
+// Contoh di next.config.js
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: '/:path*.xml',
+        destination: 'https://pujashanti.web.id/:path*.xml', // Pastikan mengarah ke backend WP asli
+      },
+    ]
+  },
+}
