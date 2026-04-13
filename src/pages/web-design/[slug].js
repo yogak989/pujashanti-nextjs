@@ -146,16 +146,19 @@ const styles = {
     display: 'flex',
     maxWidth: '1200px',
     margin: '0 auto',
-    padding: '120px 20px 60px', // Atas ditambah buat kasih ruang Header
-    gap: '40px',
-    flexWrap: 'wrap',
+    padding: '100px 20px 60px', // Sesuaikan padding atas agar tidak tertutup header
+    gap: '30px',
+    flexWrap: 'wrap', // Ini sudah benar untuk membuat sidebar turun
   },
   main: {
-    flex: '0 0 65%', 
-    minWidth: '300px',
+    // Ubah bagian ini agar di mobile bisa full width
+    flex: '1', 
+    minWidth: '300px', // Mencegah konten terlalu ciut
+    maxWidth: '100%',
   },
   sidebar: {
-    flex: '1',
+    // Jika di desktop ingin 30%, kita beri flex-basis yang lebih kecil
+    flex: '0 0 300px', 
     minWidth: '280px',
     padding: '25px',
     backgroundColor: '#fff',
@@ -163,7 +166,7 @@ const styles = {
     height: 'fit-content',
     boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
   },
-  sidebarTitle: {
+ sidebarTitle: {
     fontSize: '1.2rem',
     fontWeight: '700',
     color: '#1a3a5a',
