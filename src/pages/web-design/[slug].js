@@ -2,7 +2,7 @@ import { getWebDesignPost } from '../../lib/api';
 import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-
+export const runtime = 'experimental-edge';
 export default function WebDesignPost({ post }) {
   if (!post) return <div style={{ textAlign: 'center', padding: '100px' }}>Memuat halaman...</div>;
 
