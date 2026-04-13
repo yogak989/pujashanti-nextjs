@@ -220,7 +220,58 @@ export default function Home({ posts }) {
         .faq-item { margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; }
         .faq-item summary { padding: 15px; cursor: pointer; font-weight: 600; color: #1e293b; outline: none; }
         .faq-content { padding: 15px; background: white; color: #475569; border-top: 1px solid #e2e8f0; }
-        
+       
+  /* STAT CARD HOVER */
+  .stat-card {
+    background: #ffffff; 
+    padding: 30px; 
+    border-radius: 20px; 
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+    border: 1px solid #e2e8f0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efek membal */
+    cursor: pointer;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+    border-color: #ed8936;
+  }
+
+  /* CLOUDFLARE BENEFIT BOX HOVER */
+  .benefit-box {
+    background: rgba(255,255,255,0.05); 
+    padding: 20px; 
+    border-radius: 12px; 
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .benefit-box:hover {
+    background: rgba(255,255,255,0.12);
+    transform: translateX(10px); /* Efek geser sedikit ke kanan */
+    border-left: 4px solid #ed8936; /* Tambah aksen garis orange */
+    box-shadow: -5px 5px 15px rgba(0,0,0,0.3);
+  }
+
+  /* POST CARD HOVER (QUERY LOOP) */
+  .post-card {
+    background: white;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .post-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+    border-color: #ed8936;
+  }
+
+  /* SISA CSS LAINNYA TETAP SAMA... */
         @media (max-width: 768px) {
           .showcase-container { flex-direction: column; }
         }
@@ -230,22 +281,42 @@ export default function Home({ posts }) {
 }
 
 // FUNGSI AMBIL DATA WORDPRESS
-export async function getServerSideProps() {
+export async function getStaticProps({ params }) {
   try {
-    const res = await fetch('https://pujashanti.web.id/wp-json/wp/v2/posts?per_page=20');
-    const allPosts = await res.json();
+    // 1. Ambil data post tunggal
+    const post = await getWebDesignPost(params.slug);
     
-    // Acak data dan ambil 6
-    const shuffled = allPosts.sort(() => 0.5 - Math.random());
-    const selectedPosts = shuffled.slice(0, 6);
+    // 2. Ambil data untuk loop (Pastikan fungsi ini aman)
+    const latestPostsData = await getWebDesignLandingData();
+
+    // Jika post tidak ditemukan di WP
+    if (!post) {
+      return { notFound: true };
+    }
+
+    // 3. Normalisasi data latestPosts (Mencegah error .map)
+    // Kita ambil nodes-nya saja jika strukturnya GraphQL
+    const allNodes = latestPostsData?.webDesigns?.nodes || (Array.isArray(latestPostsData) ? latestPostsData : []);
+    
+    // 4. Lakukan Shuffle hanya jika ada data
+    const shuffledNodes = allNodes.length > 0 ? shuffleArray(allNodes) : [];
 
     return {
       props: {
-        posts: selectedPosts,
+        post,
+        latestPosts: JSON.parse(JSON.stringify(shuffledNodes)), // Pastikan data bersih untuk serialisasi
       },
+      revalidate: 60,
     };
   } catch (error) {
-    console.error("Fetch error:", error);
-    return { props: { posts: [] } };
+    console.error("Error fetching data for slug:", params.slug, error);
+    // Jika error, jangan gagalkan build, tampilkan saja halaman tanpa latestPosts
+    return {
+      props: {
+        post: null,
+        latestPosts: [],
+      },
+      revalidate: 10,
+    };
   }
 }
