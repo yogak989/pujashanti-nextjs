@@ -1,8 +1,11 @@
 import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Link from 'next/link';
+
 export const runtime = 'experimental-edge';
-export default function Home() {
+
+export default function Home({ posts }) {
   return (
     <>
       <Head>
@@ -80,33 +83,33 @@ export default function Home() {
           </div>
         </div>
 
-        {/* SERVICES SECTION */}
-        <section style={{ padding: '60px 0', backgroundColor: '#f8fafc', overflow: 'hidden' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-              <h2 style={{ color: '#003366', fontSize: '2.1rem', fontWeight: '800', marginBottom: '15px' }}>Layanan Utama Kami</h2>
-              <div style={{ width: '80px', height: '4px', background: '#b38b4d', margin: '0 auto' }}></div>
-            </div>
-            <div className="ps-service-grid">
-              <div className="ps-service-card">
-                <div className="ps-icon-box">1</div>
-                <h2 style={{ color: '#003366', fontSize: '1.2rem', fontWeight: 700 }}>Custom Web Design & AMP</h2>
-                <p>Desain web full HTML modern dan responsif. Halaman super ringan dengan optimasi AMP.</p>
-                <div className="tag">Design Framework</div>
-              </div>
-              <div className="ps-service-card">
-                <div className="ps-icon-box">2</div>
-                <h2 style={{ color: '#003366', fontSize: '1.2rem', fontWeight: 700 }}>Audit SEO & Performa</h2>
-                <p>Memastikan skor performa <a href="https://pagespeed.web.dev/" target="_blank" style={{ color: '#b38b4d', textDecoration: 'none', fontWeight: 'bold' }}>PageSpeed Insight</a> tetap di zona hijau.</p>
-                <div className="tag">Google Toolset</div>
-              </div>
-            </div>
+        {/* NEW: QUERY LOOP SECTION */}
+        <section style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <h2 style={{ color: '#003366', fontSize: '2.1rem', fontWeight: '800' }}>Inspirasi & Insights</h2>
+            <p style={{ color: '#4a5568' }}>Artikel terbaru seputar pengembangan web dan optimasi SEO.</p>
+          </div>
+          
+          <div className="post-grid">
+            {posts && posts.map((post) => (
+              <Link href={`/web-design/${post.slug}`} key={post.id} className="post-card">
+                <div className="post-content">
+                  <span className="post-date">{new Date(post.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                  <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                  <div 
+                    className="post-excerpt" 
+                    dangerouslySetInnerHTML={{ __html: post.excerpt.rendered.substring(0, 120).replace(/<[^>]*>?/gm, '') + '...' }} 
+                  />
+                  <span className="read-more">Pelajari Detail →</span>
+                </div>
+              </Link>
+            ))}
           </div>
         </section>
 
         {/* CLOUDFLARE SHOWCASE */}
         <section style={{ margin: '40px 0', padding: '0 10px' }}>
-          <div className="showcase-container">
+          <div className="showcase-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div className="showcase-content">
               <div className="partner-badge">
                 <img src="https://pujashanti.web.id/wp-content/uploads/2026/03/Cloudflare_Logo.webp" alt="Cloudflare" style={{ height: '22px', width: 'auto' }} />
@@ -140,17 +143,15 @@ export default function Home() {
         </section>
 
         {/* FAQ SECTION */}
-        <section className="ps-faq-section">
+        <section className="ps-faq-section" style={{ maxWidth: '1200px', margin: '60px auto', padding: '0 20px' }}>
             <h2 style={{ textAlign: 'center', color: '#003366', marginBottom: '30px' }}>Pertanyaan Seputar Optimasi Web</h2>
             <div className="faq-container">
-                {/* FAQ 1 */}
                 <details className="faq-item">
                     <summary>Bagaimana cara menguji performa halaman?</summary>
                     <div className="faq-content">
                         <p>Buka PageSpeed Insights dari Google, kemudian ketik URL halaman yang ingin diuji. Contoh skor: <a href="https://pagespeed.web.dev/analysis/https-pujashanti-web-id-webseo/q8x9qjg2e5?form_factor=mobile" target="_blank">Cek Skor PSI</a>.</p>
                     </div>
                 </details>
-                {/* FAQ 2 */}
                 <details className="faq-item">
                     <summary>Apa faktor paling mempengaruhi pada skor PSI?</summary>
                     <div className="faq-content">
@@ -165,25 +166,39 @@ export default function Home() {
       <Footer />
 
       <style jsx>{`
+        .post-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 25px;
+          margin-bottom: 50px;
+        }
+        .post-card {
+          background: white;
+          border-radius: 15px;
+          border: 1px solid #e2e8f0;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+        .post-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+          border-color: #ed8936;
+        }
+        .post-content { padding: 25px; }
+        .post-date { font-size: 11px; font-weight: bold; color: #ed8936; text-transform: uppercase; }
+        .post-content h3 { margin: 15px 0; color: #2d3748; font-size: 1.1rem; line-height: 1.4; }
+        .post-excerpt { color: #4a5568; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+        .read-more { font-weight: bold; color: #003366; font-size: 13px; }
+
         .stat-card {
           background: #ffffff; padding: 30px; border-radius: 20px; text-align: center;
           box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
         }
         .benefit-box {
           background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .ps-service-grid {
-          display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;
-        }
-        .ps-service-card {
-          background: #ffffff; padding: 35px 25px; border-radius: 15px; border: 1px solid #e2e8f0;
-        }
-        .ps-icon-box {
-          width: 60px; height: 60px; background: #003366; color: #ffffff; border-radius: 12px;
-          display: flex; align-items: center; justify-content: center; margin-bottom: 25px; font-size: 24px; font-weight: bold;
-        }
-        .tag {
-          display: inline-block; font-size: 10px; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px; margin-top: 15px; text-transform: uppercase;
         }
         .showcase-container {
           background: #ffffff; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden;
@@ -202,8 +217,6 @@ export default function Home() {
         }
         .benefit-item { display: flex; align-items: flex-start; gap: 15px; }
         .benefit-item .icon { background: rgba(237, 137, 54, 0.15); color: #ed8936; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; }
-        
-        /* FAQ Simple */
         .faq-item { margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; }
         .faq-item summary { padding: 15px; cursor: pointer; font-weight: 600; color: #1e293b; outline: none; }
         .faq-content { padding: 15px; background: white; color: #475569; border-top: 1px solid #e2e8f0; }
@@ -214,4 +227,25 @@ export default function Home() {
       `}</style>
     </>
   );
+}
+
+// FUNGSI AMBIL DATA WORDPRESS
+export async function getServerSideProps() {
+  try {
+    const res = await fetch('https://pujashanti.web.id/wp-json/wp/v2/posts?per_page=20');
+    const allPosts = await res.json();
+    
+    // Acak data dan ambil 6
+    const shuffled = allPosts.sort(() => 0.5 - Math.random());
+    const selectedPosts = shuffled.slice(0, 6);
+
+    return {
+      props: {
+        posts: selectedPosts,
+      },
+    };
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return { props: { posts: [] } };
+  }
 }
