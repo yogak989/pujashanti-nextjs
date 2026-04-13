@@ -78,7 +78,7 @@ export default function WebDesignPost({ post, latestPosts }) {
     <p style={{ fontSize: '0.9rem', color: '#666' }}>
       Konsultasi pembuatan website gratis via WhatsApp.
     </p>
-    <a href="https://wa.me/62812345678" style={styles.waButton}>
+    <a href="https://wa.me/6285737689037" style={styles.waButton}>
       Chat Sekarang
     </a>
   </div>
