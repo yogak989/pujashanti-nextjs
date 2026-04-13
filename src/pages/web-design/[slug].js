@@ -325,30 +325,40 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   try {
+    // 1. Ambil data post tunggal
     const post = await getWebDesignPost(params.slug);
+    
+    // 2. Ambil data untuk loop (Pastikan fungsi ini aman)
     const latestPostsData = await getWebDesignLandingData();
 
+    // Jika post tidak ditemukan di WP
     if (!post) {
       return { notFound: true };
     }
 
-    // Pastikan kita mengambil array nodes dengan benar
-    // Jika latestPostsData sudah berupa array, gunakan itu. 
-    // Jika masih objek GraphQL, ambil .webDesigns.nodes
-    const allNodes = latestPostsData?.webDesigns?.nodes || latestPostsData || [];
+    // 3. Normalisasi data latestPosts (Mencegah error .map)
+    // Kita ambil nodes-nya saja jika strukturnya GraphQL
+    const allNodes = latestPostsData?.webDesigns?.nodes || (Array.isArray(latestPostsData) ? latestPostsData : []);
     
-    // Pastikan allNodes adalah array sebelum di-shuffle
-    const shuffledNodes = Array.isArray(allNodes) ? shuffleArray(allNodes) : [];
+    // 4. Lakukan Shuffle hanya jika ada data
+    const shuffledNodes = allNodes.length > 0 ? shuffleArray(allNodes) : [];
 
     return {
       props: {
         post,
-        latestPosts: shuffledNodes,
+        latestPosts: JSON.parse(JSON.stringify(shuffledNodes)), // Pastikan data bersih untuk serialisasi
       },
       revalidate: 60,
     };
   } catch (error) {
-    console.error("Build Error di [slug]:", error);
-    return { notFound: true };
+    console.error("Error fetching data for slug:", params.slug, error);
+    // Jika error, jangan gagalkan build, tampilkan saja halaman tanpa latestPosts
+    return {
+      props: {
+        post: null,
+        latestPosts: [],
+      },
+      revalidate: 10,
+    };
   }
 }
