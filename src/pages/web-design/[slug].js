@@ -60,12 +60,15 @@ export default function WebDesignPost({ post, latestPosts }) {
             </div>
           </div>
                   <section className="related-projects">
-    <h3 className="section-title">More Web Design Projects</h3>
+    <h3 className="section-title">More Posts</h3>
     <div className="project-grid">
       {latestPosts && latestPosts.slice(0, 3).map((item) => (
         <a href={`/web-design/${item.slug}/`} key={item.slug} className="project-card">
           <div className="card-image">
-            <img src={item.featuredImage} alt={item.title} />
+            <img 
+  src={item.featured_image || item.featuredImage || 'https://via.placeholder.com/400x250?text=No+Image'} 
+  alt={item.title} 
+/>
           </div>
           <div className="card-info">
             <h4>{item.title}</h4>
