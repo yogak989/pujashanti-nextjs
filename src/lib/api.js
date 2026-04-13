@@ -93,6 +93,55 @@ export async function getTestLoopData() {
   `);
   return data?.webDesigns?.edges || [];
 }
+export async function getWebDesignPost(slug) {
+  const data = await fetchAPI(`
+    query GetWebDesignByUri($id: ID!) {
+      post(id: $id, idType: URI) {
+        title
+        content
+        date
+        slug
+        template {
+          ... on Template_SEOLandingPage {
+            templateName
+          }
+        }
+        featuredImage {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+        seo {
+          title
+          metaDesc
+        }
+      }
+    }
+  `, { 
+    variables: { 
+      id: `/web-design/${slug}/` 
+    } 
+  });
+  
+  if (data?.post) {
+    const post = data.post;
+    return {
+      title: post.title,
+      content: post.content,
+      date: post.date,
+      slug: post.slug,
+      templateName: post.template?.templateName || null,
+      featured_image: post.featuredImage?.node?.sourceUrl || null,
+      alt_text: post.featuredImage?.node?.altText || post.title,
+      seo_data: {
+        title: post.seo?.title || post.title,
+        description: post.seo?.metaDesc || "",
+      }
+    };
+  }
+  return null;
+}
 /**
  * Fungsi tambahan  membuat daftar sitemap (Opsional)
  */
