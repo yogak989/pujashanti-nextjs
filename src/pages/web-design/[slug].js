@@ -15,8 +15,17 @@ export default function WebDesignPost({ post }) {
   return (
     <>
       <Head>
-        <title>{post.seo_data.title}</title>
-        <meta name="description" content={post.seo_data.description} />
+       <title>{post.seo_data.title}</title>
+  <meta name="description" content={post.seo_data.description} />
+  
+  {/* Meta Bahasa Default */}
+  <meta name="language" content="id" />
+  <meta name="geo.region" content="ID" />
+  <meta name="geo.placename" content="Indonesia" />
+  <meta httpEquiv="content-language" content="id" />
+
+  {/* Canonical URL agar tidak dianggap konten duplikat */}
+  <link rel="canonical" href={`https://pujashanti.web.id/web-design/${post.slug}/`} />
       </Head>
 
       <Header />
