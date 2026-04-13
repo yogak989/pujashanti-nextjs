@@ -62,22 +62,23 @@ export default function WebDesignPost({ post, latestPosts }) {
                   <section className="related-projects">
     <h3 className="section-title">More Posts</h3>
     <div className="project-grid">
-      {latestPosts && latestPosts.slice(0, 3).map((item) => (
-        <a href={`/web-design/${item.slug}/`} key={item.slug} className="project-card">
-          <div className="card-image">
-                  {node.featuredImage?.node?.sourceUrl ? (
-                    <img src={node.featuredImage.node.sourceUrl} alt={node.title} />
-                  ) : (
-                    <div className="placeholder">No Image</div>
-                  )}
-                </div>
-          <div className="card-info">
-            <h4>{item.title}</h4>
-            <span>View Project →</span>
-          </div>
-        </a>
-      ))}
-    </div>
+  {latestPosts && latestPosts.slice(0, 3).map((item) => (
+    <a href={`/web-design/${item.slug}/`} key={item.slug} className="project-card">
+      <div className="card-image">
+        {/* Menggunakan struktur data GraphQL sesuai test-loop.js */}
+        {item.featuredImage?.node?.sourceUrl ? (
+          <img src={item.featuredImage.node.sourceUrl} alt={item.title} />
+        ) : (
+          <div className="placeholder" style={styles.placeholder}>No Image</div>
+        )}
+      </div>
+      <div className="card-info">
+        <h4>{item.title}</h4>
+        <span>View Project →</span>
+      </div>
+    </a>
+  ))}
+</div>
   </section>
         </main>
 
