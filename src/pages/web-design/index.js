@@ -118,7 +118,7 @@ export default function Home({ posts }) {
         <section style={{ 
           margin: '40px auto', // Auto di kiri-kanan agar ke tengah
           padding: '0 20px', 
-          maxWidth: '1050px', // Membatasi lebar maksimal di desktop
+          maxWidth: '1100px', // Membatasi lebar maksimal di desktop
         }}>
           <div className="showcase-container">
             <div className="showcase-content">
