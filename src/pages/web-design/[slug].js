@@ -65,11 +65,12 @@ export default function WebDesignPost({ post, latestPosts }) {
       {latestPosts && latestPosts.slice(0, 3).map((item) => (
         <a href={`/web-design/${item.slug}/`} key={item.slug} className="project-card">
           <div className="card-image">
-            <img 
-  src={item.featured_image || item.featuredImage || 'https://via.placeholder.com/400x250?text=No+Image'} 
-  alt={item.title} 
-/>
-          </div>
+                  {node.featuredImage?.node?.sourceUrl ? (
+                    <img src={node.featuredImage.node.sourceUrl} alt={node.title} />
+                  ) : (
+                    <div className="placeholder">No Image</div>
+                  )}
+                </div>
           <div className="card-info">
             <h4>{item.title}</h4>
             <span>View Project →</span>
