@@ -48,7 +48,7 @@ export default function WebDesignPost({ post, latestPosts }) {
             <div className="content-padding">
                 <h1 className="title">{post.title}</h1>
                <div className="meta">
-        <span>Editor: **Pujashanti**</span>
+        <span>Editor: Pujashanti</span>
         <span style={{ margin: '0 10px' }}>|</span>
         <span>Terbit: {formattedDate}</span>
                 </div>
