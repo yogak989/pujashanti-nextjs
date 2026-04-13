@@ -151,6 +151,26 @@ export default function WebDesignPost({ post, latestPosts }) {
           font-size: 1.1rem;
           color: #333;
         }
+        /* ISOLASI GAMBAR DALAM ARTIKEL */
+.entry-content img {
+  max-width: 100% !important; /* Gambar tidak akan pernah lebih lebar dari area teks */
+  height: auto !important;     /* Menjaga proporsi agar tidak gepeng */
+  display: block;              /* Menghilangkan spasi aneh di bawah gambar */
+  margin: 20px auto;           /* Membuat gambar otomatis di tengah */
+  border-radius: 8px;          /* Opsional: Biar sudutnya manis seperti layout kita */
+}
+
+/* Tambahan untuk figure (blok gambar Gutenberg) */
+.entry-content figure {
+  margin: 0 0 20px 0;
+  max-width: 100% !important;
+}
+
+/* Pastikan main container punya overflow hidden sebagai pengaman terakhir */
+main {
+  min-width: 0; 
+  overflow: hidden; 
+}
         .entry-content p { margin-bottom: 20px; }
         .related-projects {
   margin-top: 50px;
