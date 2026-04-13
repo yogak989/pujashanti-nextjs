@@ -88,7 +88,40 @@ export default function Home({ posts }) {
             )) : <p style={{ textAlign: 'center' }}>Belum ada artikel.</p>}
           </div>
         </section>
-
+      {/* CLOUDFLARE SHOWCASE */}
+        <section style={{ margin: '40px 0', padding: '0 10px' }}>
+          <div className="showcase-container">
+            <div className="showcase-content">
+              <div className="partner-badge">
+                <img src="https://pujashanti.web.id/wp-content/uploads/2026/03/Cloudflare_Logo.webp" alt="Cloudflare" style={{ height: '22px', width: 'auto' }} />
+                <span>Infrastructure Partner</span>
+              </div>
+              <h2>Mengapa Situs Web Anda Memerlukan Cloudflare?</h2>
+              <p>Pernahkah Anda bertanya-tanya bagaimana situs bisa tetap stabil dan instan di seluruh dunia? Jawabannya ada pada integrasi <strong>Cloudflare</strong>.</p>
+              <p><strong>PUJASHANTI</strong> merekomendasikan solusi ini karena memberikan perlindungan DDoS hingga Global CDN yang memangkas waktu muat secara drastis.</p>
+              <a href="/hubungi-kami/" className="btn-cta">Optimalkan Situs Saya →</a>
+            </div>
+            <div className="showcase-dark">
+              <h3 style={{ color: '#ed8936', marginBottom: '30px', borderLeft: '4px solid #ed8936', paddingLeft: '15px' }}>Benefit Utama:</h3>
+              <div style={{ display: 'grid', gap: '25px' }}>
+                <div className="benefit-item">
+                  <span className="icon">⚡</span>
+                  <div>
+                    <strong style={{ color: 'white' }}>Advanced Cache Rules</strong>
+                    <p style={{ color: '#cbd5e0', fontSize: '13.5px' }}>Menjaga server tetap stabil meski trafik melonjak tinggi.</p>
+                  </div>
+                </div>
+                <div className="benefit-item">
+                  <span className="icon">🛡️</span>
+                  <div>
+                    <strong style={{ color: 'white' }}>Keamanan DDoS</strong>
+                    <p style={{ color: '#cbd5e0', fontSize: '13.5px' }}>Menghalau bot berbahaya sebelum menyentuh server Anda.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         {/* CLOUDFLARE SHOWCASE & FAQ (Gunakan CSS yang sudah Anda buat di bawah) */}
       </main>
 
