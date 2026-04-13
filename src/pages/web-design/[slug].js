@@ -19,6 +19,9 @@ export default function WebDesignPost({ post, latestPosts }) {
       <Head>
         <title>{post.seo_data?.title || post.title}</title>
         <meta name="description" content={post.seo_data?.description || ""} />
+        {/* Meta Info Editor & Author */}
+        <meta name="author" content="Pujashanti" />
+        <meta name="editor" content="Pujashanti" />
         <meta name="language" content="id" />
         <meta name="geo.region" content="ID" />
         <meta name="geo.placename" content="Indonesia" />
@@ -44,8 +47,10 @@ export default function WebDesignPost({ post, latestPosts }) {
             
             <div className="content-padding">
                 <h1 className="title">{post.title}</h1>
-                <div className="meta">
-                    <span>Terbit: {formattedDate}</span>
+               <div className="meta">
+        <span>Editor: **Pujashanti**</span>
+        <span style={{ margin: '0 10px' }}>|</span>
+        <span>Terbit: {formattedDate}</span>
                 </div>
                 <hr className="line" />
                 <div 
