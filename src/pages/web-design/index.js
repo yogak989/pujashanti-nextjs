@@ -165,46 +165,100 @@ export default function Home() {
       <Footer />
 
       <style jsx>{`
+        /* 1. STAT CARD - Efek Melayang & Border Glow */
         .stat-card {
           background: #ffffff; padding: 30px; border-radius: 20px; text-align: center;
           box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
+          transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+          cursor: default;
         }
+        .stat-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+          border-color: #ed8936;
+        }
+
+        /* 2. BENEFIT BOX (Cloudflare) - Efek Glassmorphism Brightness */
         .benefit-box {
           background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+          transition: all 0.3s ease;
         }
+        .benefit-box:hover {
+          background: rgba(255,255,255,0.1);
+          transform: scale(1.02);
+          border-color: rgba(237, 137, 54, 0.5);
+        }
+
         .ps-service-grid {
           display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;
         }
+
+        /* 3. SERVICE CARD - Efek Border Bottom & Shadow */
         .ps-service-card {
           background: #ffffff; padding: 35px 25px; border-radius: 15px; border: 1px solid #e2e8f0;
+          transition: all 0.3s ease-in-out;
+          position: relative;
+          overflow: hidden;
         }
+        .ps-service-card:hover {
+          box-shadow: 0 15px 30px rgba(0,51,102,0.08);
+          border-color: #003366;
+          transform: translateY(-5px);
+        }
+
         .ps-icon-box {
           width: 60px; height: 60px; background: #003366; color: #ffffff; border-radius: 12px;
           display: flex; align-items: center; justify-content: center; margin-bottom: 25px; font-size: 24px; font-weight: bold;
+          transition: transform 0.3s ease;
         }
+        .ps-service-card:hover .ps-icon-box {
+          transform: rotate(10deg) scale(1.1);
+          background: #ed8936;
+        }
+
         .tag {
           display: inline-block; font-size: 10px; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px; margin-top: 15px; text-transform: uppercase;
+          transition: all 0.2s ease;
         }
+        .ps-service-card:hover .tag {
+          background: #003366;
+          color: #ffffff;
+        }
+
         .showcase-container {
           background: #ffffff; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden;
           box-shadow: 0 20px 40px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap;
+          transition: transform 0.5s ease;
         }
+
         .showcase-content {
           flex: 1.2; min-width: 320px; padding: 40px 30px; background: linear-gradient(to bottom right, #ffffff, #f7fafc);
         }
         .showcase-dark {
           flex: 1; min-width: 320px; background: #2d3748; padding: 40px;
         }
+
         .partner-badge { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
         .partner-badge span { background: #ebf8ff; color: #2b6cb0; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: bold; }
+
+        /* 4. BUTTON CTA - Efek Clickable & Glow */
         .btn-cta {
           display: inline-block; background: #2d3748; color: white; padding: 14px 30px; border-radius: 10px; text-decoration: none; font-weight: bold;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+        .btn-cta:hover {
+          background: #ed8936;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px rgba(237, 137, 54, 0.3);
+        }
+
         .benefit-item { display: flex; align-items: flex-start; gap: 15px; }
         .benefit-item .icon { background: rgba(237, 137, 54, 0.15); color: #ed8936; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; }
         
-        /* FAQ Simple */
-        .faq-item { margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; }
+        /* 5. FAQ - Efek Hover pada List */
+        .faq-item { margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; transition: all 0.2s ease; }
+        .faq-item:hover { border-color: #cbd5e0; background: #f1f5f9; }
         .faq-item summary { padding: 15px; cursor: pointer; font-weight: 600; color: #1e293b; outline: none; }
         .faq-content { padding: 15px; background: white; color: #475569; border-top: 1px solid #e2e8f0; }
         
