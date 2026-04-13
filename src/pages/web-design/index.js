@@ -2,6 +2,15 @@ import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 export const runtime = 'experimental-edge';
+async function fetchGraphQL(query) {
+  const res = await fetch('https://pujashanti.web.id/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+  });
+  const json = await res.json();
+  return json.data;
+}
 export default function Home({ posts }) {
   return (
     <>
