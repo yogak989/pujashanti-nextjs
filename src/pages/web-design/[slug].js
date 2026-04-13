@@ -28,42 +28,107 @@ export default function WebDesignPost({ post }) {
   <link rel="canonical" href={`https://pujashanti.web.id/web-design/${post.slug}/`} />
       </Head>
 
-      <Header />
+      <div style={styles.wrapper}>
+        {/* MAIN CONTENT (70%) */}
+        <main style={styles.main}>
+          <img 
+            src={post.featured_image} 
+            alt={post.title} 
+            style={styles.featuredImg} 
+          />
+          <h1 style={styles.title}>{post.title}</h1>
+          <div 
+            style={styles.content} 
+            dangerouslySetInnerHTML={{ __html: post.content }} 
+          />
+        </main>
 
-      <main className="container">
-        <article className="article-wrapper">
-          
-          {/* Label Template jika ada */}
-          {post.templateName && (
-            <span className="template-label">{post.templateName}</span>
-          )}
+        {/* SIDEBAR (30%) */}
+        <aside style={styles.sidebar}>
+          <h3 style={styles.sidebarTitle}>Latest Projects</h3>
+          <ul style={styles.list}>
+            {latestPosts.map((item) => (
+              <li key={item.slug} style={styles.listItem}>
+                <a href={`/web-design/${item.slug}/`} style={styles.link}>
+                  {item.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+    </>
+  );
+}
 
-          {/* Featured Image */}
-          {post.featured_image && (
-            <div className="featured-image-box">
-              <img src={post.featured_image} alt={post.alt_text} className="img-fluid" />
-            </div>
-          )}
+// --- JEMBATAN DATA ---
+export async function getStaticProps({ params }) {
+  const post = await getWebDesignPost(params.slug);
+  const latestPosts = await getWebDesignLandingData(); // Mengambil daftar terbaru
 
-          <div className="content-padding">
-            <h1 className="title">{post.title}</h1>
-            
-            <div className="meta">
-              <span>Oleh <strong>Admin Pujashanti</strong></span>
-              <span className="divider">|</span>
-              <span>{formattedDate}</span>
-            </div>
+  return {
+    props: {
+      post,
+      latestPosts: latestPosts.slice(0, 5), // Ambil 5 saja untuk sidebar
+    },
+    revalidate: 10,
+  };
+}
 
-            <hr className="line" />
+// --- STYLING ---
+const styles = {
+  wrapper: {
+    display: 'flex',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '20px',
+    gap: '40px', // Jarak antara konten dan sidebar
+    flexWrap: 'wrap', // Biar responsif di HP
+  },
+  main: {
+    flex: '0 0 70%', // Lebar 70%
+    minWidth: '300px',
+  },
+  sidebar: {
+    flex: '1', // Sisa 30%
+    minWidth: '250px',
+    padding: '20px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '8px',
+    height: 'fit-content',
+  },
+  featuredImg: {
+    width: '100%',
+    height: 'auto',
+    borderRadius: '12px',
+    marginBottom: '20px',
+  },
+  title: {
+    fontSize: '2.5rem',
+    marginBottom: '1rem',
+  },
+  sidebarTitle: {
+    borderBottom: '2px solid #333',
+    paddingBottom: '10px',
+    marginBottom: '15px',
+  },
+  list: {
+    listStyle: 'none',
+    padding: 0,
+  },
+  listItem: {
+    marginBottom: '12px',
+    borderBottom: '1px solid #eee',
+    paddingBottom: '8px',
+  },
+  link: {
+    textDecoration: 'none',
+    color: '#0070f3',
+    fontSize: '0.95rem',
+  }
+};
 
-            {/* Isi Artikel dari WordPress */}
-            <div 
-              className="entry-content"
-              dangerouslySetInnerHTML={{ __html: post.content }} 
-            />
-          </div>
-        </article>
-      </main>
+// Jangan lupa getStaticPaths tetap ada di bawah...
 
       <Footer />
 
