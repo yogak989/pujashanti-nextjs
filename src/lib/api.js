@@ -15,7 +15,7 @@ async function fetchAPI(query, { variables } = {}) {
 }
 
 /**
- * MENGAMBIL SINGLE POST (Untuk Halaman Detail)
+ * UNTUK HALAMAN DETAIL ([slug].js)
  */
 export async function getWebDesignPost(slug) {
   const data = await fetchAPI(`
@@ -47,7 +47,6 @@ export async function getWebDesignPost(slug) {
       slug: post.slug,
       featured_image: post.featuredImage?.node?.sourceUrl || null,
       seo_data: {
-        // Logika Fallback: Pakai Rank Math, kalau kosong pakai Title WP
         title: post.rankMathTitle || post.title,
         description: post.rankMathDescription || "",
       }
@@ -57,7 +56,35 @@ export async function getWebDesignPost(slug) {
 }
 
 /**
- * MENGAMBIL LIST POST (Untuk Landing Page / Loop Test)
+ * UNTUK HALAMAN TEST LOOP (test-loop.js)
+ * Ini fungsi yang tadi hilang dan bikin build gagal
+ */
+export async function getTestLoopData() {
+  const data = await fetchAPI(`
+    query TestLoopWebDesign {
+      webDesigns(first: 20) {
+        edges {
+          node {
+            id
+            title
+            slug
+            excerpt
+            date
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+  return data?.webDesigns?.edges || [];
+}
+
+/**
+ * UNTUK LANDING PAGE UTAMA
  */
 export async function getWebDesignLandingData() {
   const data = await fetchAPI(`
@@ -68,7 +95,6 @@ export async function getWebDesignLandingData() {
           slug
           excerpt
           date
-          rankMathDescription
           featuredImage {
             node {
               sourceUrl
@@ -82,7 +108,7 @@ export async function getWebDesignLandingData() {
 }
 
 /**
- * UNTUK GENERATE PATH (Sitemap/Build)
+ * UNTUK GENERATE PATHS
  */
 export async function getAllWebDesignSlugs() {
   const data = await fetchAPI(`
