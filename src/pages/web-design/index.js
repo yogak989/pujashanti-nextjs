@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 export const runtime = 'experimental-edge';
-export default function Home() {
+export default function Home({ posts }) {
   return (
     <>
       <Head>
@@ -138,7 +138,38 @@ export default function Home() {
             </div>
           </div>
         </section>
-
+        {/* SECTION ARTIKEL TERBARU */}
+<section style={{ padding: '60px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+  <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+    <h2 style={{ color: '#003366', fontSize: '2.1rem', fontWeight: '800' }}>Inspirasi & Insights</h2>
+    <div style={{ width: '50px', height: '3px', background: '#ed8936', margin: '15px auto' }}></div>
+  </div>
+  
+  <div className="post-grid">
+    {posts && posts.length > 0 ? (
+      posts.map((post) => (
+        <Link href={`/web-design/${post.slug}`} key={post.id} className="post-card">
+          <div className="post-content">
+            <span className="post-date">
+              {new Date(post.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+            </span>
+            {/* GraphQL menggunakan .title langsung */}
+            <h3 dangerouslySetInnerHTML={{ __html: post.title }} />
+            <div 
+              className="post-excerpt" 
+              dangerouslySetInnerHTML={{ __html: post.excerpt?.substring(0, 100).replace(/<[^>]*>?/gm, '') + '...' }} 
+            />
+            <span className="read-more">Baca Selengkapnya →</span>
+          </div>
+        </Link>
+      ))
+    ) : (
+      <div style={{ textAlign: 'center', gridColumn: '1/-1', padding: '40px', color: '#a0aec0' }}>
+        <p>Sedang memuat inspirasi desain...</p>
+      </div>
+    )}
+  </div>
+</section>
         {/* FAQ SECTION */}
         <section className="ps-faq-section">
             <h2 style={{ textAlign: 'center', color: '#003366', marginBottom: '30px' }}>Pertanyaan Seputar Optimasi Web</h2>
@@ -166,6 +197,76 @@ export default function Home() {
 
       <style jsx>{`
         /* 1. STAT CARD - Efek Melayang & Border Glow */
+        /* GRID ARTIKEL */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+/* CARD ARTIKEL */
+.post-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.post-card:hover {
+  transform: translateY(-8px);
+  border-color: #ed8936;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.post-content {
+  padding: 30px;
+}
+
+.post-date {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ed8936;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.post-content h3 {
+  margin: 15px 0;
+  color: #2d3748;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.post-card:hover h3 {
+  color: #003366;
+}
+
+.post-excerpt {
+  color: #718096;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.read-more {
+  font-weight: 800;
+  color: #003366;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  transition: gap 0.3s ease;
+}
+
+.post-card:hover .read-more {
+  gap: 8px; /* Efek panah bergeser sedikit saat hover */
+  color: #ed8936;
+}
         .stat-card {
           background: #ffffff; padding: 30px; border-radius: 20px; text-align: center;
           box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
@@ -268,4 +369,34 @@ export default function Home() {
       `}</style>
     </>
   );
+}
+export async function getStaticProps() {
+  try {
+    const data = await fetchGraphQL(`
+      query GetWebDesignPosts {
+        webDesigns(first: 20) {
+          nodes {
+            id
+            title
+            slug
+            date
+            excerpt
+          }
+        }
+      }
+    `);
+
+    const allNodes = data?.webDesigns?.nodes || [];
+    const shuffled = allNodes.sort(() => Math.random() - 0.5).slice(0, 6);
+
+    return {
+      props: {
+        posts: JSON.parse(JSON.stringify(shuffled)),
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.error("GraphQL Error:", error);
+    return { props: { posts: [] }, revalidate: 10 };
+  }
 }
