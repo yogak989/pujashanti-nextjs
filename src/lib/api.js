@@ -18,14 +18,15 @@ async function fetchAPI(query, { variables } = {}) {
 
   if (json.errors) {
     console.error('GraphQL Errors:', json.errors);
-    throw new Error('Gagal mengambil data dari API WordPress');
+    // Kita return null agar build tidak langsung crash saat satu data bermasalah
+    return null; 
   }
 
   return json.data;
 }
 
 /**
- * Mengambil daftar semua post Web Design (untuk Landing Page)
+ * Mengambil daftar post Web Design untuk Landing Page
  */
 export async function getWebDesignLandingData() {
   const data = await fetchAPI(`
@@ -36,63 +37,21 @@ export async function getWebDesignLandingData() {
           slug
           excerpt
           date
-        }
-      }
-    }
-  `);
-  // WPGraphQL terkadang mengembalikan data dalam 'posts' jika CPT tidak terdaftar khusus
-  return data?.posts?.nodes || [];
-}
-
-/**
- * Mengambil detail satu post Web Design berdasarkan Slug
- * Menggunakan idType: URI agar lebih akurat dengan struktur /web-design/slug
- */
-export async function getWebDesignPost(slug) {
-  const data = await fetchAPI(`
-    query GetWebDesignByUri($id: ID!) {
-      post(id: $id, idType: URI) {
-        title
-        content
-        date
-        databaseId
-        slug
-      }
-    }
-  `, { 
-    variables: { 
-      // Kita pastikan format ID sesuai dengan URI di WordPress
-      id: `/web-design/${slug}/` 
-    } 
-  });
-  
-  return data?.post;
-}
-
-// Tambahkan ini di src/lib/api.js
-
-export async function getTestLoopData() {
-  const data = await fetchAPI(`
-    query TestLoopWebDesign {
-      webDesigns(first: 10) {
-        edges {
-          node {
-            id
-            title
-            slug
-            excerpt
-            featuredImage {
-              node {
-                sourceUrl
-              }
+          featuredImage {
+            node {
+              sourceUrl
             }
           }
         }
       }
     }
   `);
-  return data?.webDesigns?.edges || [];
+  return data?.posts?.nodes || [];
 }
+
+/**
+ * Mengambil detail satu post Web Design (Versi Lengkap dengan Template & SEO)
+ */
 export async function getWebDesignPost(slug) {
   const data = await fetchAPI(`
     query GetWebDesignByUri($id: ID!) {
@@ -142,8 +101,35 @@ export async function getWebDesignPost(slug) {
   }
   return null;
 }
+
 /**
- * Fungsi tambahan  membuat daftar sitemap (Opsional)
+ * Fungsi Eksperimen Loop (Menggunakan webDesigns edges)
+ */
+export async function getTestLoopData() {
+  const data = await fetchAPI(`
+    query TestLoopWebDesign {
+      webDesigns(first: 10) {
+        edges {
+          node {
+            id
+            title
+            slug
+            excerpt
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+  return data?.webDesigns?.edges || [];
+}
+
+/**
+ * Fungsi untuk daftar sitemap
  */
 export async function getAllWebDesignSlugs() {
   const data = await fetchAPI(`
