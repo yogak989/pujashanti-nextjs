@@ -10,14 +10,3 @@ const nextConfig = {
   },
 }
 module.exports = nextConfig
-module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: '/web_design-sitemap.xml',
-        // Ganti dengan IP atau domain asli hosting WordPress Om jika berbeda
-        destination: 'https://pujashanti.web.id/web_design-sitemap.xml', 
-      },
-    ]
-  },
-}
