@@ -151,15 +151,11 @@ const styles = {
     flexWrap: 'wrap', // Ini sudah benar untuk membuat sidebar turun
   },
   main: {
-    // Ubah bagian ini agar di mobile bisa full width
-    flex: '1', 
-    minWidth: '300px', // Mencegah konten terlalu ciut
+    flex: '1 1 700px', // Angka 700px ini adalah "titik pecah" (breakpoint)
     maxWidth: '100%',
   },
   sidebar: {
-    // Jika di desktop ingin 30%, kita beri flex-basis yang lebih kecil
-    flex: '0 0 300px', 
-    minWidth: '280px',
+    flex: '1 1 300px', // Sidebar akan mencoba 300px, tapi bisa melar (flex-grow: 1)
     padding: '25px',
     backgroundColor: '#fff',
     borderRadius: '12px',
