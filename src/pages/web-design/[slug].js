@@ -202,7 +202,19 @@ export default function WebDesignPost({ post, latestPosts }) {
   color: #b38b4d;
   font-weight: 600;
 }
-
+/* Mencegah blok kode meluap */
+.entry-content pre, 
+.entry-content code {
+  white-space: pre-wrap;       /* Supaya teks otomatis turun ke bawah (wrap) */
+  word-wrap: break-word;       /* Memotong kata yang terlalu panjang */
+  word-break: break-all;       /* Tambahan antisipasi untuk URL panjang */
+  overflow-x: auto;            /* Kalau tetap mau ada scroll horizontal jika sangat lebar */
+  background: #f4f4f4;         /* Opsional: Biar kontras dengan background utama */
+  padding: 15px;
+  border-radius: 8px;
+  max-width: 100%;             /* Mengunci agar tidak lebih dari kontainer main */
+  display: block;              /* Memastikan blok code punya ruang sendiri */
+}
 @media (max-width: 600px) {
   .project-grid {
     grid-template-columns: 1fr; /* Full width di HP */
