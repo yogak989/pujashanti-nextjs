@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <>
-      {/* SECTION NORTON / SAFETY (Sesuai HTML Pertama) */}
+      {/* SECTION NORTON / SAFETY */}
       <section className="norton-safety">
         <div className="safety-content">
           <a href="https://safeweb.norton.com/report/show?url=pujashanti.web.id" target="_blank" rel="nofollow noopener">
@@ -16,7 +16,22 @@ export default function Footer() {
         </div>
       </section>
 
-      {/* MAIN FOOTER (Sesuai HTML Kedua) */}
+      {/* NEW: INFO BOX GRID (Next.js & WordPress) */}
+      <section className="ps-engine-info">
+        <div className="info-box-grid">
+          <div className="info-box-item">
+            <span className="info-label">Framework</span>
+            <h4 className="info-value">Built with <strong>Next.js</strong></h4>
+          </div>
+          <div className="info-divider"></div>
+          <div className="info-box-item">
+            <span className="info-label">Backend</span>
+            <h4 className="info-value">Powered by <strong>WordPress</strong></h4>
+          </div>
+        </div>
+      </section>
+
+      {/* MAIN FOOTER */}
       <footer className="ps-footer-seo">
         <div className="ps-footer-container">
           
@@ -46,7 +61,7 @@ export default function Footer() {
 
         <div className="ps-footer-bottom">
           <div className="ps-footer-container">
-            <p>&copy; 2026 PujaShanti. Made with ❤️ in Bali. Semua hak cipta dilindungi.</p>
+            <p>&copy; {new Date().getFullYear()} PujaShanti. Made with ❤️ in Bali. Semua hak cipta dilindungi.</p>
           </div>
         </div>
       </footer>
@@ -66,6 +81,47 @@ export default function Footer() {
           color: #006400;
           font-weight: bold;
           margin-top: 5px;
+        }
+
+        /* NEW ENGINE INFO BOX */
+        .ps-engine-info {
+          max-width: 1140px;
+          margin: 0 auto 40px;
+          padding: 0 20px;
+        }
+        .info-box-grid {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #fff;
+          border: 1px solid #e2e8f0;
+          border-radius: 12px;
+          padding: 25px;
+          gap: 20px;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .info-box-item {
+          flex: 1;
+          text-align: center;
+        }
+        .info-label {
+          display: block;
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          color: #64748b;
+          margin-bottom: 5px;
+        }
+        .info-value {
+          margin: 0;
+          font-size: 1rem;
+          color: #1e293b;
+          font-weight: 400;
+        }
+        .info-divider {
+          width: 1px;
+          height: 30px;
+          background: #e2e8f0;
         }
 
         /* MAIN FOOTER WRAPPER */
@@ -159,6 +215,8 @@ export default function Footer() {
           .ps-footer-container { text-align: center; }
           .ps-footer-widget h3::after { left: 50%; transform: translateX(-50%); }
           .ps-footer-links a:hover { padding-left: 0; }
+          .info-divider { display: none; }
+          .info-box-grid { flex-direction: column; gap: 15px; }
         }
       `}</style>
     </>
