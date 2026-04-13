@@ -59,6 +59,22 @@ export default function WebDesignPost({ post, latestPosts }) {
                 />
             </div>
           </div>
+                  <section className="related-projects">
+    <h3 className="section-title">More Web Design Projects</h3>
+    <div className="project-grid">
+      {latestPosts && latestPosts.slice(0, 3).map((item) => (
+        <a href={`/web-design/${item.slug}/`} key={item.slug} className="project-card">
+          <div className="card-image">
+            <img src={item.featuredImage} alt={item.title} />
+          </div>
+          <div className="card-info">
+            <h4>{item.title}</h4>
+            <span>View Project →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
         </main>
 
         {/* SIDEBAR (30%) */}
@@ -131,7 +147,62 @@ export default function WebDesignPost({ post, latestPosts }) {
           color: #333;
         }
         .entry-content p { margin-bottom: 20px; }
-        
+        .related-projects {
+  margin-top: 50px;
+  padding: 20px 0;
+}
+.section-title {
+  font-size: 1.5rem;
+  color: #1a3a5a;
+  margin-bottom: 25px;
+  font-weight: 700;
+}
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+.project-card {
+  text-decoration: none;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+}
+.card-image {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+}
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card-info {
+  padding: 15px;
+}
+.card-info h4 {
+  font-size: 1rem;
+  color: #333;
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+.card-info span {
+  font-size: 0.85rem;
+  color: #b38b4d;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .project-grid {
+    grid-template-columns: 1fr; /* Full width di HP */
+  }
+}
         @media (max-width: 768px) {
           .title { font-size: 1.8rem; }
           .content-padding { padding: 20px; }
