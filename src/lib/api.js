@@ -69,6 +69,30 @@ export async function getWebDesignPost(slug) {
   return data?.post;
 }
 
+// Tambahkan ini di src/lib/api.js
+
+export async function getTestLoopData() {
+  const data = await fetchAPI(`
+    query TestLoopWebDesign {
+      webDesigns(first: 10) {
+        edges {
+          node {
+            id
+            title
+            slug
+            excerpt
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+  return data?.webDesigns?.edges || [];
+}
 /**
  * Fungsi tambahan  membuat daftar sitemap (Opsional)
  */
