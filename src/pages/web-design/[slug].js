@@ -68,6 +68,15 @@ export default function WebDesignPost({ post, latestPosts }) {
               </li>
             ))}
           </ul>
+              <div style={{ marginTop: '40px' }}>
+    <h3 style={styles.sidebarTitle}>Butuh Bantuan?</h3>
+    <p style={{ fontSize: '0.9rem', color: '#666' }}>
+      Konsultasi pembuatan website gratis via WhatsApp.
+    </p>
+    <a href="https://wa.me/62812345678" style={styles.waButton}>
+      Chat Sekarang
+    </a>
+  </div>
         </aside>
       </div>
 
