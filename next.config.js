@@ -10,13 +10,13 @@ const nextConfig = {
   },
 }
 module.exports = nextConfig
-// Contoh di next.config.js
 module.exports = {
   async rewrites() {
     return [
       {
-        source: '/:path*.xml',
-        destination: 'https://pujashanti.web.id/:path*.xml', // Pastikan mengarah ke backend WP asli
+        source: '/web_design-sitemap.xml',
+        // Ganti dengan IP atau domain asli hosting WordPress Om jika berbeda
+        destination: 'https://pujashanti.web.id/web_design-sitemap.xml', 
       },
     ]
   },
