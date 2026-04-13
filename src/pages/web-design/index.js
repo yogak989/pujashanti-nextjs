@@ -370,6 +370,7 @@ export default function Home({ posts }) {
     </>
   );
 }
+// 3. getStaticProps (WAJIB DI PALING BAWAH)
 export async function getStaticProps() {
   try {
     const data = await fetchGraphQL(`
