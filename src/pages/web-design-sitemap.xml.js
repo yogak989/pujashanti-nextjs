@@ -1,5 +1,5 @@
 const EXTERNAL_DATA_URL = 'https://pujashanti.web.id/web-design';
-
+export const runtime = 'experimental-edge';
 function generateSiteMap(posts) {
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
