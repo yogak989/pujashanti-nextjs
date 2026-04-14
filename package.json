@@ -2,7 +2,6 @@
   "name": "pujashanti-nextjs",
   "version": "1.0.0",
   "private": true,
-
   "scripts": {
    "dev": "next dev",
     "build": "node generate-sitemap.js && next build",
