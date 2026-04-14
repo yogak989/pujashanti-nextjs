@@ -2,13 +2,14 @@
   "name": "pujashanti-nextjs",
   "version": "1.0.0",
   "private": true,
+
   "scripts": {
-    "dev": "next dev",
-    "build": "node scripts/generate-sitemap.js && next build",
+   "dev": "next dev",
+    "build": "node generate-sitemap.js && next build",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "node scripts/generate-sitemap.js && npx @cloudflare/next-on-pages"
-  },
+    "pages:build": "node generate-sitemap.js && npx @cloudflare/next-on-pages"  },
+   
   "dependencies": {
     "next": "15.1.0",
     "react": "^18.2.0",
