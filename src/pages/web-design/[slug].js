@@ -1,9 +1,16 @@
-import { getWebDesignPost, getWebDesignLandingData, getAllWebDesignSlugs } from '../../lib/api';
+// Gabungkan semua dalam satu baris import agar tidak bentrok
+import { 
+  getWebDesignPost, 
+  getWebDesignLandingData, 
+  getAllWebDesignSlugs, 
+  getCommentsByPostId 
+} from '../../lib/api';
+
 import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { getWebDesignPost, getCommentsByPostId } from '../../lib/api';
 import CommentSection from '../../components/CommentSection';
+
 export const runtime = 'experimental-edge';
 
 // --- FUNGSI PENGACAK (Fisher-Yates Shuffle) ---
@@ -329,52 +336,44 @@ export async function getStaticProps({ params }) {
   try {
     // 1. Ambil data post tunggal
     const post = await getWebDesignPost(params.slug);
-    
-    // 2. Ambil data untuk loop (Pastikan fungsi ini aman)
-    const latestPostsData = await getWebDesignLandingData();
 
-    // Jika post tidak ditemukan di WP
+    // Jika post tidak ditemukan, langsung return 404
     if (!post) {
       return { notFound: true };
     }
 
+    // 2. Ambil data untuk loop/sidebar & data Komentar secara bersamaan
+    // Menggunakan Promise.all agar fetch data lebih cepat (paralel)
+    const [latestPostsData, comments] = await Promise.all([
+      getWebDesignLandingData(),
+      getCommentsByPostId(post.databaseId)
+    ]);
+
     // 3. Normalisasi data latestPosts (Mencegah error .map)
-    // Kita ambil nodes-nya saja jika strukturnya GraphQL
     const allNodes = latestPostsData?.webDesigns?.nodes || (Array.isArray(latestPostsData) ? latestPostsData : []);
     
-    // 4. Lakukan Shuffle hanya jika ada data
+    // 4. Lakukan Shuffle (Pastikan fungsi shuffleArray sudah didefinisikan di luar atau diimport)
     const shuffledNodes = allNodes.length > 0 ? shuffleArray(allNodes) : [];
 
     return {
       props: {
         post,
-        latestPosts: JSON.parse(JSON.stringify(shuffledNodes)), // Pastikan data bersih untuk serialisasi
+        comments: comments || [],
+        latestPosts: JSON.parse(JSON.stringify(shuffledNodes)), 
       },
       revalidate: 60,
     };
   } catch (error) {
     console.error("Error fetching data for slug:", params.slug, error);
-    // Jika error, jangan gagalkan build, tampilkan saja halaman tanpa latestPosts
     return {
       props: {
         post: null,
+        comments: [],
         latestPosts: [],
       },
       revalidate: 10,
     };
   }
 }
-export async function getStaticProps({ params }) {
-  const post = await getWebDesignPost(params.slug);
-  
-  // Ambil komentar berdasarkan databaseId postingan
-  const comments = post ? await getCommentsByPostId(post.databaseId) : [];
 
-  return {
-    props: {
-      post,
-      comments,
-    },
-    revalidate: 60, // Update setiap 60 detik (ISR)
-  };
-}
+// HAPUS FUNGSI GETSTATICPROPS YANG KEDUA (YANG DI BAWAH TADI)
