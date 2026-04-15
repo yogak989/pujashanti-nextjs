@@ -15,12 +15,76 @@ async function fetchAPI(query, { variables } = {}) {
 }
 
 /**
+ * MUTASI: MENGIRIM KOMENTAR BARU
+ */
+export async function submitComment({ author, authorEmail, content, commentOn }) {
+  const data = await fetchAPI(`
+    mutation CREATE_COMMENT(
+      $author: String!,
+      $authorEmail: String!,
+      $content: String!,
+      $commentOn: Int!
+    ) {
+      createComment(input: {
+        author: $author,
+        authorEmail: $authorEmail,
+        content: $content,
+        commentOn: $commentOn
+      }) {
+        success
+        comment {
+          id
+          date
+          content
+        }
+      }
+    }
+  `, {
+    variables: {
+      author,
+      authorEmail,
+      content,
+      commentOn
+    }
+  });
+
+  return data?.createComment;
+}
+
+/**
+ * QUERY: MENGAMBIL DAFTAR KOMENTAR PER POSTINGAN
+ */
+export async function getCommentsByPostId(databaseId) {
+  const data = await fetchAPI(`
+    query GetComments($contentId: ID!) {
+      comments(where: {contentId: $contentId, orderby: COMMENT_DATE, order: ASC}) {
+        nodes {
+          id
+          date
+          content
+          author {
+            node {
+              name
+            }
+          }
+        }
+      }
+    }
+  `, {
+    variables: { contentId: databaseId.toString() }
+  });
+
+  return data?.comments?.nodes || [];
+}
+
+/**
  * UNTUK HALAMAN DETAIL ([slug].js)
  */
 export async function getWebDesignPost(slug) {
   const data = await fetchAPI(`
     query GetWebDesignByUri($id: ID!) {
       webDesign(id: $id, idType: URI) {
+        databaseId
         title
         content
         date
@@ -41,6 +105,7 @@ export async function getWebDesignPost(slug) {
   if (data?.webDesign) {
     const post = data.webDesign;
     return {
+      databaseId: post.databaseId, // Diperlukan untuk mapping komentar
       title: post.title,
       content: post.content,
       date: post.date,
@@ -57,7 +122,6 @@ export async function getWebDesignPost(slug) {
 
 /**
  * UNTUK HALAMAN TEST LOOP (test-loop.js)
- * Ini fungsi yang tadi hilang dan bikin build gagal
  */
 export async function getTestLoopData() {
   const data = await fetchAPI(`
