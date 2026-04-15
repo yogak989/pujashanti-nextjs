@@ -1,65 +1,89 @@
 const fs = require('fs');
+const path = require('path');
 
-async function generate() {
-  const query = `
-    query GetSitemapPosts {
-      webDesigns(first: 100) {
-        nodes {
-          slug
-          date
-        }
-      }
-    }
-  `;
+// Ganti URL ini dengan URL domain Next.js Anda
+const SITE_URL = 'https://pujashanti.web.id'; 
 
-  console.log('⏳ Mengambil data dari WordPress untuk Sitemap...');
+async function generateSitemap() {
+  console.log('⏳ Mengambil data dari WordPress untuk sitemap...');
+  
+  // Ambil API URL dari environment variable
+  const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
+
+  if (!API_URL) {
+    console.error('❌ Error: NEXT_PUBLIC_WORDPRESS_API_URL tidak ditemukan.');
+    return;
+  }
 
   try {
-    const response = await fetch('https://pujashanti.web.id/graphql', {
+    const response = await fetch(API_URL, {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      },
-      body: JSON.stringify({ query }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `
+          query AllWebDesignSlugs {
+            webDesigns(first: 100) {
+              nodes {
+                slug
+                date
+              }
+            }
+          }
+        `,
+      }),
     });
 
-    // Ambil teks mentah dulu untuk validasi
-    const rawText = await response.text();
-
-    // Validasi apakah respon berisi HTML bukannya JSON
-    if (rawText.trim().startsWith('<html') || rawText.trim().startsWith('<!DOCTYPE')) {
-      throw new Error('WordPress mengembalikan HTML (mungkin diblokir firewall atau salah URL). Pastikan endpoint GraphQL publik.');
+    const contentType = response.headers.get("content-type");
+    
+    // Proteksi jika yang kembali adalah HTML (error 403/404) bukan JSON
+    if (!contentType || !contentType.includes("application/json")) {
+      const errorText = await response.text();
+      console.error('❌ WordPress mengembalikan HTML (bukan JSON). Cek URL atau Firewall.');
+      console.log('Respon singkat:', errorText.substring(0, 150));
+      return; 
     }
 
-    const json = JSON.parse(rawText);
+    const json = await response.json();
     const posts = json.data?.webDesigns?.nodes || [];
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://pujashanti.web.id/web-design</loc>
-        <lastmod>${new Date().toISOString()}</lastmod>
+        <loc>${SITE_URL}</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
     </url>
-    ${posts.map(post => `
     <url>
-        <loc>https://pujashanti.web.id/web-design/${post.slug}</loc>
-        <lastmod>${post.date ? new Date(post.date).toISOString() : new Date().toISOString()}</lastmod>
-    </url>`).join('')}
+        <loc>${SITE_URL}/web-design</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    ${posts
+      .map((post) => {
+        return `
+    <url>
+        <loc>${SITE_URL}/web-design/${post.slug}</loc>
+        <lastmod>${new Date(post.date).toISOString()}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>`;
+      })
+      .join('')}
 </urlset>`;
 
-    // Pastikan folder public ada
-    if (!fs.existsSync('public')) {
-      fs.mkdirSync('public');
+    // Tulis file ke folder public
+    const publicDir = path.join(process.cwd(), 'public');
+    if (!fs.existsSync(publicDir)) {
+      fs.mkdirSync(publicDir);
     }
+    
+    fs.writeFileSync(path.join(publicDir, 'web-design-sitemap.xml'), sitemap);
+    console.log('✅ Berhasil! web-design-sitemap.xml telah dibuat.');
 
-    fs.writeFileSync('public/web-design-sitemap.xml', sitemap);
-    console.log('✅ Sitemap generated successfully!');
   } catch (error) {
-    console.error('⚠️ Peringatan Sitemap:', error.message);
-    console.log('💡 Melanjutkan build tanpa sitemap baru agar CSS tetap ter-deploy...');
-    // Kita tidak menggunakan process.exit(1) agar build Next.js tetap berjalan
+    console.error('❌ Terjadi kesalahan saat generate sitemap:', error.message);
+    // Kita tidak menggunakan throw error agar build Next.js di Cloudflare tidak gagal
   }
 }
 
-generate();
+generateSitemap();
