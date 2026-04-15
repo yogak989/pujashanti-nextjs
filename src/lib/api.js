@@ -41,16 +41,15 @@ export async function submitComment({ author, authorEmail, content, commentOn })
     }
   `, {
     variables: {
-      author,
-      authorEmail,
-      content,
-      commentOn
+      author: String(author),      // Memastikan nama adalah String
+      authorEmail: String(authorEmail), // Memastikan email adalah String
+      content: content,
+      commentOn: parseInt(commentOn) // WAJIB: Memastikan ID adalah Integer (angka), bukan string
     }
   });
 
   return data?.createComment;
 }
-
 /**
  * QUERY: MENGAMBIL DAFTAR KOMENTAR PER POSTINGAN
  */
