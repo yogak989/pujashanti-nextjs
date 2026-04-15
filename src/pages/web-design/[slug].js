@@ -2,7 +2,8 @@ import { getWebDesignPost, getWebDesignLandingData, getAllWebDesignSlugs } from 
 import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-
+import { getWebDesignPost, getCommentsByPostId } from '../../lib/api';
+import CommentSection from '../../components/CommentSection';
 export const runtime = 'experimental-edge';
 
 // --- FUNGSI PENGACAK (Fisher-Yates Shuffle) ---
@@ -15,7 +16,7 @@ function shuffleArray(array) {
   return newArr;
 }
 
-export default function WebDesignPost({ post, latestPosts }) {
+export default function WebDesignPost({ post, comments, latestPosts }) {
   if (!post) return <div style={{ textAlign: 'center', padding: '100px' }}>Memuat halaman...</div>;
 
   const formattedDate = new Date(post.date).toLocaleDateString('id-ID', {
@@ -94,6 +95,7 @@ export default function WebDesignPost({ post, latestPosts }) {
                 </a>
               ))}
             </div>
+                <CommentSection postId={post.databaseId} initialComments={comments} />
           </section>
         </main>
 
@@ -361,4 +363,18 @@ export async function getStaticProps({ params }) {
       revalidate: 10,
     };
   }
+}
+export async function getStaticProps({ params }) {
+  const post = await getWebDesignPost(params.slug);
+  
+  // Ambil komentar berdasarkan databaseId postingan
+  const comments = post ? await getCommentsByPostId(post.databaseId) : [];
+
+  return {
+    props: {
+      post,
+      comments,
+    },
+    revalidate: 60, // Update setiap 60 detik (ISR)
+  };
 }
