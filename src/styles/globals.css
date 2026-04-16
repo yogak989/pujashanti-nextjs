@@ -375,6 +375,40 @@ body {
   letter-spacing: 1px;
 }
 
+/* GAYA TABEL */
+.entry-content table {
+  display: block; /* Mengubah tabel menjadi blok agar bisa di-scroll */
+  width: 100%;
+  overflow-x: auto; /* Aktifkan scroll horizontal jika tabel lebar */
+  -webkit-overflow-scrolling: touch; /* Scroll halus di mobile */
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.entry-content th {
+  background-color: #f8fafc;
+  color: #1e3a8a;
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap; /* Mencegah teks header turun ke bawah */
+}
+
+.entry-content td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #475569;
+  min-width: 120px; /* Memberi ruang agar kolom tidak penyet */
+}
+
+/* Warna selang-seling */
+.entry-content tr:nth-child(even) {
+  background-color: #fcfcfc;
+}
+
 footer ins.adsbygoogle {
   display: none !important;
 }
