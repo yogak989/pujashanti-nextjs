@@ -173,6 +173,100 @@ body {
   font-size: 0.9em !important;
 }
 
+/* CONTAINER UTAMA */
+.ps-faq-accordion {
+  margin: 3rem 0;
+  padding: 1.5rem;
+  background-color: #fcfdfe;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+/* JUDUL FAQ */
+.ps-faq-accordion h3 {
+  color: #1e3a8a !important;
+  font-size: 1.4rem !important;
+  margin-bottom: 1.5rem !important;
+  text-align: center;
+  border-bottom: 2px solid #2563eb;
+  display: inline-block !important;
+  padding-bottom: 5px;
+}
+
+/* STYLE DETAILS (SETIAP BARIS) */
+.ps-faq-accordion details {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.ps-faq-accordion details[open] {
+  border-color: #2563eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* STYLE SUMMARY (PERTANYAAN) */
+.ps-faq-accordion summary {
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  list-style: none; /* Menghilangkan segitiga bawaan browser */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  outline: none;
+  user-select: none;
+}
+
+/* Menghilangkan segitiga bawaan di Safari/Chrome */
+.ps-faq-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+/* IKON PLUS (+) */
+.ps-faq-accordion .plus-icon {
+  color: #2563eb;
+  font-size: 1.4rem;
+  font-weight: 300;
+  transition: transform 0.3s ease;
+}
+
+/* EFEK SAAT TERBUKA */
+.ps-faq-accordion details[open] summary {
+  color: #2563eb;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ps-faq-accordion details[open] .plus-icon {
+  transform: rotate(45deg); /* Berubah jadi tanda silang (x) saat buka */
+  color: #dc2626;
+}
+
+/* STYLE FAQ-CONTENT (JAWABAN) */
+.ps-faq-accordion .faq-content {
+  padding: 1.25rem;
+  line-height: 1.7;
+  color: #4b5563;
+  font-size: 1.05rem;
+  background-color: #f8fafc;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Styling tambahan untuk elemen di dalam jawaban */
+.ps-faq-accordion .faq-content code {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.ps-faq-accordion .faq-content strong {
+  color: #1e293b;
+}
+
 footer ins.adsbygoogle {
   display: none !important;
 }
