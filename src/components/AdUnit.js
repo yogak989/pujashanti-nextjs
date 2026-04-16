@@ -7,7 +7,7 @@ export default function AdUnit({ slot }) {
       if (window.adsenseLoaded) return; // Mencegah pemuatan ganda
 
       const script = document.createElement('script');
-      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"; // GANTI DENGAN ID ANDA
+      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4663862602910608"; // GANTI DENGAN ID ANDA
       script.async = true;
       script.crossOrigin = "anonymous";
       document.head.appendChild(script);
