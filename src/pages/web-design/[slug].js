@@ -36,6 +36,41 @@ export default function WebDesignPost({ post, comments, latestPosts }) {
     }
   };
 
+  useEffect(() => {
+  // Fungsi untuk menyalin kode
+  const copyToClipboard = (text, btn) => {
+    navigator.clipboard.writeText(text).then(() => {
+      const originalText = btn.innerText;
+      btn.innerText = 'Copied!';
+      btn.style.backgroundColor = '#10b981';
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.backgroundColor = '#2563eb';
+      }, 2000);
+    });
+  };
+
+  // Cari semua blok <pre>
+  const preBlocks = document.querySelectorAll('.entry-content pre');
+  
+  preBlocks.forEach((pre) => {
+    // Cek jika tombol belum ada (mencegah duplikat saat re-render)
+    if (!pre.querySelector('.copy-btn')) {
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.innerText = 'Copy';
+      
+      btn.addEventListener('click', () => {
+        // Ambil teks dari tag <code> di dalamnya
+        const codeText = pre.querySelector('code')?.innerText || pre.innerText;
+        copyToClipboard(codeText, btn);
+      });
+
+      pre.appendChild(btn);
+    }
+  });
+}, [post]); // Berjalan ulang setiap kali post berubah
+  
   if (!post) return <div style={{ textAlign: 'center', padding: '100px' }}>Memuat halaman...</div>;
 
   const formattedDate = new Date(post.date).toLocaleDateString('id-ID', {
