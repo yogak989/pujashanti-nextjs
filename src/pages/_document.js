@@ -4,12 +4,7 @@ export default function Document() {
   return (
     <Html lang="id">
       <Head>
-        {/* Script Utama Google AdSense */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4663862602910608"
-          crossOrigin="anonymous"
-        ></script>
+        
       </Head>
       <body>
         <Main />
