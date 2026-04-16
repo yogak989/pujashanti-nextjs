@@ -32,7 +32,7 @@ export default function WebDesignPost({ post, comments, latestPosts }) {
     e.preventDefault();
     const query = e.target.search.value; 
     if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
+      router.push(`/web-design/search?q=${encodeURIComponent(query)}`);
     }
   };
 
