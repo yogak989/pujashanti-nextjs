@@ -2,9 +2,15 @@ import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
   return (
-    // Set lang="id" untuk Bahasa Indonesia
     <Html lang="id">
-      <Head />
+      <Head>
+        {/* Script Utama Google AdSense */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4663862602910608"
+          crossOrigin="anonymous"
+        ></script>
+      </Head>
       <body>
         <Main />
         <NextScript />
