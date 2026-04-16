@@ -48,7 +48,7 @@ export default function CommentSection({ postId, initialComments }) {
           <p className="text-gray-400 italic bg-gray-50 p-4 rounded-lg text-center">Belum ada diskusi di sini. Jadilah yang pertama memberikan masukan.</p>
         )}
       </div>
-          // Bagian Form Input
+          
 <div className="bg-gray-50 p-4 md:p-8 rounded-2xl border border-gray-100 mx-2 md:mx-0">
   <h4 className="text-xl font-bold text-gray-800 mb-6">Tinggalkan Balasan</h4>
   <form onSubmit={handleSubmit} className="space-y-5">
