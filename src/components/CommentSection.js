@@ -48,46 +48,50 @@ export default function CommentSection({ postId, initialComments }) {
           <p className="text-gray-400 italic bg-gray-50 p-4 rounded-lg text-center">Belum ada diskusi di sini. Jadilah yang pertama memberikan masukan.</p>
         )}
       </div>
-
-      {/* Form Input */}
-      <div className="bg-gray-50 p-6 md:p-8 rounded-2xl border border-gray-100">
-        <h4 className="text-xl font-bold text-gray-800 mb-6">Tinggalkan Balasan</h4>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Nama Nama Lengkap</label>
-              <input
-                type="text"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                placeholder="Contoh: Yoga Kusuma"
-                value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Alamat Email</label>
-              <input
-                type="email"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                placeholder="email@pujashanti.web.id"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                required
-              />
-            </div>
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Pesan atau Pertanyaan</label>
-            <textarea
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all h-40"
-              placeholder="Tulis pendapat Anda tentang layanan Web Design kami..."
-              value={formData.content}
-              onChange={(e) => setFormData({...formData, content: e.target.value})}
-              required
-            ></textarea>
-          </div>
+          // Bagian Form Input
+<div className="bg-gray-50 p-4 md:p-8 rounded-2xl border border-gray-100 mx-2 md:mx-0">
+  <h4 className="text-xl font-bold text-gray-800 mb-6">Tinggalkan Balasan</h4>
+  <form onSubmit={handleSubmit} className="space-y-5">
+    
+    {/* Grid Sistem - Memastikan gap tidak mendorong elemen keluar layar */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="w-full">
+        <label className="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+        <input
+          type="text"
+          className="w-full box-border px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all text-base"
+          style={{ maxWidth: '100%' }} // Tambahan pengaman inline
+          placeholder="Contoh: Yoga Kusuma"
+          value={formData.name}
+          onChange={(e) => setFormData({...formData, name: e.target.value})}
+          required
+        />
+      </div>
+      <div className="w-full">
+        <label className="block text-sm font-medium text-gray-700 mb-2">Alamat Email</label>
+        <input
+          type="email"
+          className="w-full box-border px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all text-base"
+          style={{ maxWidth: '100%' }}
+          placeholder="email@pujashanti.web.id"
+          value={formData.email}
+          onChange={(e) => setFormData({...formData, email: e.target.value})}
+          required
+        />
+      </div>
+    </div>
+    
+    <div className="w-full">
+      <label className="block text-sm font-medium text-gray-700 mb-2">Pesan atau Pertanyaan</label>
+      <textarea
+        className="w-full box-border px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all h-40 text-base"
+        style={{ maxWidth: '100%' }}
+        placeholder="Tulis pendapat Anda..."
+        value={formData.content}
+        onChange={(e) => setFormData({...formData, content: e.target.value})}
+        required
+      ></textarea>
+    </div>
 
           <button
             type="submit"
