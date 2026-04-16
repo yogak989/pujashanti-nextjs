@@ -35,51 +35,6 @@ export default function WebDesignPost({ post, comments, latestPosts }) {
       router.push(`/web-design/search?q=${encodeURIComponent(query)}`);
     }
   };
-
-  useEffect(() => {
-  // 1. Cek apakah kita ada di browser dan post sudah ada
-  if (typeof window === 'undefined' || !post) return;
-
-  const copyToClipboard = (text, btn) => {
-    if (!navigator.clipboard) return; // Antisipasi jika browser lama
-    navigator.clipboard.writeText(text).then(() => {
-      const originalText = btn.innerText;
-      btn.innerText = 'Copied!';
-      btn.style.backgroundColor = '#10b981';
-      setTimeout(() => {
-        btn.innerText = originalText;
-        btn.style.backgroundColor = '#2563eb';
-      }, 2000);
-    }).catch(err => console.error('Gagal copy:', err));
-  };
-
-  // 2. Gunakan setTimeout sedikit agar DOM selesai dirender oleh Next.js
-  const timer = setTimeout(() => {
-    const preBlocks = document.querySelectorAll('.entry-content pre');
-    
-    preBlocks.forEach((pre) => {
-      if (!pre.querySelector('.copy-btn')) {
-        // Buat tombol secara manual
-        const btn = document.createElement('button');
-        btn.className = 'copy-btn';
-        btn.innerText = 'Copy';
-        btn.type = 'button'; // Penting agar tidak dianggap submit form
-        
-        btn.onclick = (e) => {
-          e.preventDefault();
-          const codeText = pre.querySelector('code')?.innerText || pre.innerText;
-          copyToClipboard(codeText, btn);
-        };
-
-        // Pastikan pre memiliki posisi relative via JS jika CSS belum terload
-        pre.style.position = 'relative';
-        pre.appendChild(btn);
-      }
-    });
-  }, 500);
-
-  return () => clearTimeout(timer); // Bersihkan timer saat pindah halaman
-}, [post]); // Berjalan ulang jika post berubah
   
   if (!post) return <div style={{ textAlign: 'center', padding: '100px' }}>Memuat halaman...</div>;
 
