@@ -10,7 +10,7 @@ import Head from 'next/head';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import CommentSection from '../../components/CommentSection';
-
+import AdUnit from '../../components/AdUnit';
 export const runtime = 'experimental-edge';
 
 // --- FUNGSI PENGACAK (Fisher-Yates Shuffle) ---
@@ -56,78 +56,96 @@ export default function WebDesignPost({ post, comments, latestPosts }) {
       <div style={styles.wrapper}>
         {/* MAIN CONTENT (70%) */}
         <main style={styles.main}>
-          <div className="article-wrapper">
-            {post.featured_image && (
-              <div className="featured-image-box">
-                <img 
-                  src={post.featured_image} 
-                  alt={post.title} 
-                  className="img-fluid"
-                />
-              </div>
-            )}
-            
-            <div className="content-padding">
-              <h1 className="title">{post.title}</h1>
-              <div className="meta">
-                <span>Editor: Pujashanti</span>
-                <span style={{ margin: '0 10px' }}>|</span>
-                <span>Terbit: {formattedDate}</span>
-              </div>
-              <hr className="line" />
-              <div 
-                className="entry-content" 
-                dangerouslySetInnerHTML={{ __html: post.content }} 
-              />
-            </div>
-          </div>
+  <div className="article-wrapper">
+    {post.featured_image && (
+      <div className="featured-image-box">
+        <img 
+          src={post.featured_image} 
+          alt={post.title} 
+          className="img-fluid"
+        />
+      </div>
+    )}
+    
+    <div className="content-padding">
+      <h1 className="title">{post.title}</h1>
+      <div className="meta">
+        <span>Editor: Pujashanti</span>
+        <span style={{ margin: '0 10px' }}>|</span>
+        <span>Terbit: {formattedDate}</span>
+      </div>
+      <hr className="line" />
 
-          {/* RANDOM RELATED POSTS LOOP */}
-          <section className="related-projects">
-            <h3 className="section-title">More Posts</h3>
-            <div className="project-grid">
-              {relatedPosts.map((item) => (
-                <a href={`/web-design/${item.slug}/`} key={item.slug} className="project-card">
-                  <div className="card-image">
-                    {item.featuredImage?.node?.sourceUrl ? (
-                      <img src={item.featuredImage.node.sourceUrl} alt={item.title} />
-                    ) : (
-                      <div className="placeholder" style={styles.placeholder}>No Image</div>
-                    )}
-                  </div>
-                  <div className="card-info">
-                    <h4>{item.title}</h4>
-                    <span>View Project →</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-                <CommentSection postId={post.databaseId} initialComments={comments} />
-          </section>
-        </main>
+      {/* IKLAN 1: DI BAWAH JUDUL */}
+      <AdUnit slot="5670646182" /> 
+
+      <div 
+        className="entry-content" 
+        dangerouslySetInnerHTML={{ __html: post.content }} 
+      />
+    </div>
+  </div>
+
+  {/* IKLAN 2: DI ATAS RELATED POSTS / SEBELUM KOMENTAR */}
+  <div style={{ padding: '0 20px' }}>
+    <AdUnit slot="7618152674" />
+  </div>
+
+  {/* RANDOM RELATED POSTS LOOP */}
+  <section className="related-projects">
+    <h3 className="section-title">More Posts</h3>
+    <div className="project-grid">
+      {relatedPosts.map((item) => (
+        <a href={`/web-design/${item.slug}/`} key={item.slug} className="project-card">
+          <div className="card-image">
+            {item.featuredImage?.node?.sourceUrl ? (
+              <img src={item.featuredImage.node.sourceUrl} alt={item.title} />
+            ) : (
+              <div className="placeholder" style={styles.placeholder}>No Image</div>
+            )}
+          </div>
+          <div className="card-info">
+            <h4>{item.title}</h4>
+            <span>View Project →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    {/* SEKSI KOMENTAR */}
+    <CommentSection postId={post.databaseId} initialComments={comments} />
+  </section>
+</main>
 
         {/* SIDEBAR (30%) */}
         <aside style={styles.sidebar}>
-          <h3 style={styles.sidebarTitle}>Latest Posts</h3>
-          <ul style={styles.list}>
-            {latestPosts.slice(0, 10).map((item) => (
-              <li key={item.slug} style={styles.listItem}>
-                <a href={`/web-design/${item.slug}/`} style={styles.link}>
-                  {item.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <div style={{ marginTop: '40px' }}>
-            <h3 style={styles.sidebarTitle}>Butuh Bantuan?</h3>
-            <p style={{ fontSize: '0.9rem', color: '#666' }}>
-              Konsultasi pembuatan website gratis via WhatsApp.
-            </p>
-            <a href="https://wa.me/6285737689037" style={styles.waButton}>
-              Chat Sekarang
-            </a>
-          </div>
-        </aside>
+  <h3 style={styles.sidebarTitle}>Latest Posts</h3>
+  <ul style={styles.list}>
+    {latestPosts.slice(0, 10).map((item) => (
+      <li key={item.slug} style={styles.listItem}>
+        <a href={`/web-design/${item.slug}/`} style={styles.link}>
+          {item.title}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <div style={{ marginTop: '40px' }}>
+    <h3 style={styles.sidebarTitle}>Butuh Bantuan?</h3>
+    <p style={{ fontSize: '0.9rem', color: '#666' }}>
+      Konsultasi pembuatan website gratis via WhatsApp.
+    </p>
+    <a href="https://wa.me/6285737689037" style={styles.waButton}>
+      Chat Sekarang
+    </a>
+  </div>
+
+  {/* IKLAN SIDEBAR: DI BAGIAN PALING BAWAH */}
+  <div style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '20px' }}>
+    <p style={{ fontSize: '10px', color: '#999', textAlign: 'center', marginBottom: '5px' }}>ADVERTISEMENT</p>
+    <AdUnit slot="4684867571" />
+  </div>
+</aside>
       </div>
 
       <Footer />
