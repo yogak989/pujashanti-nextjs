@@ -51,7 +51,7 @@ export default function AdUnit({ slot }) {
     <div style={{ overflow: 'hidden', textAlign: 'center', margin: '20px 0' }}>
       <ins className="adsbygoogle"
            style={{ display: 'block' }}
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" // GANTI DENGAN ID ANDA
+           data-ad-client="ca-pub-4663862602910608" // GANTI DENGAN ID ANDA
            data-ad-slot={slot}
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
