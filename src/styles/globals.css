@@ -134,35 +134,43 @@ body {
   text-decoration: underline;
 }
 
-/* Menghias Blok Kode dari WordPress */
+/* 1. KEMBALIKAN FONT PARAGRAF KE NORMAL */
+.entry-content p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-size: 1.1rem !important;
+  line-height: 1.8 !important;
+  color: #333 !important;
+  font-weight: 400 !important; /* Pastikan tidak tebal atau aneh */
+}
+
+/* 2. BLOK KODE (Hanya yang di dalam tag PRE) */
 .entry-content pre {
-  background-color: #1e1e1e !important; /* Warna background gelap */
-  color: #d4d4d4 !important; /* Warna teks terang */
+  background-color: #1e1e1e !important;
   padding: 1.5rem !important;
   border-radius: 8px !important;
-  overflow-x: auto !important; /* Agar bisa di-scroll ke samping jika kode panjang */
+  overflow-x: auto !important;
   margin: 1.5rem 0 !important;
-  font-family: 'Courier New', Courier, monospace !important;
-  line-height: 1.5 !important;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3) !important;
   border: 1px solid #333 !important;
 }
 
-.entry-content code {
+/* Pastikan font monospace HANYA di dalam pre atau tag code spesifik */
+.entry-content pre code {
   font-family: 'Consolas', 'Monaco', 'Andale Mono', monospace !important;
+  color: #d4d4d4 !important;
   font-size: 0.95rem !important;
-  background: transparent !important; /* Biar tidak konflik dengan background pre */
-  padding: 0 !important;
+  line-height: 1.5 !important;
+  background: transparent !important; /* Menghilangkan background abu-abu di dalam kotak hitam */
 }
 
-/* Styling untuk 'Inline Code' (kode di tengah paragraf) */
-.entry-content p code {
+/* 3. INLINE CODE (Kode pendek di tengah kalimat) */
+/* Kita targetkan agar tidak merusak font paragraf di sekitarnya */
+.entry-content :not(pre) > code {
+  font-family: 'Consolas', 'Monaco', monospace !important;
   background-color: #f1f5f9 !important;
-  color: #e83e8c !important; /* Warna pink/merah khas inline code */
+  color: #e83e8c !important;
   padding: 2px 6px !important;
   border-radius: 4px !important;
   font-size: 0.9em !important;
-  border: 1px solid #e2e8f0 !important;
 }
 
 footer ins.adsbygoogle {
