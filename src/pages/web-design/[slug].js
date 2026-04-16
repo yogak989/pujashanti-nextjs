@@ -119,6 +119,21 @@ export default function WebDesignPost({ post, comments, latestPosts }) {
 
         {/* SIDEBAR (30%) */}
         <aside style={styles.sidebar}>
+          <div className="search-widget">
+    <h3>Cari Tutorial</h3>
+    <form onSubmit={handleSearch} className="search-form-sidebar">
+      <input
+        type="text"
+        placeholder="Cari sesuatu..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="search-input-sidebar"
+      />
+      <button type="submit" className="search-button-sidebar">
+        Cari
+      </button>
+    </form>
+  </div>
   <h3 style={styles.sidebarTitle}>Latest Posts</h3>
   <ul style={styles.list}>
     {latestPosts.slice(0, 10).map((item) => (
