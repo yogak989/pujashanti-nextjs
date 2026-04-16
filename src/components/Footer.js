@@ -4,11 +4,22 @@ export default function Footer() {
       {/* SECTION NORTON / SAFETY */}
       <section className="norton-safety">
         <div className="safety-content">
-          <a href="https://safeweb.norton.com/report/show?url=pujashanti.web.id" target="_blank" rel="nofollow noopener">
+          <a 
+            href="https://safeweb.norton.com/report/show?url=pujashanti.web.id" 
+            target="_blank" 
+            rel="nofollow noopener"
+            style={{ display: 'inline-block' }}
+          >
             <img 
               src="https://pujashanti.web.id/wp-content/uploads/2026/04/images-1.webp" 
               alt="Norton Safe Web Verified" 
-              style={{ width: '120px', height: 'auto', filter: 'grayscale(20%)' }} 
+              style={{ 
+                width: '120px', 
+                height: 'auto', 
+                filter: 'grayscale(20%)',
+                display: 'block',
+                margin: '0 auto' 
+              }} 
               loading="lazy" 
             />
           </a>
@@ -74,13 +85,22 @@ export default function Footer() {
           background: #ffffff;
           border-top: 1px solid #f0f0f0;
           margin-top: 50px;
-          text-align: center;
         }
+        
+        .safety-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+        }
+
         .verified-text {
           font-size: 10px;
           color: #006400;
           font-weight: bold;
-          margin-top: 5px;
+          margin-top: 8px;
+          text-align: center;
         }
 
         /* NEW ENGINE INFO BOX */
@@ -217,6 +237,7 @@ export default function Footer() {
           .ps-footer-links a:hover { padding-left: 0; }
           .info-divider { display: none; }
           .info-box-grid { flex-direction: column; gap: 15px; }
+          .norton-safety { margin-top: 30px; padding: 20px 0; }
         }
       `}</style>
     </>
