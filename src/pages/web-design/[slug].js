@@ -1,4 +1,4 @@
-// Gabungkan semua dalam satu baris import agar tidak bentrok
+
 import { 
   getWebDesignPost, 
   getWebDesignLandingData, 
@@ -11,6 +11,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import CommentSection from '../../components/CommentSection';
 import AdUnit from '../../components/AdUnit';
+import { useRouter } from 'next/router';
 export const runtime = 'experimental-edge';
 
 // --- FUNGSI PENGACAK (Fisher-Yates Shuffle) ---
@@ -24,6 +25,17 @@ function shuffleArray(array) {
 }
 
 export default function WebDesignPost({ post, comments, latestPosts }) {
+  const router = useRouter(); 
+
+  // handler pencarian
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = e.target.search.value; 
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
+
   if (!post) return <div style={{ textAlign: 'center', padding: '100px' }}>Memuat halaman...</div>;
 
   const formattedDate = new Date(post.date).toLocaleDateString('id-ID', {
@@ -119,6 +131,21 @@ export default function WebDesignPost({ post, comments, latestPosts }) {
 
         {/* SIDEBAR (30%) */}
         <aside style={styles.sidebar}>
+
+<div className="search-widget">
+          <h3 className="widget-title">Cari Artikel</h3>
+          <form onSubmit={handleSearch} className="search-form-sidebar">
+            <input
+              type="text"
+              name="search" // Ini penting untuk e.target.search.value
+              placeholder="Cari sesuatu..."
+              className="search-input-sidebar"
+              required
+            />
+            <button type="submit" className="search-button-sidebar">Cari</button>
+          </form>
+        </div>
+          
   <h3 style={styles.sidebarTitle}>Latest Posts</h3>
   <ul style={styles.list}>
     {latestPosts.slice(0, 10).map((item) => (
