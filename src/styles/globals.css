@@ -355,34 +355,24 @@ body {
   padding-top: 3rem !important; 
 }
 
-.copy-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 5px 12px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 10;
+/* 1. Membuat teks kode mudah diseleksi */
+.entry-content pre code {
+  user-select: all; /* Saat diklik sekali/dua kali, semua teks langsung terblok biru */
+  -webkit-user-select: all; /* Untuk Safari */
+  -moz-user-select: all; /* Untuk Firefox */
+  cursor: pointer; /* Memberi tahu user bahwa area ini bisa berinteraksi */
 }
 
-.copy-btn:hover {
-  background-color: #1d4ed8;
-  transform: scale(1.05);
-}
-
-.copy-btn.copied {
-  background-color: #10b981;
-}
-
-/* Sembunyikan tombol saat di-print */
-@media print {
-  .copy-btn { display: none; }
+/* 2. Tambahkan indikator visual (opsional) */
+.entry-content pre::before {
+  content: "Klik untuk seleksi semua";
+  display: block;
+  font-size: 10px;
+  color: #94a3b8;
+  text-align: right;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 footer ins.adsbygoogle {
