@@ -270,6 +270,31 @@ body {
   color: #1e293b;
 }
 
+/* MEWARNAI LINK DI DALAM KONTEN */
+.entry-content a {
+  color: #2563eb !important; /* Biru cerah yang standar untuk link */
+  text-decoration: none !important; /* Menghapus garis bawah standar yang kaku */
+  font-weight: 500;
+  border-bottom: 1px solid rgba(37, 99, 235, 0.3); /* Garis bawah tipis dan transparan */
+  transition: all 0.2s ease-in-out;
+  padding-bottom: 1px;
+}
+
+/* EFEK SAAT LINK DIHOVER (KURSOR DI ATASNYA) */
+.entry-content a:hover {
+  color: #1d4ed8 !important; /* Warna biru sedikit lebih gelap */
+  border-bottom: 2px solid #1d4ed8; /* Garis bawah jadi lebih tebal dan tegas */
+  background-color: rgba(37, 99, 235, 0.05); /* Tambahan latar belakang biru sangat tipis */
+  border-radius: 2px;
+}
+
+/* KHUSUS UNTUK LINK DI DALAM JAWABAN FAQ (AGAR KONSISTEN) */
+.faq-content a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+  font-weight: 600;
+}
+
 /* Styling Form Pencarian Sidebar */
 .search-widget {
   background: #ffffff;
