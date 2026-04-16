@@ -266,7 +266,7 @@ const styles = {
     display: 'flex',
     maxWidth: '1200px',
     margin: '0 auto',
-    padding: '100px 20px 60px',
+    padding: '100px 10px 60px',
     gap: '30px',
     flexWrap: 'wrap',
   },
