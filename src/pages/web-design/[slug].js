@@ -37,8 +37,11 @@ export default function WebDesignPost({ post, comments, latestPosts }) {
   };
 
   useEffect(() => {
-  // Fungsi untuk menyalin kode
+  // 1. Cek apakah kita ada di browser dan post sudah ada
+  if (typeof window === 'undefined' || !post) return;
+
   const copyToClipboard = (text, btn) => {
+    if (!navigator.clipboard) return; // Antisipasi jika browser lama
     navigator.clipboard.writeText(text).then(() => {
       const originalText = btn.innerText;
       btn.innerText = 'Copied!';
@@ -47,29 +50,36 @@ export default function WebDesignPost({ post, comments, latestPosts }) {
         btn.innerText = originalText;
         btn.style.backgroundColor = '#2563eb';
       }, 2000);
-    });
+    }).catch(err => console.error('Gagal copy:', err));
   };
 
-  // Cari semua blok <pre>
-  const preBlocks = document.querySelectorAll('.entry-content pre');
-  
-  preBlocks.forEach((pre) => {
-    // Cek jika tombol belum ada (mencegah duplikat saat re-render)
-    if (!pre.querySelector('.copy-btn')) {
-      const btn = document.createElement('button');
-      btn.className = 'copy-btn';
-      btn.innerText = 'Copy';
-      
-      btn.addEventListener('click', () => {
-        // Ambil teks dari tag <code> di dalamnya
-        const codeText = pre.querySelector('code')?.innerText || pre.innerText;
-        copyToClipboard(codeText, btn);
-      });
+  // 2. Gunakan setTimeout sedikit agar DOM selesai dirender oleh Next.js
+  const timer = setTimeout(() => {
+    const preBlocks = document.querySelectorAll('.entry-content pre');
+    
+    preBlocks.forEach((pre) => {
+      if (!pre.querySelector('.copy-btn')) {
+        // Buat tombol secara manual
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerText = 'Copy';
+        btn.type = 'button'; // Penting agar tidak dianggap submit form
+        
+        btn.onclick = (e) => {
+          e.preventDefault();
+          const codeText = pre.querySelector('code')?.innerText || pre.innerText;
+          copyToClipboard(codeText, btn);
+        };
 
-      pre.appendChild(btn);
-    }
-  });
-}, [post]); // Berjalan ulang setiap kali post berubah
+        // Pastikan pre memiliki posisi relative via JS jika CSS belum terload
+        pre.style.position = 'relative';
+        pre.appendChild(btn);
+      }
+    });
+  }, 500);
+
+  return () => clearTimeout(timer); // Bersihkan timer saat pindah halaman
+}, [post]); // Berjalan ulang jika post berubah
   
   if (!post) return <div style={{ textAlign: 'center', padding: '100px' }}>Memuat halaman...</div>;
 
