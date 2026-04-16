@@ -8,14 +8,48 @@ body {
   margin: 0;
   padding: 0;
 }
+/* Pastikan ini ada di globals.css */
 
+/* 1. Styling untuk Container Artikel */
+.article-wrapper {
+  max-width: 800px; /* Contoh lebar ideal membaca */
+  margin: 0 auto;
+}
+
+/* 2. Styling untuk Heading di dalam konten WordPress */
+.entry-content h2 {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  margin: 1.5rem 0 1rem 0 !important;
+  display: block !important;
+}
+
+.entry-content h3 {
+  font-size: 1.6rem !important;
+  font-weight: 600 !important;
+  margin: 1.2rem 0 0.8rem 0 !important;
+  display: block !important;
+}
+
+.entry-content h4 {
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
+  margin: 1rem 0 0.5rem 0 !important;
+  display: block !important;
+}
+
+/* 3. Styling TOC RankMath yang tadi tembus */
+.wp-block-rank-math-toc-block {
+  background: #f1f5f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
 .container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 20px;
 }
-
-.entry-content h2 { margin-top: 1.5em; color: #1a1a1a; }
 .entry-content p { margin-bottom: 1.2em; }
 
 /* Gaya sederhana untuk Card Tutorial */
@@ -34,7 +68,61 @@ body {
 }
 
 .card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+/* Container utama TOC RankMath */
+.wp-block-rank-math-toc-block {
+  background: #f8fafc;
+  border-left: 4px solid #0070f3; /* Memberi aksen garis di samping */
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
 
+/* Judul Daftar Isi */
+.wp-block-rank-math-toc-block h2 {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #334155;
+  margin-top: 0;
+}
+
+/* List dasar */
+.wp-block-rank-math-toc-block nav ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Pengaturan Hierarki: H3 (Level 1) */
+.wp-block-rank-math-toc-block nav ul li {
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* Pengaturan Hierarki: H4 (Level 2 / Anak dari H3) */
+/* CSS ini akan otomatis mendeteksi struktur list bersarang dari RankMath */
+.wp-block-rank-math-toc-block nav ul li ul {
+  padding-left: 20px; /* Menjorokkan h4 ke dalam */
+  margin-top: 4px;
+}
+
+.wp-block-rank-math-toc-block nav ul li ul li {
+  font-weight: normal;
+  font-size: 0.9rem;
+  list-style-type: circle; /* Memberi tanda berbeda untuk h4 */
+}
+
+/* Gaya Link */
+.wp-block-rank-math-toc-block a {
+  color: #2563eb;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.wp-block-rank-math-toc-block a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
 footer ins.adsbygoogle {
   display: none !important;
 }
