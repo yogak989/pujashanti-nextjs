@@ -1,13 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
-// Ganti URL ini dengan URL domain Next.js Anda
 const SITE_URL = 'https://pujashanti.web.id'; 
 
 async function generateSitemap() {
   console.log('⏳ Mengambil data dari WordPress untuk sitemap...');
   
-  // Ambil API URL dari environment variable
   const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 
   if (!API_URL) {
@@ -18,7 +16,12 @@ async function generateSitemap() {
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        // PENAMBAHAN: User-Agent agar tidak diblokir Firewall/OpenResty (Error 415)
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify({
         query: `
           query AllWebDesignSlugs {
@@ -35,16 +38,18 @@ async function generateSitemap() {
 
     const contentType = response.headers.get("content-type");
     
-    // Proteksi jika yang kembali adalah HTML (error 403/404) bukan JSON
     if (!contentType || !contentType.includes("application/json")) {
       const errorText = await response.text();
-      console.error('❌ WordPress mengembalikan HTML (bukan JSON). Cek URL atau Firewall.');
+      console.error('❌ WordPress mengembalikan HTML (bukan JSON).');
       console.log('Respon singkat:', errorText.substring(0, 150));
       return; 
     }
 
     const json = await response.json();
-    const posts = json.data?.webDesigns?.nodes || [];
+    const allNodes = json.data?.webDesigns?.nodes || [];
+
+    // FILTER: Memastikan slug "search" atau slug kosong tidak masuk ke sitemap
+    const posts = allNodes.filter(post => post.slug && post.slug !== 'search');
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -60,10 +65,12 @@ async function generateSitemap() {
     </url>
     ${posts
       .map((post) => {
+        // Validasi tanggal agar tidak error saat toISOString()
+        const lastMod = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
         return `
     <url>
         <loc>${SITE_URL}/web-design/${post.slug}</loc>
-        <lastmod>${new Date(post.date).toISOString()}</lastmod>
+        <lastmod>${lastMod}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>`;
@@ -71,18 +78,16 @@ async function generateSitemap() {
       .join('')}
 </urlset>`;
 
-    // Tulis file ke folder public
     const publicDir = path.join(process.cwd(), 'public');
     if (!fs.existsSync(publicDir)) {
       fs.mkdirSync(publicDir);
     }
     
     fs.writeFileSync(path.join(publicDir, 'web-design-sitemap.xml'), sitemap);
-    console.log('✅ Berhasil! web-design-sitemap.xml telah dibuat.');
+    console.log(`✅ Berhasil! web-design-sitemap.xml dibuat dengan ${posts.length} artikel.`);
 
   } catch (error) {
     console.error('❌ Terjadi kesalahan saat generate sitemap:', error.message);
-    // Kita tidak menggunakan throw error agar build Next.js di Cloudflare tidak gagal
   }
 }
 
