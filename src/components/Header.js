@@ -18,12 +18,13 @@ export default function Header() {
       alignItems: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
       fontFamily: "'Inter', sans-serif"
     },
-    container: {
-      width: '100%', 
+    width: '100%', 
       maxWidth: '1280px',
       margin: '0 auto',
-      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      padding: '0 4%',
+      display: 'flex', 
+      justifyContent: 'space-between', 
+      alignItems: 'center',
+      padding: '0 25px', // Diubah dari 4% ke 25px agar lebih stabil di mobile
       boxSizing: 'border-box'
     },
     logo: {
@@ -42,18 +43,31 @@ export default function Header() {
       borderRadius: '6px', textDecoration: 'none', fontWeight: 'bold', fontSize: '14px',
       whiteSpace: 'nowrap'
     },
-    hamburger: {
+    hhamburger: {
       display: 'none', 
-      flexDirection: 'column', gap: '4px', cursor: 'pointer',
-      background: '#f4f7f9', border: '1px solid #ddd', padding: '8px', borderRadius: '6px'
+      flexDirection: 'column', 
+      gap: '4px', 
+      cursor: 'pointer',
+      background: '#f4f7f9', 
+      border: '1px solid #ddd', 
+      padding: '10px', // Ditambah sedikit agar area klik lebih enak
+      borderRadius: '8px',
+      marginRight: '0', // Memastikan tidak ada margin liar
     },
     line: { width: '22px', height: '2px', backgroundColor: '#1a3a5a' },
     mobileMenu: {
-      position: 'fixed', top: 0, right: isOpen ? '0' : '-100%',
-      width: '280px', height: '100vh', backgroundColor: '#ffffff',
-      zIndex: 10001, transition: '0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
-      padding: '20px', boxShadow: '-5px 0 15px rgba(0,0,0,0.1)', 
-      display: 'flex', flexDirection: 'column', boxSizing: 'border-box'
+      position: 'fixed', 
+      top: 0, 
+      right: isOpen ? '0' : '-100%',
+      width: '300px', // Sedikit lebih lebar
+      height: '100vh', 
+      backgroundColor: '#ffffff',
+      zIndex: 10001, 
+      transition: '0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
+      padding: '25px', // Padding internal menu mobile diperbesar
+      boxSizing: 'border-box',
+      display: 'flex', 
+      flexDirection: 'column'
     },
     navLinkMobile: {
       textDecoration: 'none', color: '#1a3a5a', fontWeight: 'bold',
