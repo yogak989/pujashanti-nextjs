@@ -43,6 +43,27 @@ html, body {
   padding: 5% 7%; /* Padding ideal untuk layar lebar */
 }
 
+/* Perbaikan khusus Sidebar di Mobile */
+@media (max-width: 768px) {
+  /* Memastikan wrapper tidak memiliki padding samping yang terlalu besar */
+  div[style*="display: flex"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Memaksa Sidebar mengambil lebar penuh layar ponsel */
+  aside {
+    flex: 1 1 100% !important; 
+    max-width: calc(100% - 30px) !important; /* Mengurangi margin kiri-kanan */
+    margin: 20px auto !important; /* Menaruh sidebar di tengah */
+  }
+
+  /* Memastikan input pencarian tidak meluap */
+  .search-form-sidebar {
+    width: 100%;
+  }
+}
+
 /* --- 3. TYPOGRAPHY (KONTEN WORDPRESS) --- */
 .title {
   font-size: 2.8rem;
