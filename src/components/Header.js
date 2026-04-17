@@ -5,10 +5,11 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+    // Pengecekan typeof window untuk memastikan keamanan saat build (SSR)
+    if (typeof window !== 'undefined') {
+      document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+    }
   }, [isOpen]);
-
-  // ... (Bagian import dan useState tetap sama)
 
   const styles = {
     header: {
@@ -19,15 +20,15 @@ export default function Header() {
     },
     container: {
       width: '100%', 
-      maxWidth: '1280px', // Sedikit lebih lebar agar proporsional dengan layout baru
+      maxWidth: '1280px',
       margin: '0 auto',
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      padding: '0 4%', // Menggunakan % agar sinkron dengan layout konten
+      padding: '0 4%',
       boxSizing: 'border-box'
     },
     logo: {
       display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none',
-      flexShrink: 0 // Mencegah logo tertekuk
+      flexShrink: 0
     },
     desktopNav: {
       display: 'flex', alignItems: 'center', gap: '25px'
@@ -42,7 +43,7 @@ export default function Header() {
       whiteSpace: 'nowrap'
     },
     hamburger: {
-      display: 'none', // Diatur oleh media query di bawah
+      display: 'none', 
       flexDirection: 'column', gap: '4px', cursor: 'pointer',
       background: '#f4f7f9', border: '1px solid #ddd', padding: '8px', borderRadius: '6px'
     },
@@ -57,15 +58,19 @@ export default function Header() {
     navLinkMobile: {
       textDecoration: 'none', color: '#1a3a5a', fontWeight: 'bold',
       padding: '15px 0', borderBottom: '1px solid #f0f0f0', display: 'block'
+    },
+    overlay: {
+      position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+      backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 10000,
+      visibility: isOpen ? 'visible' : 'hidden', opacity: isOpen ? 1 : 0,
+      transition: '0.3s'
     }
   };
 
   return (
     <>
       <header style={styles.header}>
-        {/* Tambahkan className "header-container" untuk override global css jika perlu */}
         <div style={styles.container} className="header-container">
-          {/* LOGO */}
           <Link href="https://pujashanti.web.id/web-design/" style={styles.logo}>
             <img 
               src="https://pujashanti.web.id/wp-content/uploads/2026/04/pujashanti-logo-100x100-1.webp" 
@@ -75,7 +80,6 @@ export default function Header() {
             <span style={{ fontWeight: '800', color: '#1a3a5a', letterSpacing: '-0.5px' }}>PUJASHANTI</span>
           </Link>
 
-          {/* DESKTOP NAV */}
           <nav className="nav-desktop" style={styles.desktopNav}>
             <Link href="https://pujashanti.web.id/iptv-playlist/" style={styles.desktopLink}>IPTV</Link>
             <Link href="https://pujashanti.web.id/live/" style={styles.desktopLink}>Live TV</Link>
@@ -84,7 +88,6 @@ export default function Header() {
             <Link href="https://wa.me/6285737689037" style={styles.btnWa}>WhatsApp</Link>
           </nav>
 
-          {/* HAMBURGER BTN */}
           <div onClick={() => setIsOpen(true)} style={styles.hamburger} className="nav-mobile-btn">
             <div style={styles.line}></div>
             <div style={styles.line}></div>
@@ -93,14 +96,26 @@ export default function Header() {
         </div>
       </header>
 
-      {/* ... (Bagian Mobile Menu & Overlay tetap sama) */}
+      {/* MOBILE MENU */}
+      <div style={styles.mobileMenu}>
+        <div style={{ textAlign: 'right', marginBottom: '20px' }}>
+          <button onClick={() => setIsOpen(false)} style={{ fontSize: '32px', border: 'none', background: 'none', cursor: 'pointer', color: '#1a3a5a' }}>&times;</button>
+        </div>
+        <Link href="https://pujashanti.web.id/iptv-playlist/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>IPTV List</Link>
+        <Link href="https://pujashanti.web.id/live/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>Live TV</Link>
+        <Link href="https://pujashanti.web.id/webseo/cloudstream/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>Cloudstream</Link>
+        <Link href="https://pujashanti.web.id/tentang-pujashanti/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>Tentang Kami</Link>
+        <Link href="https://wa.me/6285737689037" style={{...styles.navLinkMobile, color: '#ffffff', backgroundColor: '#1a3a5a', textAlign: 'center', borderRadius: '6px', marginTop: '20px', borderBottom: 'none'}} onClick={() => setIsOpen(false)}>Chat WhatsApp</Link>
+      </div>
+
+      {/* OVERLAY */}
+      <div style={styles.overlay} onClick={() => setIsOpen(false)}></div>
 
       <style jsx>{`
         @media (max-width: 991px) {
           .nav-desktop { display: none !important; }
           .nav-mobile-btn { display: flex !important; }
         }
-        /* Tambahan untuk memastikan header tidak kena imbas global .container */
         :global(.header-container) {
           max-width: 1280px !important;
           padding: 0 4% !important;
@@ -108,3 +123,4 @@ export default function Header() {
       `}</style>
     </>
   );
+}
