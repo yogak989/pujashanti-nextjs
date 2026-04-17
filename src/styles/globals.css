@@ -1,182 +1,169 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.6;
-  color: #333;
+
+/* --- 1. LAYOUT RESET & BASE --- */
+html, body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  background-color: #f8fafc;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
 }
-/* Pastikan ini ada di globals.css */
 
-/* 1. Styling untuk Container Artikel */
+/* --- 2. LAYOUT ARTIKEL (FULL WIDTH & GRID) --- */
 .article-wrapper {
-  max-width: 800px; /* Contoh lebar ideal membaca */
-  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.04);
+  margin-bottom: 30px;
+  border: 1px solid #f1f5f9;
+  width: 100%; /* Memastikan mengikuti pembungkus main */
 }
 
-/* Styling Khusus Konten dari WordPress dengan Warna Biru Senada TOC */
+.featured-image-box {
+  width: 100%;
+  max-height: 550px;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.featured-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.content-padding { 
+  padding: 5% 7%; /* Padding ideal untuk layar lebar */
+}
+
+/* --- 3. TYPOGRAPHY (KONTEN WORDPRESS) --- */
+.title {
+  font-size: 2.8rem;
+  color: #0f172a;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.meta {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.entry-content {
+  line-height: 1.9;
+  font-size: 1.15rem;
+  color: #1e293b;
+}
+
 .entry-content h2 {
   font-size: 1.8rem !important;
   font-weight: 700 !important;
   margin-top: 2.5rem !important;
   margin-bottom: 1rem !important;
-  color: #2563eb !important; /* Biru yang konsisten dengan link */
-  display: block !important;
+  color: #2563eb !important;
   line-height: 1.3 !important;
 }
 
 .entry-content h3 {
   font-size: 1.5rem !important;
-  font-weight: 600 !important;
+  color: #2563eb !important;
   margin-top: 1.8rem !important;
-  margin-bottom: 0.8rem !important;
-  color: #2563eb !important; /* Samakan warnanya */
-  display: block !important;
 }
 
-.entry-content h4 {
-  font-size: 1.25rem !important;
-  font-weight: 600 !important;
-  margin-top: 1.5rem !important;
-  margin-bottom: 0.5rem !important;
-  color: #3b82f6 !important; /* Biru sedikit lebih muda untuk variasi hierarki */
-  display: block !important;
+.entry-content p {
+  margin-bottom: 1.5rem !important;
+  font-size: 1.1rem !important;
 }
 
-/* Pastikan Link di dalam TOC juga menggunakan warna biru yang sama */
-.wp-block-rank-math-toc-block nav ul li a {
+/* Link di Dalam Konten */
+.entry-content a {
   color: #2563eb !important;
   text-decoration: none !important;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+  transition: all 0.2s ease-in-out;
 }
 
-.wp-block-rank-math-toc-block nav ul li a:hover {
-  text-decoration: underline !important;
-}
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-.entry-content p { margin-bottom: 1.2em; }
-
-/* Gaya sederhana untuk Card Tutorial */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
+.entry-content a:hover {
+  color: #1d4ed8 !important;
+  background-color: rgba(37, 99, 235, 0.05);
+  border-bottom: 2px solid #1d4ed8;
 }
 
-.card {
-  border: 1px solid #eee;
-  padding: 20px;
-  border-radius: 8px;
-  transition: transform 0.2s;
-}
-
-.card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-
-/* Container utama TOC RankMath */
+/* --- 4. DAFTAR ISI (RANKMATH TOC) --- */
 .wp-block-rank-math-toc-block {
   background: #f8fafc;
-  border-left: 4px solid #0070f3; /* Memberi aksen garis di samping */
+  border-left: 4px solid #2563eb;
   padding: 1.5rem;
   margin: 2rem 0;
   border-radius: 0 8px 8px 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* Judul Daftar Isi */
 .wp-block-rank-math-toc-block h2 {
-  font-size: 1.1rem;
+  font-size: 1.1rem !important;
+  text-transform: uppercase;
+  color: #334155 !important;
+  margin: 0 0 15px 0 !important;
+}
+
+.wp-block-rank-math-toc-block nav ul { list-style: none; padding-left: 0; }
+.wp-block-rank-math-toc-block nav ul li { margin-top: 8px; font-weight: 500; }
+.wp-block-rank-math-toc-block nav ul li ul { padding-left: 20px; margin-top: 4px; }
+.wp-block-rank-math-toc-block a { color: #2563eb; text-decoration: none; }
+.wp-block-rank-math-toc-block a:hover { text-decoration: underline; }
+
+/* --- 5. CODE BLOCKS & PRE --- */
+.entry-content pre {
+  background-color: #f8fafc !important;
+  color: #334155 !important;
+  padding: 3rem 1.5rem 1.5rem !important; /* Padding top dilebihkan untuk label */
+  border-radius: 10px !important;
+  border: 1px solid #e2e8f0 !important;
+  position: relative !important;
+  overflow-x: auto !important;
+}
+
+.entry-content pre::before {
+  content: "Klik untuk seleksi semua";
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 10px;
+  color: #94a3b8;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #334155;
-  margin-top: 0;
 }
 
-/* List dasar */
-.wp-block-rank-math-toc-block nav ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-/* Pengaturan Hierarki: H3 (Level 1) */
-.wp-block-rank-math-toc-block nav ul li {
-  margin-top: 8px;
-  font-weight: 500;
-}
-
-/* Pengaturan Hierarki: H4 (Level 2 / Anak dari H3) */
-/* CSS ini akan otomatis mendeteksi struktur list bersarang dari RankMath */
-.wp-block-rank-math-toc-block nav ul li ul {
-  padding-left: 20px; /* Menjorokkan h4 ke dalam */
-  margin-top: 4px;
-}
-
-.wp-block-rank-math-toc-block nav ul li ul li {
-  font-weight: normal;
-  font-size: 0.9rem;
-  list-style-type: circle; /* Memberi tanda berbeda untuk h4 */
-}
-
-/* Gaya Link */
-.wp-block-rank-math-toc-block a {
-  color: #2563eb;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.wp-block-rank-math-toc-block a:hover {
-  color: #1d4ed8;
-  text-decoration: underline;
-}
-
-/* 1. KEMBALIKAN FONT PARAGRAF KE NORMAL */
-.entry-content p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-  font-size: 1.1rem !important;
-  line-height: 1.8 !important;
-  color: #333 !important;
-  font-weight: 400 !important; /* Pastikan tidak tebal atau aneh */
-}
-
-/* 2. BLOK KODE - VERSI CERAH (SOFT LIGHT) */
-.entry-content pre {
-  background-color: #f8fafc !important; /* Warna dasar abu-abu sangat muda kebiruan */
-  color: #334155 !important; /* Warna teks abu-abu gelap agar kontras */
-  padding: 1.5rem !important;
-  border-radius: 10px !important;
-  overflow-x: auto !important;
-  margin: 1.5rem 0 !important;
-  border: 1px solid #e2e8f0 !important; /* Border tipis agar terlihat rapi */
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
-  position: relative;
-}
-
-/* Pastikan teks di dalamnya juga menyesuaikan */
 .entry-content pre code {
-  font-family: 'Consolas', 'Monaco', 'Andale Mono', monospace !important;
-  color: #2563eb !important; /* Warna kode kita buat sedikit kebiruan agar senada dengan brand */
-  font-size: 0.95rem !important;
-  line-height: 1.2 !important;
-  background: transparent !important;
+  font-family: 'Consolas', 'Monaco', monospace !important;
+  color: #2563eb !important;
+  user-select: all;
+  -webkit-user-select: all;
+  cursor: pointer;
 }
 
-/* 3. INLINE CODE (Kode pendek di tengah kalimat) */
-/* Kita targetkan agar tidak merusak font paragraf di sekitarnya */
 .entry-content :not(pre) > code {
-  font-family: 'Consolas', 'Monaco', monospace !important;
   background-color: #f1f5f9 !important;
   color: #e83e8c !important;
   padding: 2px 6px !important;
   border-radius: 4px !important;
-  font-size: 0.9em !important;
 }
 
-/* CONTAINER UTAMA */
+/* --- 6. FAQ ACCORDION --- */
 .ps-faq-accordion {
   margin: 3rem 0;
   padding: 1.5rem;
@@ -185,153 +172,54 @@ body {
   border-radius: 12px;
 }
 
-/* JUDUL FAQ */
-.ps-faq-accordion h3 {
-  color: #1e3a8a !important;
-  font-size: 1.4rem !important;
-  margin-bottom: 1.5rem !important;
-  text-align: center;
-  border-bottom: 2px solid #2563eb;
-  display: inline-block !important;
-  padding-bottom: 5px;
-}
-
-/* STYLE DETAILS (SETIAP BARIS) */
 .ps-faq-accordion details {
-  background-color: #ffffff;
+  background: #fff;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   margin-bottom: 0.75rem;
-  transition: all 0.3s ease;
 }
 
-.ps-faq-accordion details[open] {
-  border-color: #2563eb;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-/* STYLE SUMMARY (PERTANYAAN) */
 .ps-faq-accordion summary {
   padding: 1rem 1.25rem;
   font-weight: 600;
-  color: #334155;
   cursor: pointer;
-  list-style: none; /* Menghilangkan segitiga bawaan browser */
   display: flex;
   justify-content: space-between;
-  align-items: center;
   outline: none;
-  user-select: none;
 }
 
-/* Menghilangkan segitiga bawaan di Safari/Chrome */
-.ps-faq-accordion summary::-webkit-details-marker {
-  display: none;
-}
-
-/* IKON PLUS (+) */
-.ps-faq-accordion .plus-icon {
-  color: #2563eb;
-  font-size: 1.4rem;
-  font-weight: 300;
-  transition: transform 0.3s ease;
-}
-
-/* EFEK SAAT TERBUKA */
-.ps-faq-accordion details[open] summary {
-  color: #2563eb;
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.ps-faq-accordion details[open] .plus-icon {
-  transform: rotate(45deg); /* Berubah jadi tanda silang (x) saat buka */
-  color: #dc2626;
-}
-
-/* STYLE FAQ-CONTENT (JAWABAN) */
 .ps-faq-accordion .faq-content {
   padding: 1.25rem;
-  line-height: 1.7;
-  color: #4b5563;
-  font-size: 1.05rem;
   background-color: #f8fafc;
-  border-radius: 0 0 8px 8px;
+  color: #4b5563;
 }
 
-/* Styling tambahan untuk elemen di dalam jawaban */
-.ps-faq-accordion .faq-content code {
-  background-color: #fee2e2;
-  color: #991b1b;
-  padding: 2px 5px;
-  border-radius: 4px;
-}
-
-.ps-faq-accordion .faq-content strong {
-  color: #1e293b;
-}
-
-/* MEWARNAI LINK DI DALAM KONTEN */
-.entry-content a {
-  color: #2563eb !important; /* Biru cerah yang standar untuk link */
-  text-decoration: none !important; /* Menghapus garis bawah standar yang kaku */
-  font-weight: 500;
-  border-bottom: 1px solid rgba(37, 99, 235, 0.3); /* Garis bawah tipis dan transparan */
-  transition: all 0.2s ease-in-out;
-  padding-bottom: 1px;
-}
-
-/* EFEK SAAT LINK DIHOVER (KURSOR DI ATASNYA) */
-.entry-content a:hover {
-  color: #1d4ed8 !important; /* Warna biru sedikit lebih gelap */
-  border-bottom: 2px solid #1d4ed8; /* Garis bawah jadi lebih tebal dan tegas */
-  background-color: rgba(37, 99, 235, 0.05); /* Tambahan latar belakang biru sangat tipis */
-  border-radius: 2px;
-}
-
-/* KHUSUS UNTUK LINK DI DALAM JAWABAN FAQ (AGAR KONSISTEN) */
-.faq-content a {
-  color: #2563eb !important;
-  text-decoration: underline !important;
-  font-weight: 600;
-}
-
-/* Styling Form Pencarian Sidebar */
+/* --- 7. SIDEBAR WIDGETS --- */
 .search-widget {
-  background: #ffffff;
+  background: #fff;
   padding: 20px;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   margin-bottom: 25px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
 
 .search-widget h3 {
   font-size: 1.1rem !important;
   color: #1e3a8a !important;
   margin-top: 0 !important;
-  margin-bottom: 15px !important;
   border-left: 4px solid #2563eb;
   padding-left: 12px;
 }
 
-.search-form-sidebar {
-  display: flex;
-  gap: 8px;
-}
+.search-form-sidebar { display: flex; gap: 8px; }
 
 .search-input-sidebar {
   flex: 1;
   padding: 10px 12px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
-  font-size: 14px;
   outline: none;
-  transition: border-color 0.2s;
-}
-
-.search-input-sidebar:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
 .search-button-sidebar {
@@ -340,75 +228,53 @@ body {
   border: none;
   padding: 10px 18px;
   border-radius: 8px;
-  cursor: pointer;
   font-weight: 600;
-  font-size: 14px;
-  transition: background 0.2s;
+  cursor: pointer;
 }
 
-.search-button-sidebar:hover {
-  background-color: #1d4ed8;
+/* --- 8. PROJECT GRID (RELATED POSTS) --- */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 30px;
 }
 
-.entry-content pre {
-  position: relative !important;
-  padding-top: 3rem !important; 
+.project-card {
+  text-decoration: none;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+  transition: transform 0.3s ease;
 }
 
-/* 1. Membuat teks kode mudah diseleksi */
-.entry-content pre code {
-  user-select: all; /* Saat diklik sekali/dua kali, semua teks langsung terblok biru */
-  -webkit-user-select: all; /* Untuk Safari */
-  -moz-user-select: all; /* Untuk Firefox */
-  cursor: pointer; /* Memberi tahu user bahwa area ini bisa berinteraksi */
-}
+.project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
 
-/* 2. Tambahkan indikator visual (opsional) */
-.entry-content pre::before {
-  content: "Klik untuk seleksi semua";
-  display: block;
-  font-size: 10px;
-  color: #94a3b8;
-  text-align: right;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* GAYA TABEL */
+/* --- 9. TABLES & ADVERSE --- */
 .entry-content table {
-  display: block; /* Mengubah tabel menjadi blok agar bisa di-scroll */
+  display: block;
   width: 100%;
-  overflow-x: auto; /* Aktifkan scroll horizontal jika tabel lebar */
-  -webkit-overflow-scrolling: touch; /* Scroll halus di mobile */
+  overflow-x: auto;
   border-collapse: collapse;
   margin: 1.5rem 0;
-  border: 1px solid #e2e8f0;
   border-radius: 8px;
-  font-size: 0.95rem;
+  border: 1px solid #e2e8f0;
 }
 
-.entry-content th {
-  background-color: #f8fafc;
-  color: #1e3a8a;
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 2px solid #e2e8f0;
-  white-space: nowrap; /* Mencegah teks header turun ke bawah */
+.entry-content th { background: #f8fafc; padding: 12px 15px; text-align: left; }
+.entry-content td { padding: 12px 15px; border-top: 1px solid #f1f5f9; }
+
+footer ins.adsbygoogle { display: none !important; }
+
+/* --- 10. RESPONSIVE --- */
+@media (max-width: 1024px) {
+  .project-grid { grid-template-columns: repeat(2, 1fr); }
+  .title { font-size: 2.2rem; }
 }
 
-.entry-content td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #f1f5f9;
-  color: #475569;
-  min-width: 120px; /* Memberi ruang agar kolom tidak penyet */
-}
-
-/* Warna selang-seling */
-.entry-content tr:nth-child(even) {
-  background-color: #fcfcfc;
-}
-
-footer ins.adsbygoogle {
-  display: none !important;
+@media (max-width: 768px) {
+  .project-grid { grid-template-columns: 1fr; }
+  .title { font-size: 1.8rem; }
+  .content-padding { padding: 30px 20px; }
 }
