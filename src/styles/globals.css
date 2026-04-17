@@ -233,17 +233,29 @@ html, body {
   padding-left: 12px;
 }
 
-.search-form-sidebar { display: flex; gap: 8px; }
+/* Update di globals.css */
+
+.search-form-sidebar {
+  display: flex;
+  gap: 8px;
+  width: 100%; /* Pastikan form mengikuti lebar container */
+  box-sizing: border-box;
+}
 
 .search-input-sidebar {
   flex: 1;
+  min-width: 0; /* PENTING: Mencegah input memaksa lebar aslinya di flexbox */
   padding: 10px 12px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
+  font-size: 14px;
   outline: none;
+  box-sizing: border-box; /* Pastikan padding masuk dalam hitungan lebar */
+  transition: border-color 0.2s;
 }
 
 .search-button-sidebar {
+  flex-shrink: 0; /* Mencegah tombol gepeng saat layar sempit */
   background-color: #2563eb;
   color: white;
   border: none;
