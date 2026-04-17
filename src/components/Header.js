@@ -18,6 +18,7 @@ export default function Header() {
       alignItems: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
       fontFamily: "'Inter', sans-serif"
     },
+    container: {
     width: '100%', 
       maxWidth: '1280px',
       margin: '0 auto',
