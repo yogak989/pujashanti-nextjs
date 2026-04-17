@@ -198,17 +198,21 @@ const styles = {
     minWidth: '0',
     padding: '0 15px', // Beri sedikit ruang di konten utama untuk mobile
   },
-  sidebar: {
-    flex: '1 1 340px', // Ubah 0 menjadi 1 agar bisa fleksibel di mobile
-    maxWidth: '100%',  // Pastikan tidak pernah lebih lebar dari layar
-    padding: '25px',
-    backgroundColor: '#fff',
-    borderRadius: '16px',
-    height: 'fit-content',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
-    border: '1px solid #f1f5f9',
-    margin: '0 15px', // Tambahkan margin agar tidak nempel tembok di HP
-  },
+  // Update di const styles di file [slug].js
+
+sidebar: {
+  flex: '1 1 340px',
+  maxWidth: '100%',
+  padding: '25px',
+  backgroundColor: '#fff',
+  borderRadius: '16px',
+  height: 'fit-content',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+  border: '1px solid #f1f5f9',
+  margin: '0 15px',
+  boxSizing: 'border-box', // Tambahkan ini
+  overflow: 'hidden',      // Menjamin tidak ada elemen yang "tumpah" keluar
+},
   
   sidebarTitle: {
     fontSize: '1.25rem',
