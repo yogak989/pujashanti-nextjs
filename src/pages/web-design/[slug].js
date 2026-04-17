@@ -298,62 +298,72 @@ export default function WebDesignPost({ post, comments, latestPosts }) {
 const styles = {
   wrapper: {
     display: 'flex',
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '100px 10px 60px',
+    width: '100%',
+    maxWidth: '100%',
+    margin: '0',
+    padding: '120px 3% 60px', // Memberikan celah aman 3% di kiri-kanan
     gap: '30px',
     flexWrap: 'wrap',
+    boxSizing: 'border-box',
+    backgroundColor: '#f8fafc', // Warna background yang lebih soft
+    minHeight: '100vh',
   },
   main: {
-    flex: '1 1 700px',
+    flex: '1 1 800px', // Mengambil sisa ruang layar
     maxWidth: '100%',
-    minWidth: '0', // Tambahan agar elemen lebar tidak merusak layout
+    minWidth: '0',
   },
   sidebar: {
-    flex: '1 1 300px',
+    flex: '0 1 340px', // Sidebar tetap pada ukuran ideal
     padding: '25px',
     backgroundColor: '#fff',
-    borderRadius: '12px',
+    borderRadius: '16px',
     height: 'fit-content',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+    border: '1px solid #f1f5f9',
   },
   sidebarTitle: {
-    fontSize: '1.2rem',
+    fontSize: '1.25rem',
     fontWeight: '700',
-    color: '#1a3a5a',
-    borderBottom: '2px solid #1a3a5a',
-    paddingBottom: '10px',
+    color: '#0f172a',
+    borderBottom: '3px solid #3b82f6',
+    paddingBottom: '8px',
     marginBottom: '20px',
   },
   list: { listStyle: 'none', padding: 0, margin: 0 },
-  listItem: { padding: '12px 0', borderBottom: '1px solid #eee' },
+  listItem: { 
+    padding: '14px 0', 
+    borderBottom: '1px solid #f1f5f9' 
+  },
   link: {
     textDecoration: 'none',
-    color: '#333',
+    color: '#334155',
     fontSize: '0.95rem',
     fontWeight: '500',
     transition: 'color 0.2s',
   },
   waButton: {
-    display: 'inline-block',
+    display: 'block',
+    textAlign: 'center',
     marginTop: '15px',
-    backgroundColor: '#25d366',
+    backgroundColor: '#22c55e',
     color: '#fff',
-    padding: '10px 20px',
-    borderRadius: '8px',
+    padding: '12px 20px',
+    borderRadius: '10px',
     textDecoration: 'none',
     fontWeight: '700',
-    fontSize: '0.9rem'
+    fontSize: '0.9rem',
+    transition: 'background 0.3s',
   },
   placeholder: {
     width: '100%',
-    height: '150px',
+    height: '180px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#eee',
-    color: '#999',
-    fontSize: '0.8rem'
+    backgroundColor: '#f1f5f9',
+    color: '#94a3b8',
+    fontSize: '0.85rem'
   }
 };
 
