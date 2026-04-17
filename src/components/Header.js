@@ -48,7 +48,7 @@ export default function Header() {
     },
     navLinkMobile: {
       textDecoration: 'none', color: '#1a3a5a', fontWeight: 'bold',
-      padding: '15px 0', borderBottom: '1px solid #f0f0f0', display: 'block'
+      padding: '15px 10px', borderBottom: '1px solid #f0f0f0', display: 'block'
     }
   };
 
