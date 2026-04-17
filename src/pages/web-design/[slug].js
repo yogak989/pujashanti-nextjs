@@ -186,27 +186,30 @@ const styles = {
     width: '100%',
     maxWidth: '100%',
     margin: '0',
-    padding: '120px 3% 60px', // Memberikan celah aman 3% di kiri-kanan
+    padding: '120px 0 60px', // Gunakan 0 di kiri-kanan untuk mobile
     gap: '30px',
     flexWrap: 'wrap',
     boxSizing: 'border-box',
-    backgroundColor: '#f8fafc', // Warna background yang lebih soft
-    minHeight: '100vh',
+    backgroundColor: '#f8fafc',
   },
   main: {
-    flex: '1 1 800px', // Mengambil sisa ruang layar
+    flex: '1 1 700px',
     maxWidth: '100%',
     minWidth: '0',
+    padding: '0 15px', // Beri sedikit ruang di konten utama untuk mobile
   },
   sidebar: {
-    flex: '0 1 340px', // Sidebar tetap pada ukuran ideal
+    flex: '1 1 340px', // Ubah 0 menjadi 1 agar bisa fleksibel di mobile
+    maxWidth: '100%',  // Pastikan tidak pernah lebih lebar dari layar
     padding: '25px',
     backgroundColor: '#fff',
     borderRadius: '16px',
     height: 'fit-content',
     boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
     border: '1px solid #f1f5f9',
+    margin: '0 15px', // Tambahkan margin agar tidak nempel tembok di HP
   },
+  
   sidebarTitle: {
     fontSize: '1.25rem',
     fontWeight: '700',
