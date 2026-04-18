@@ -106,6 +106,7 @@ export default function Footer() {
         /* NEW ENGINE INFO BOX */
         .ps-engine-info {
           max-width: 1140px;
+          background: #ffffff;
           margin: 0 auto 40px;
           padding: 0 20px;
         }
