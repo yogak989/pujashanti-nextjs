@@ -47,7 +47,7 @@ export default function Header() {
       display: 'flex', flexDirection: 'column'
     },
     navLinkMobile: {
-      textDecoration: 'none', color: '#1a3a5a', fontWeight: 'bold',
+     textAlign: 'right', textDecoration: 'none', color: '#1a3a5a', fontWeight: 'bold',
       padding: '15px 0', borderBottom: '1px solid #f0f0f0', display: 'block'
     }
   };
@@ -87,7 +87,7 @@ export default function Header() {
       {/* MOBILE MENU */}
       <div style={styles.mobileMenu}>
         <div style={{ textAlign: 'right', marginBottom: '20px' }}>
-          <button onClick={() => setIsOpen(false)} style={{ fontSize: '32px', border: 'none', background: 'none', cursor: 'pointer', color: '#1a3a5a' }}>&times;</button>
+          <button onClick={() => setIsOpen(false)} style={{ fontSize: '32px', border: 'none', background: 'none', cursor: 'pointer', color: '#1a3a5a', padding: '5px' }}>&times;</button>
         </div>
         <Link href="https://pujashanti.web.id/iptv-playlist/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>IPTV List</Link>
         <Link href="https://pujashanti.web.id/live/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>Live TV</Link>
