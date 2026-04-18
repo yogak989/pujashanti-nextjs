@@ -13,7 +13,14 @@ html, body {
   line-height: 1.6;
   color: #333;
 }
-
+/* Update di globals.css */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box; /* Tambahkan ini agar padding tidak menambah lebar */
+}
 
 /* --- 2. LAYOUT ARTIKEL (FULL WIDTH & GRID) --- */
 .article-wrapper {
