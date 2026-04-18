@@ -48,7 +48,7 @@ export default function AdUnit({ slot }) {
   }, []);
 
   return (
-    <div style={{ overflow: 'hidden', textAlign: 'center', margin: '20px 0' }}>
+    <div style={{ overflow: 'hidden', textAlign: 'center', margin: '5px 0' }}>
       <ins className="adsbygoogle"
            style={{ display: 'block' }}
            data-ad-client="ca-pub-4663862602910608" // GANTI DENGAN ID ANDA
