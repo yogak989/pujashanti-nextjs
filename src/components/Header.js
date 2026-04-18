@@ -41,14 +41,14 @@ export default function Header() {
     line: { width: '22px', height: '2px', backgroundColor: '#1a3a5a' },
     mobileMenu: {
       position: 'fixed', top: 0, right: isOpen ? '0' : '-100%',
-      width: '280px', height: '100vh', backgroundColor: '#ffffff',
+      width: '300px', height: '100vh', backgroundColor: '#ffffff',
       zIndex: 10001, transition: '0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
-      padding: '20px', boxShadow: '-5px 0 15px rgba(0,0,0,0.1)', 
+      padding: '20px 20PX', boxShadow: '-5px 0 15px rgba(0,0,0,0.1)', 
       display: 'flex', flexDirection: 'column'
     },
     navLinkMobile: {
       textDecoration: 'none', color: '#1a3a5a', fontWeight: 'bold',
-      padding: '15px 10px', borderBottom: '1px solid #f0f0f0', display: 'block'
+      padding: '15px 0', borderBottom: '1px solid #f0f0f0', display: 'block'
     }
   };
 
@@ -63,14 +63,14 @@ export default function Header() {
               style={{ width: '45px', height: '45px', borderRadius: '50%' }} 
               alt="Logo"
             />
-            <span style={{ fontWeight: '800', color: '#1a3a5a', letterSpacing: '-0.5px' }}>PUJASHANTI</span>
+            <span style={{ fontWeight: '800', color: '#1a3a5a', letterSpacing: '-0.5px' }}>PUJASHANTI WEB DESIGN</span>
           </Link>
 
           {/* DESKTOP NAV - Sekarang Lengkap */}
           <nav className="nav-desktop" style={styles.desktopNav}>
             <Link href="https://pujashanti.web.id/iptv-playlist/" style={styles.desktopLink}>IPTV</Link>
             <Link href="https://pujashanti.web.id/live/" style={styles.desktopLink}>Live TV</Link>
-            <Link href="https://pujashanti.web.id/webseo/cloudstream/" style={styles.desktopLink}>Cloudstream</Link>
+            <Link href="https://pujashanti.web.id/web-design/cloudstream/" style={styles.desktopLink}>Cloudstream</Link>
             <Link href="https://pujashanti.web.id/tentang-pujashanti/" style={styles.desktopLink}>Tentang Kami</Link>
             <Link href="https://wa.me/6285737689037" style={styles.btnWa}>WhatsApp</Link>
           </nav>
@@ -91,7 +91,7 @@ export default function Header() {
         </div>
         <Link href="https://pujashanti.web.id/iptv-playlist/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>IPTV List</Link>
         <Link href="https://pujashanti.web.id/live/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>Live TV</Link>
-        <Link href="https://pujashanti.web.id/webseo/cloudstream/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>Cloudstream</Link>
+        <Link href="https://pujashanti.web.id/web-design/cloudstream/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>Cloudstream</Link>
         <Link href="https://pujashanti.web.id/tentang-pujashanti/" style={styles.navLinkMobile} onClick={() => setIsOpen(false)}>Tentang Kami</Link>
         <Link href="https://wa.me/6285737689037" style={{...styles.navLinkMobile, color: '#ffffff', backgroundColor: '#1a3a5a', textAlign: 'center', borderRadius: '6px', marginTop: '20px', borderBottom: 'none'}} onClick={() => setIsOpen(false)}>Chat WhatsApp</Link>
       </div>
