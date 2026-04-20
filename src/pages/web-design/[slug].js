@@ -13,7 +13,7 @@ import CommentSection from '../../components/CommentSection';
 import AdUnit from '../../components/AdUnit';
 import { useRouter } from 'next/router';
 export const runtime = 'experimental-edge';
-
+const GLOBAL_HERO_URL = "https://pujashanti.web.id/wp-content/uploads/2026/01/web-design-1028x677-1.webp";
 // --- FUNGSI PENGACAK (Fisher-Yates Shuffle) ---
 function shuffleArray(array) {
   const newArr = [...array];
@@ -71,28 +71,23 @@ const handleSearch = (e) => {
         <meta name="geo.placename" content="Indonesia" />
         <meta httpEquiv="content-language" content="id" />
         <link rel="canonical" href={`https://pujashanti.web.id/web-design/${post.slug}/`} />
-        <link 
-      rel="preload" 
-      as="image" 
-      href={post.featured_image} 
-      fetchpriority="high" 
-    />
+        <link rel="preload" as="image" href={GLOBAL_HERO_URL} fetchpriority="high"/>
       </Head>
 
       <Header />
-       {post.featured_image && (
-  <div style={styles.heroFullWidth}>
-    <img 
-      src={post.featured_image} 
-      alt={post.title} 
-      // Kuncinya ada di sini untuk performa PSI:
-      fetchpriority="high" 
-      loading="eager" 
-      decoding="async"
-      style={styles.heroImg}
-    />
-  </div>
-)}
+       {GLOBAL_HERO_URL && (
+        <div style={styles.heroFullWidth}>
+          <img 
+            src={GLOBAL_HERO_URL} 
+            alt={`Pujashanti Web Design - ${post.title}`} 
+            // Atribut Wajib untuk Skor PSI:
+            fetchpriority="high" // Hint untuk elemen utama (LCP)
+            loading="eager"      // Unduh segera, jangan tunggu scroll
+            decoding="async"
+            style={styles.heroImg}
+          />
+        </div>
+      )}
       <div style={styles.wrapper}>
         {/* MAIN CONTENT (70%) */}
         <main style={styles.main}>
