@@ -224,8 +224,8 @@ const styles = {
     right: '50%',
     marginLeft: '-50vw',
     marginRight: '-50vw',
-    marginTop: '20px', // Menghilangkan gap padding-top dari wrapper
-    marginBottom: '40px',
+    marginTop: '100px', // Menghilangkan gap padding-top dari wrapper
+    marginBottom: '10px',
     overflow: 'hidden',
     backgroundColor: '#000',
   },
