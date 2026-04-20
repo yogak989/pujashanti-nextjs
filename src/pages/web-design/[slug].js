@@ -27,14 +27,24 @@ function shuffleArray(array) {
 export default function WebDesignPost({ post, comments, latestPosts }) {
   const router = useRouter(); 
 
-  // handler pencarian
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const query = e.target.search.value; 
-    if (query.trim()) {
-      router.push(`/web-design/search?q=${encodeURIComponent(query)}`);
-    }
-  };
+// Handler pencarian di Sidebar atau Header
+const handleSearch = (e) => {
+  e.preventDefault();
+  
+  // Mengambil nilai dari input dengan name="search"
+  const query = e.target.search.value; 
+
+  if (query && query.trim().length > 0) {
+    // Navigasi ke halaman search Next.js
+    router.push(`/web-design/search?q=${encodeURIComponent(query.trim())}`);
+    
+    // Opsional: Kosongkan input setelah enter (khusus jika di mobile menu)
+    e.target.search.value = ''; 
+    
+    // Jika ini di dalam Mobile Menu Header, pastikan menu tertutup
+    if (typeof setIsOpen === 'function') setIsOpen(false);
+  }
+};
   
   if (!post) return <div style={{ textAlign: 'center', padding: '100px' }}>Memuat halaman...</div>;
 
