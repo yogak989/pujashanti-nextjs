@@ -80,6 +80,7 @@ const handleSearch = (e) => {
       </Head>
 
       <Header />
+         <div style={styles.wrapper}>
        {post.featured_image && (
   <div style={styles.heroFullWidth}>
     <img 
@@ -92,8 +93,7 @@ const handleSearch = (e) => {
       style={styles.heroImg}
     />
   </div>
-)}
-      <div style={styles.wrapper}>
+)}     
         {/* MAIN CONTENT (70%) */}
         <main style={styles.main}>
   <div className="article-wrapper">
@@ -233,7 +233,7 @@ const styles = {
   heroImg: {
     width: '100%',
     height: 'auto',
-    maxHeight: '400px', // Sesuaikan agar tidak terlalu tinggi di desktop
+    maxHeight: '450px', // Sesuaikan agar tidak terlalu tinggi di desktop
     objectFit: 'cover',
     display: 'block',
   },
