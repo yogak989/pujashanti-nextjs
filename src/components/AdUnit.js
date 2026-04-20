@@ -48,13 +48,25 @@ export default function AdUnit({ slot }) {
   }, []);
 
   return (
-    <div style={{ overflow: 'hidden', textAlign: 'center', margin: '5px 0' }}>
-      <ins className="adsbygoogle"
-           style={{ display: 'block' }}
-           data-ad-client="ca-pub-4663862602910608" // GANTI DENGAN ID ANDA
-           data-ad-slot={slot}
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-    </div>
+    <div style={{ 
+  width: '100%', 
+  maxWidth: '100%', 
+  height: '250px', 
+  overflow: 'hidden', 
+  textAlign: 'center', 
+  margin: '15px 0', 
+  boxSizing: 'border-box'
+}}>
+  <ins className="adsbygoogle"
+       style={{ 
+         display: 'block', 
+         width: '100%', 
+         height: '250px',
+         margin: '0 auto'
+       }}
+       data-ad-client="ca-pub-4663862602910608"
+       data-ad-slot={slot}
+       data-full-width-responsive="false"></ins>
+</div>
   );
 }
