@@ -94,7 +94,7 @@ html, body {
 
 .entry-content {
   line-height: 1.5;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   color: #1e293b;
 }
 
@@ -124,7 +124,7 @@ h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
 }
 .entry-content p {
   margin-bottom: 1.2rem !important;
-  font-size: 1.1rem !important;
+  font-size: 1.5rem !important;
 }
 
 /* Link di Dalam Konten */
@@ -141,7 +141,67 @@ h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
   background-color: rgba(37, 99, 235, 0.05);
   border-bottom: 2px solid #1d4ed8;
 }
+/* --- STYLING DAFTAR ISI / LIST ARTIKEL --- */
 
+/* Memastikan list memiliki ruang yang cukup */
+.entry-content ul {
+  list-style: none; /* Kita gunakan custom bullet agar lebih cantik */
+  padding: 0;
+  margin: 1.5rem 0;
+  line-height: 1.7;
+}
+
+/* Mengatur jarak antar item list */
+.entry-content ul li {
+  position: relative;
+  padding-left: 1.75rem; /* Ruang untuk icon bullet custom */
+  margin-bottom: 0.75rem;
+  color: #334155; /* Warna teks Slate yang nyaman di mata */
+  font-size: 1.05rem;
+}
+
+/* Custom Bullet: Menggunakan aksen warna biru sesuai tema Pujashanti */
+.entry-content ul li::before {
+  content: "•"; /* Bullet standar tapi bergaya */
+  position: absolute;
+  left: 0;
+  color: #3b82f6; /* Warna biru primer */
+  font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+/* Efek khusus jika ada link di dalam list */
+.entry-content ul li a {
+  color: #2563eb;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.entry-content ul li a:hover {
+  border-bottom-color: #2563eb;
+  color: #1d4ed8;
+}
+
+/* Dukungan untuk Nested List (List di dalam List) */
+.entry-content ul ul {
+  margin: 0.5rem 0 0.5rem 1rem;
+}
+
+.entry-content ul ul li::before {
+  content: "○"; /* Mengubah bentuk bullet untuk level kedua */
+  color: #94a3b8;
+  font-size: 1.1rem;
+}
+
+/* Responsif: Sedikit lebih kecil di layar HP agar tidak sempit */
+@media (max-width: 768px) {
+  .entry-content ul li {
+    font-size: 1rem;
+    padding-left: 1.5rem;
+  }
+}
 /* --- 4. DAFTAR ISI (RANKMATH TOC) --- */
 .wp-block-rank-math-toc-block {
   background: #f8fafc;
