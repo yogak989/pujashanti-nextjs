@@ -209,7 +209,7 @@ const styles = {
     gap: '30px',
     flexWrap: 'wrap',
     boxSizing: 'border-box',
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#fff',
   },
   main: {
     flex: '1 1 700px',
@@ -233,7 +233,7 @@ const styles = {
   heroImg: {
     width: '100%',
     height: 'auto',
-    maxHeight: '400px', // Sesuaikan agar tidak terlalu tinggi di desktop
+    maxHeight: '450px', // Sesuaikan agar tidak terlalu tinggi di desktop
     objectFit: 'cover',
     display: 'block',
   },
