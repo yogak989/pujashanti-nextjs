@@ -71,23 +71,32 @@ const handleSearch = (e) => {
         <meta name="geo.placename" content="Indonesia" />
         <meta httpEquiv="content-language" content="id" />
         <link rel="canonical" href={`https://pujashanti.web.id/web-design/${post.slug}/`} />
+        <link 
+      rel="preload" 
+      as="image" 
+      href={post.featured_image} 
+      fetchpriority="high" 
+    />
       </Head>
 
       <Header />
-
+       {post.featured_image && (
+  <div style={styles.heroFullWidth}>
+    <img 
+      src={post.featured_image} 
+      alt={post.title} 
+      // Kuncinya ada di sini untuk performa PSI:
+      fetchpriority="high" 
+      loading="eager" 
+      decoding="async"
+      style={styles.heroImg}
+    />
+  </div>
+)}
       <div style={styles.wrapper}>
         {/* MAIN CONTENT (70%) */}
         <main style={styles.main}>
   <div className="article-wrapper">
-    {post.featured_image && (
-      <div className="featured-image-box">
-        <img 
-          src={post.featured_image} 
-          alt={post.title} 
-          className="img-fluid"
-        />
-      </div>
-    )}
     
     <div className="content-padding">
       <h1 className="title">{post.title}</h1>
@@ -207,6 +216,26 @@ const styles = {
     maxWidth: '100%',
     minWidth: '0',
     padding: '0 15px', // Beri sedikit ruang di konten utama untuk mobile
+  },
+  heroFullWidth: {
+    width: '100vw',
+    position: 'relative',
+    left: '50%',
+    right: '50%',
+    marginLeft: '-50vw',
+    marginRight: '-50vw',
+    marginTop: '-120px', // Menghilangkan gap padding-top dari wrapper
+    marginBottom: '40px',
+    overflow: 'hidden',
+    backgroundColor: '#000',
+  },
+  
+  heroImg: {
+    width: '100%',
+    height: 'auto',
+    maxHeight: '400px', // Sesuaikan agar tidak terlalu tinggi di desktop
+    objectFit: 'cover',
+    display: 'block',
   },
   // Update di const styles di file [slug].js
 
