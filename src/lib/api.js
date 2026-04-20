@@ -119,31 +119,32 @@ export async function getWebDesignPost(slug) {
   return null;
 }
 
-/**
- * UNTUK HALAMAN TEST LOOP (test-loop.js)
- */
-export async function getTestLoopData() {
-  const data = await fetchAPI(`
-    query TestLoopWebDesign {
-      webDesigns(first: 20) {
-        edges {
-          node {
-            id
-            title
-            slug
-            excerpt
-            date
-            featuredImage {
-              node {
-                sourceUrl
-              }
+export async function getSearchWebDesigns(searchTerm) {
+  const data = await fetchAPI(
+    `
+    query SearchWebDesigns($searchTerm: String!) {
+      webDesigns(where: { search: $searchTerm }) {
+        nodes {
+          title
+          slug
+          date
+          excerpt
+          featuredImage {
+            node {
+              sourceUrl
             }
           }
         }
       }
     }
-  `);
-  return data?.webDesigns?.edges || [];
+    `,
+    {
+      variables: {
+        searchTerm,
+      },
+    }
+  );
+  return data?.webDesigns?.nodes;
 }
 
 /**
