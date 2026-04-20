@@ -92,7 +92,7 @@ html, body {
 }
 
 .entry-content {
-  line-height: 1.9;
+  line-height: 1.5;
   font-size: 1.15rem;
   color: #1e293b;
 }
@@ -103,17 +103,22 @@ html, body {
   margin-top: 2.5rem !important;
   margin-bottom: 1rem !important;
   color: #2563eb !important;
-  line-height: 1.3 !important;
+  line-height: 1.2 !important;
 }
 
 .entry-content h3 {
   font-size: 1.5rem !important;
   color: #2563eb !important;
-  margin-top: 1.8rem !important;
+  margin-top: 1.5rem !important;
+}
+.entry-content h4 {
+  font-size: 1.3rem !important;
+  color: #2563eb !important;
+  margin-top: 1.5rem !important;
 }
 
 .entry-content p {
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 1.2rem !important;
   font-size: 1.1rem !important;
 }
 
