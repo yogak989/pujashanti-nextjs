@@ -12,6 +12,7 @@ export default function SearchPage() {
   const { q } = router.query;
 
   useEffect(() => {
+    // router.isReady memastikan parameter 'q' sudah tersedia dari URL
     if (router.isReady && q) {
       fetchResults(q);
     }
@@ -43,7 +44,6 @@ export default function SearchPage() {
       });
 
       const json = await res.json();
-      // Mengambil data dari nodes seperti hasil eksplorasi Anda
       if (json.data && json.data.webDesigns) {
         setResults(json.data.webDesigns.nodes || []);
       }
@@ -55,28 +55,33 @@ export default function SearchPage() {
   };
 
   return (
-    /* Flexbox container memastikan footer selalu di bawah */
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Head>
-        <title>Pencarian: {q || '...'} - Pujashanti</title>
+        <title>Pencarian: {q ? decodeURIComponent(q) : '...'} - Pujashanti</title>
       </Head>
 
       <Header />
 
-      {/* Main dengan flex-grow: 1 agar mendorong footer ke bawah layar */}
       <main style={{ flex: '1 0 auto', paddingTop: '140px', paddingBottom: '60px', backgroundColor: '#f9fafb' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 20px' }}>
           
           <div style={{ marginBottom: '30px' }}>
             <h1 style={{ fontSize: '1.8rem', color: '#1e3a8a' }}>
-              Pencarian: <span style={{ color: '#2563eb' }}>"{q}"</span>
+              Hasil Pencarian: <span style={{ color: '#2563eb' }}>"{q ? decodeURIComponent(q) : ''}"</span>
             </h1>
-            {!loading && <p style={{ color: '#64748b' }}>Ditemukan {results.length} tutorial.</p>}
+            {!loading && q && (
+              <p style={{ color: '#64748b' }}>
+                {results.length > 0 
+                  ? `Ditemukan ${results.length} tutorial yang relevan.` 
+                  : 'Tidak ada hasil yang ditemukan.'}
+              </p>
+            )}
           </div>
 
           {loading ? (
             <div style={{ textAlign: 'center', padding: '50px' }}>
-              <p>Memuat hasil...</p>
+              {/* Anda bisa mengganti ini dengan komponen Spinner jika ada */}
+              <p style={{ color: '#64748b', fontWeight: '500' }}>Sedang mencari tutorial...</p>
             </div>
           ) : results.length > 0 ? (
             <div className="search-results">
@@ -87,8 +92,11 @@ export default function SearchPage() {
                   borderRadius: '12px', 
                   marginBottom: '20px',
                   border: '1px solid #e2e8f0',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.02)' 
-                }}>
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                  transition: 'transform 0.2s ease'
+                }}
+                className="card-hover-effect"
+                >
                   <Link href={`/web-design/${post.slug}`} style={{ textDecoration: 'none' }}>
                     <h2 style={{ color: '#1e3a8a', fontSize: '1.4rem', marginBottom: '10px' }} 
                         dangerouslySetInnerHTML={{ __html: post.title }} />
@@ -103,8 +111,13 @@ export default function SearchPage() {
             </div>
           ) : (
             q && (
-              <div style={{ textAlign: 'center', padding: '50px', background: '#fff', borderRadius: '12px' }}>
-                <p>Tidak ditemukan artikel untuk "{q}". Coba kata kunci lain.</p>
+              <div style={{ textAlign: 'center', padding: '50px', background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                <p style={{ fontSize: '1.1rem', color: '#64748b' }}>
+                  Maaf, tutorial tentang <strong>"{decodeURIComponent(q)}"</strong> tidak ditemukan.
+                </p>
+                <Link href="/web-design" style={{ color: '#2563eb', marginTop: '15px', display: 'inline-block' }}>
+                  Kembali ke Daftar Tutorial
+                </Link>
               </div>
             )
           )}
@@ -112,6 +125,14 @@ export default function SearchPage() {
       </main>
 
       <Footer />
+
+      <style jsx>{`
+        .card-hover-effect:hover {
+          transform: translateY(-3px);
+          border-color: #cbd5e1 !important;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important;
+        }
+      `}</style>
     </div>
   );
 }
