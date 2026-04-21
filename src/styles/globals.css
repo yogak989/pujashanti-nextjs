@@ -154,10 +154,10 @@ h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
 /* Mengatur jarak antar item list */
 .entry-content ul li {
   position: relative;
-  padding-left: 1.75rem; /* Ruang untuk icon bullet custom */
+  padding-left: 1.3rem; /* Ruang untuk icon bullet custom */
   margin-bottom: 0.75rem;
   color: #334155; /* Warna teks Slate yang nyaman di mata */
-  font-size: 1.25rem;
+  font-size: 1.3rem;
 }
 
 /* Custom Bullet: Menggunakan aksen warna biru sesuai tema Pujashanti */
@@ -250,6 +250,7 @@ h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
 .entry-content pre code {
   font-family: 'Consolas', 'Monaco', monospace !important;
   color: #2563eb !important;
+  font-size: 15px;
   user-select: all;
   -webkit-user-select: all;
   cursor: pointer;
@@ -371,6 +372,7 @@ h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
   margin: 1.5rem 0;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
+  font-size: 16px;
 }
 
 .entry-content th { background: #f8fafc; padding: 12px 15px; text-align: left; }
