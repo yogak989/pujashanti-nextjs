@@ -328,44 +328,75 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   try {
-    // 1. Ambil data post tunggal
+    // 1. Ambil data post tunggal dari WordPress
     const post = await getWebDesignPost(params.slug);
 
-    // Jika post tidak ditemukan, langsung return 404
+    // Jika post tidak ditemukan (null), arahkan ke halaman 404 Next.js
     if (!post) {
+      console.warn(`[Build Warning]: Post tidak ditemukan untuk slug: ${params.slug}`);
       return { notFound: true };
     }
 
-    // 2. Ambil data untuk loop/sidebar & data Komentar secara bersamaan
-    // Menggunakan Promise.all agar fetch data lebih cepat (paralel)
-    const [latestPostsData, comments] = await Promise.all([
-      getWebDesignLandingData(),
-      getCommentsByPostId(post.databaseId)
-    ]);
+    // 2. Ambil data pendukung (Related Posts & Komentar) secara paralel
+    // Menggunakan Promise.all agar fetch lebih cepat dan efisien
+    let latestPostsData = [];
+    let comments = [];
 
-    // 3. Normalisasi data latestPosts (Mencegah error .map)
-    const allNodes = latestPostsData?.webDesigns?.nodes || (Array.isArray(latestPostsData) ? latestPostsData : []);
+    try {
+      const [resLatest, resComments] = await Promise.all([
+        getWebDesignLandingData(),
+        getCommentsByPostId(post.databaseId)
+      ]);
+      latestPostsData = resLatest;
+      comments = resComments;
+    } catch (apiErr) {
+      // Jika fetch pendukung gagal, kita biarkan halaman tetap build
+      // namun dengan data sidebar/komentar kosong agar tidak merusak halaman utama
+      console.error("[Build Error]: Gagal mengambil data pendukung (sidebar/comments)", apiErr);
+    }
+
+    // 3. Normalisasi data latestPosts (Mencegah error .map di render)
+    const allNodes = latestPostsData?.webDesigns?.nodes || 
+                     (Array.isArray(latestPostsData) ? latestPostsData : []);
     
-    // 4. Lakukan Shuffle (Pastikan fungsi shuffleArray sudah didefinisikan di luar atau diimport)
-    const shuffledNodes = allNodes.length > 0 ? shuffleArray(allNodes) : [];
+    // 4. Lakukan Shuffle (Fisher-Yates) dan filter post yang sedang aktif
+    const filteredNodes = allNodes.filter(item => item && item.slug !== post.slug);
+    const shuffledNodes = filteredNodes.length > 0 ? shuffleArray(filteredNodes) : [];
+
+    // 5. Sanitasi Data (Mencegah "Unexpected Token <" saat build)
+    // Kita bungkus dengan JSON.parse(JSON.stringify()) untuk memastikan 
+    // semua data bisa dikirim dari server ke client tanpa error 'undefined' atau non-serializable
+    let safePost = null;
+    let safeLatestPosts = [];
+    
+    try {
+      safePost = JSON.parse(JSON.stringify(post));
+      safeLatestPosts = JSON.parse(JSON.stringify(shuffledNodes));
+    } catch (jsonErr) {
+      console.error("[Build Error]: Data serialization failed", jsonErr);
+      // Jika gagal di tahap ini, kita lempar ke catch utama
+      throw new Error("Data serialization failed");
+    }
 
     return {
       props: {
-        post,
+        post: safePost,
         comments: comments || [],
-        latestPosts: JSON.parse(JSON.stringify(shuffledNodes)), 
+        latestPosts: safeLatestPosts, 
       },
+      // Revalidate setiap 60 detik (ISR)
       revalidate: 60,
     };
+
   } catch (error) {
-    console.error("Error fetching data for slug:", params.slug, error);
-    return {
-      props: {
-        post: null,
-        comments: [],
-        latestPosts: [],
-      },
-      revalidate: 10,
+    // CATCH UTAMA: Jika terjadi error fatal saat build
+    console.error(`[Fatal Build Error] Slug: ${params.slug} ->`, error.message);
+    
+    // Alih-alih membiarkan build gagal total, kita return 404 
+    // agar proses build file lainnya tetap berjalan lancar
+    return { 
+      notFound: true,
+      revalidate: 10 
     };
   }
 }
