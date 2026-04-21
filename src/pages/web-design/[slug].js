@@ -61,18 +61,42 @@ const handleSearch = (e) => {
 
   return (
     <>
-      <Head>
-        <title>{post.seo_data?.title || post.title}</title>
-        <meta name="description" content={post.seo_data?.description || ""} />
-        <meta name="author" content="Pujashanti" />
-        <meta name="editor" content="Pujashanti" />
-        <meta name="language" content="id" />
-        <meta name="geo.region" content="ID" />
-        <meta name="geo.placename" content="Indonesia" />
-        <meta httpEquiv="content-language" content="id" />
-        <link rel="canonical" href={`https://pujashanti.web.id/web-design/${post.slug}/`} />
-        <link rel="preload" as="image" href={GLOBAL_HERO_URL} fetchpriority="high"/>
-      </Head>
+<Head>
+  {/* 1. Title Tag - Selalu gunakan judul SEO jika ada */}
+  <title>{post.seo_data?.title || post.title}</title>
+
+  {/* 2. Meta Description - Pastikan tidak pernah mengirim string kosong ke PSI */}
+  <meta 
+    name="description" 
+    content={post.seo_data?.description && post.seo_data.description.length > 0 
+      ? post.seo_data.description 
+      : "Jasa pembuatan website profesional performa tinggi dan aman dengan Cloudflare oleh Pujashanti."} 
+  />
+
+  {/* 3. Identitas & Regional */}
+  <meta name="author" content="Pujashanti" />
+  <meta name="editor" content="Pujashanti" />
+  <meta name="language" content="id" />
+  <meta name="geo.region" content="ID" />
+  <meta name="geo.placename" content="Indonesia" />
+  <meta httpEquiv="content-language" content="id" />
+
+  {/* 4. Open Graph (Sangat penting agar link di WA/FB muncul gambar & ringkasan) */}
+  <meta property="og:title" content={post.seo_data?.title || post.title} />
+  <meta property="og:description" content={post.seo_data?.description || "Layanan pembuatan website cepat dan aman."} />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content={`https://pujashanti.web.id/web-design/${post.slug}/`} />
+  <meta property="og:image" content={post.featured_image || GLOBAL_HERO_URL} />
+  <meta property="og:site_name" content="Pujashanti" />
+
+  {/* 5. Twitter Card */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={post.seo_data?.title || post.title} />
+
+  {/* 6. Canonical & Preload */}
+  <link rel="canonical" href={`https://pujashanti.web.id/web-design/${post.slug}/`} />
+  <link rel="preload" as="image" href={GLOBAL_HERO_URL} fetchpriority="high" />
+</Head>
 
       <Header />
        {GLOBAL_HERO_URL && (
