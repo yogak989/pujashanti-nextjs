@@ -7,10 +7,32 @@ async function fetchAPI(query, { variables } = {}) {
     body: JSON.stringify({ query, variables }),
   });
 
+  // 1. CEK STATUS RESPONS (PENTING!)
+  // Jika res.ok false (403, 404, 500), jangan langsung di-parse sebagai JSON
+  if (!res.ok) {
+    const errorBody = await res.text();
+    console.error(`[API Error] Status: ${res.status}`);
+    console.error(`[API Error] Body snippet: ${errorBody.substring(0, 200)}`);
+    throw new Error(`WordPress API returned status ${res.status}`);
+  }
+
+  // 2. CEK CONTENT TYPE (OPSIONAL TAPI AMAN)
+  const contentType = res.headers.get("content-type");
+  if (!contentType || !contentType.includes("application/json")) {
+    const text = await res.text();
+    console.error("[API Error] Expected JSON but got:", text.substring(0, 100));
+    throw new Error("WordPress API did not return JSON. Possible Firewall block.");
+  }
+
   const json = await res.json();
+
+  // 3. CEK ERROR DARI GRAPHQL
   if (json.errors) {
     console.error('GraphQL Warning:', json.errors);
+    // Kita tetap return data jika ada, tapi lempar error jika data kosong
+    if (!json.data) throw new Error('GraphQL execution failed');
   }
+
   return json.data;
 }
 
