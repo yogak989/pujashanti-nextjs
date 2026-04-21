@@ -99,7 +99,7 @@ html, body {
 }
 
 .entry-content h2 {
-  font-size: 1.8rem !important;
+  font-size: 1.6rem !important;
   font-weight: 700 !important;
   margin-top: 2rem !important;
   margin-bottom: 1.5rem !important;
@@ -108,7 +108,7 @@ html, body {
 }
 
 .entry-content h3 {
-  font-size: 1.5rem !important;
+  font-size: 1.4rem !important;
   color: #2563eb !important;
   margin-bottom: 1.5rem !important;
   margin-top: 1.5rem !important;
@@ -124,7 +124,7 @@ h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
 }
 .entry-content p {
   margin-bottom: 1.2rem !important;
-  font-size: 1.3rem !important;
+  font-size: 1.2rem !important;
 }
 
 /* Link di Dalam Konten */
