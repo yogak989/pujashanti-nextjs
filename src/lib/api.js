@@ -88,6 +88,7 @@ export async function getWebDesignPost(slug) {
         content
         date
         slug
+        excerpt
         rankMathTitle
         rankMathDescription
         featuredImage {
@@ -103,8 +104,19 @@ export async function getWebDesignPost(slug) {
   
   if (data?.webDesign) {
     const post = data.webDesign;
+
+    // --- LOGIKA CERDAS UNTUK SEO DESCRIPTION ---
+    // 1. Coba ambil dari Rank Math
+    // 2. Jika null, ambil dari Excerpt dan hapus tag HTML-nya
+    // 3. Jika masih null, gunakan string default
+    const rawExcerpt = post.excerpt || "";
+    const cleanExcerpt = rawExcerpt
+      .replace(/<[^>]*>?/gm, '') // Hapus tag HTML
+      .replace(/\s+/g, ' ')      // Bersihkan spasi berlebih
+      .trim();
+
     return {
-      databaseId: post.databaseId, // Diperlukan untuk mapping komentar
+      databaseId: post.databaseId,
       title: post.title,
       content: post.content,
       date: post.date,
@@ -112,7 +124,8 @@ export async function getWebDesignPost(slug) {
       featured_image: post.featuredImage?.node?.sourceUrl || null,
       seo_data: {
         title: post.rankMathTitle || post.title,
-        description: post.rankMathDescription || "",
+        // Fallback ke excerpt jika rankMathDescription null
+        description: post.rankMathDescription || cleanExcerpt.substring(0, 160) || "Jasa pembuatan website profesional dan cepat oleh Pujashanti.",
       }
     };
   }
