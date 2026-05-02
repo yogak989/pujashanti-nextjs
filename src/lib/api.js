@@ -3,19 +3,22 @@ const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 async function fetchAPI(query, { variables } = {}) {
   const res = await fetch(API_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      // Menambahkan Header Keamanan untuk Bypass WAF Cloudflare
+      'X-Pujashanti-Auth': 'PS-9f56-X8y2-MzQ9-LNDN' 
+    },
     body: JSON.stringify({ query, variables }),
   });
 
   // 1. CEK STATUS RESPONS (PENTING!)
-  // Jika res.ok false (403, 404, 500), jangan langsung di-parse sebagai JSON
   if (!res.ok) {
     const errorBody = await res.text();
     console.error(`[API Error] Status: ${res.status}`);
     console.error(`[API Error] Body snippet: ${errorBody.substring(0, 200)}`);
     throw new Error(`WordPress API returned status ${res.status}`);
   }
-
+  
   // 2. CEK CONTENT TYPE (OPSIONAL TAPI AMAN)
   const contentType = res.headers.get("content-type");
   if (!contentType || !contentType.includes("application/json")) {
