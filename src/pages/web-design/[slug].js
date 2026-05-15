@@ -101,16 +101,20 @@ const handleSearch = (e) => {
       <Header />
        {GLOBAL_HERO_URL && (
         <div style={styles.heroFullWidth}>
-          <img 
-            src={GLOBAL_HERO_URL} 
-            alt={`Pujashanti Web Design - ${post.title}`} 
-            // Atribut Wajib untuk Skor PSI:
-            fetchpriority="high" // Hint untuk elemen utama (LCP)
-            loading="eager"      // Unduh segera, jangan tunggu scroll
-            decoding="async"
-            style={styles.heroImg}
-          />
-        </div>
+  <img 
+    src={GLOBAL_HERO_URL} 
+    alt={`Pujashanti Web Design - ${post.title}`} 
+    // TAMBAHKAN INI: Dimensi asli/rasio gambar
+    width="1200" 
+    height="450" 
+    // Hint Performa
+    fetchpriority="high"
+    loading="eager"
+    decoding="async"
+    style={styles.heroImg}
+  />
+</div>
+
       )}
       <div style={styles.wrapper}>
         {/* MAIN CONTENT (70%) */}
@@ -236,26 +240,34 @@ const styles = {
     minWidth: '0',
     padding: '0 15px', // Beri sedikit ruang di konten utama untuk mobile
   },
-  heroFullWidth: {
-    width: '100vw',
-    position: 'relative',
-    left: '50%',
-    right: '50%',
-    marginLeft: '-50vw',
-    marginRight: '-50vw',
-    marginTop: '100px', // Menghilangkan gap padding-top dari wrapper
-    marginBottom: '10px',
-    overflow: 'hidden',
-    backgroundColor: '#000',
-  },
+heroFullWidth: {
+  width: '100vw',
+  position: 'relative',
+  left: '50%',
+  right: '50%',
+  marginLeft: '-50vw',
+  marginRight: '-50vw',
+  marginTop: '100px',
+  marginBottom: '10px',
+  overflow: 'hidden',
+  backgroundColor: '#000',
+  
+  // TAMBAHKAN INI:
+  aspectRatio: '16 / 9', // Atau sesuaikan (misal 1200/450)
+  display: 'block',
+},
+
   
   heroImg: {
-    width: '100%',
-    height: 'auto',
-    maxHeight: '450px', // Sesuaikan agar tidak terlalu tinggi di desktop
-    objectFit: 'cover',
-    display: 'block',
-  },
+  width: '100%',
+  height: 'auto', // Menjaga rasio dari atribut width/height di atas
+  aspectRatio: '1200 / 450', // SANGAT PENTING: Mengunci ruang agar tidak melompat (CLS)
+  maxHeight: '450px',
+  objectFit: 'cover',
+  display: 'block',
+},
+
+
   // Update di const styles di file [slug].js
 
 sidebar: {
