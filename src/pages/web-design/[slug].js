@@ -250,23 +250,15 @@ heroFullWidth: {
   marginTop: '100px',
   marginBottom: '10px',
   overflow: 'hidden',
-  backgroundColor: '#000',
-  
-  // TAMBAHKAN INI:
-  aspectRatio: '16 / 9', // Atau sesuaikan (misal 1200/450)
-  display: 'block',
+  backgroundColor: 'transparent', // Ubah ke transparan agar tidak ada box hitam
 },
 
-  
-  heroImg: {
+heroImg: {
   width: '100%',
-  height: 'auto', // Menjaga rasio dari atribut width/height di atas
-  aspectRatio: '1200 / 450', // SANGAT PENTING: Mengunci ruang agar tidak melompat (CLS)
-  maxHeight: '450px',
-  objectFit: 'cover',
+  height: 'auto', // Tinggi akan mengikuti lebar secara alami
   display: 'block',
+  objectFit: 'contain', // Gunakan contain jika ingin gambar terlihat utuh tanpa terpotong
 },
-
 
   // Update di const styles di file [slug].js
 
