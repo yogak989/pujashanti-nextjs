@@ -105,8 +105,8 @@ const handleSearch = (e) => {
     src={GLOBAL_HERO_URL} 
     alt={`Pujashanti Web Design - ${post.title}`} 
     // TAMBAHKAN INI: Dimensi asli/rasio gambar
-    width="1200" 
-    height="450" 
+    width="1028" 
+    height="677" 
     // Hint Performa
     fetchpriority="high"
     loading="eager"
