@@ -5,11 +5,14 @@ async function fetchAPI(query, { variables } = {}) {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
-      // Menambahkan Header Keamanan untuk Bypass WAF Cloudflare
-      'X-Pujashanti-Auth': 'PS-9f56-X8y2-MzQ9-LNDN' 
+      // Gunakan huruf kecil semua untuk kunci header agar lebih kompatibel dengan WAF
+      'x-pujashanti-auth': 'PS-9f56-X8y2-MzQ9-LNDN',
+      // Tambahkan User-Agent agar sesuai dengan filter (not cf.client.bot)
+      'User-Agent': 'Cloudflare-Pages-Build' 
     },
     body: JSON.stringify({ query, variables }),
   });
+
 
   // 1. CEK STATUS RESPONS (PENTING!)
   if (!res.ok) {
